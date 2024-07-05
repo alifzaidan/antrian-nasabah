@@ -15,7 +15,12 @@
     }
     @font-face {
         font-family: "Poppins";
+        font-weight: 600;
+        src: url("../../public/fonts/Poppins-SemiBold.ttf") format("truetype");
+    }
+    @font-face {
+        font-family: "Poppins";
         font-weight: 700;
-        src: url("../../public/fonts/Poppins-BoldItalic.ttf") format("truetype");
+        src: url("../../public/fonts/Poppins-Bold.ttf") format("truetype");
     }
 }

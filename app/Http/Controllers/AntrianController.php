@@ -16,7 +16,7 @@ class AntrianController extends Controller
         $nomorTerakhir = $lastAntrian ? $lastAntrian->no_antrian : 0;
         $nomorAntrian = 'T' . str_pad($nomorTerakhir, 2, '0', STR_PAD_LEFT);
 
-        return view('nomor-antrian', compact('nomorAntrian'));
+        return view('ambil-antrian', compact('nomorAntrian'));
     }
 
     /**
@@ -42,7 +42,7 @@ class AntrianController extends Controller
         $antrian->status = '0';
         $antrian->save();
 
-        return redirect()->route('nomor-antrian.store')->with('success', 'Antrian berhasil ditambahkan');
+        return redirect()->route('ambil-antrian.store')->with('success', 'Antrian berhasil ditambahkan');
     }
 
     /**
