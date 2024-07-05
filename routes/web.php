@@ -5,20 +5,20 @@ use App\Models\Antrian;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/home', function () {
     return view('home');
 });
-
-// Route::get('/nomor-antrian', function () {
-//     return view('nomor-antrian', [AntrianController::class, 'getLastAntrian']);
-// });
 
 Route::group(['as' => 'ambil-antrian.', 'prefix' => '/ambil-antrian'], function () {
     Route::get('/data', [AntrianController::class, 'index'])->name('index');
     Route::post('/store', [AntrianController::class, 'store'])->name('store');
+});
+
+Route::get('/panggil-antrian', function () {
+    return view('panggil-antrian');
+});
+
+Route::get('/panggil-antrian/detail', function () {
+    return view('panggil-antrian-detail');
 });
 
 // Route::group(['as' => 'penilaian.', 'prefix' => '/penilaian'], function () {

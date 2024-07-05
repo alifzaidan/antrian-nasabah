@@ -23,7 +23,7 @@
     <main class="h-3/4">
         <div class="grid sm:grid-cols-2 grid-cols-1 gap-10 my-10 h-full">
             <div class="bg-primary bg-opacity-10 rounded-2xl shadow-lg p-8 flex flex-col">
-                <h2 class="text-4xl underline font-bold font-poppins text-center text-primary">Teller</h2>
+                <h2 class="text-4xl  font-bold font-poppins text-center text-primary">Teller</h2>
                 <div class="bg-white rounded-2xl my-6 p-6 grow sm:relative flex flex-col items-center justify-center">
                     <h3 class="text-xl font-poppins sm:absolute top-4 italic">Antrean Sekarang :</h3>
                     <p class="text-5xl lg:text-7xl font-bold font-poppins">TL002</p>
@@ -33,7 +33,7 @@
                     Nomor</button>
             </div>
             <div class="bg-primary bg-opacity-10 rounded-2xl shadow-lg p-8 flex flex-col">
-                <h2 class="text-4xl underline font-bold font-poppins text-center text-tertiary">Customer Services</h2>
+                <h2 class="text-4xl  font-bold font-poppins text-center text-tertiary">Customer Services</h2>
                 <div class="bg-white rounded-2xl my-6 p-6 grow sm:relative flex flex-col items-center justify-center">
                     <h3 class="text-xl font-poppins sm:absolute top-4 italic">Antrean Sekarang :</h3>
                     <p class="text-5xl lg:text-7xl font-bold font-poppins">CS001</p>
