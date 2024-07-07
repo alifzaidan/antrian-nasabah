@@ -13,7 +13,7 @@
 <body class="px-10 md:px-20 xl:px-40 py-10 h-screen">
     <header
         class="bg-white bg-opacity-50 rounded-2xl shadow-lg p-6 flex flex-col sm:flex-row gap-8 justify-between items-center">
-        <img src="{{asset('img/logo-bri.png')}}" alt="Logo BRI" class="h-16">
+        <img src="{{asset('img/logo-bri-dark.png')}}" alt="Logo BRI" class="h-14">
         <div class="text-primary font-poppins">
             <h1>Senin, 01 Juli 2024</h1>
             <h1 class="font-bold text-5xl">09.25</h1>

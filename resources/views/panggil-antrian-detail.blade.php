@@ -79,9 +79,9 @@
                         <tr class="font-poppins font-medium text-lg">
                             <td class="px-4 py-3">TL003</td>
                             <td class="px-4 py-3">
-                                <div class="bg-primary p-3 rounded-lg">
-                                    <img src="{{asset('icons/microphone-light.svg')}}" alt="Microphone"
-                                        class="w-3 mx-auto">
+                                <div class="bg-primary py-3 rounded-lg flex items-center justify-center gap-2">
+                                    <img src="{{asset('icons/microphone-light.svg')}}" alt="Microphone" class="w-3">
+                                    <img src="{{asset('icons/rythm.svg')}}" alt="Rythm" class="h-5">
                                 </div>
                             </td>
                             <td class="px-4 py-3">Belum Selesai</td>
@@ -89,9 +89,9 @@
                         <tr class="font-poppins font-medium text-lg">
                             <td class="px-4 py-3">TL002</td>
                             <td class="px-4 py-3">
-                                <div class="bg-primary p-3 rounded-lg">
-                                    <img src="{{asset('icons/microphone-light.svg')}}" alt="Microphone"
-                                        class="w-3 mx-auto">
+                                <div class="bg-primary py-3 rounded-lg flex items-center justify-center gap-2">
+                                    <img src="{{asset('icons/microphone-light.svg')}}" alt="Microphone" class="w-3">
+                                    <img src="{{asset('icons/rythm.svg')}}" alt="Rythm" class="h-5">
                                 </div>
                             </td>
                             <td class="px-4 py-3">Selesai</td>
@@ -99,9 +99,9 @@
                         <tr class="font-poppins font-medium text-lg">
                             <td class="px-4 py-3">TL001</td>
                             <td class="px-4 py-3">
-                                <div class="bg-primary p-3 rounded-lg">
-                                    <img src="{{asset('icons/microphone-light.svg')}}" alt="Microphone"
-                                        class="w-3 mx-auto">
+                                <div class="bg-primary py-3 rounded-lg flex items-center justify-center gap-2">
+                                    <img src="{{asset('icons/microphone-light.svg')}}" alt="Microphone" class="w-3">
+                                    <img src="{{asset('icons/rythm.svg')}}" alt="Rythm" class="h-5">
                                 </div>
                             </td>
                             <td class="px-4 py-3">Selesai</td>

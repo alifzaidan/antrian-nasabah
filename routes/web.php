@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AntrianController;
+use App\Http\Controllers\SettingsController;
 use App\Models\Antrian;
 use Illuminate\Support\Facades\Route;
 
@@ -21,9 +22,16 @@ Route::get('/panggil-antrian/detail', function () {
     return view('panggil-antrian-detail');
 });
 
-// Route::group(['as' => 'penilaian.', 'prefix' => '/penilaian'], function () {
-//     Route::get('/pengumpulan-karya', [AntrianController::class, 'show_pengumpulan'])->name('pengumpulan_karya')->middleware('permission:posterpenilaian_view');
-//     Route::put('/update-nilai/{karyas}', [AntrianController::class, 'update_nilai'])->name('update_nilai')->middleware('permission:posterpenilaian_create_edit');
-//     Route::get('/data/{id}', [AntrianController::class, 'index'])->name('index')->middleware('permission:posterpenilaian_view');
-//     Route::delete('/delete/{karyas}', [AntrianController::class, 'destroy'])->name('delete')->middleware('permission:posterpenilaian_delete');
-// });
+Route::get('/monitor', function () {
+    return view('monitor');
+});
+
+Route::get('/login', function () {
+    return view('settings/login');
+});
+
+Route::group(['as' => 'settings.', 'prefix' => '/settings'], function () {
+    Route::get('/monitor', [SettingsController::class, 'monitor'])->name('monitor');
+    Route::get('/operasional', [SettingsController::class, 'operasional'])->name('operasional');
+    Route::get('/unit', [SettingsController::class, 'unit'])->name('unit');
+});

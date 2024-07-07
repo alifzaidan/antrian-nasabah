@@ -12,7 +12,7 @@
 
 <body class="px-10 md:px-20 xl:px-40 py-10">
     <header class="bg-white bg-opacity-50 rounded-2xl shadow-lg p-6">
-        <img src="{{asset('img/logo-bri.png')}}" alt="Logo BRI" class="w-64 m-auto">
+        <img src="{{asset('img/logo-bri-dark.png')}}" alt="Logo BRI" class="w-40 m-auto">
         <div class="mt-4 text-primary font-poppins font-medium text-center">
             <h1>Bank BRI Kantor Cabang Malang Sutoyo</h1>
             <h1>Jl. Letjen Sutoyo No.105, Lowokwaru, Kec.Lowokwaru, Kota Malang, Jawa Timur, Indonesia 65141</h1>
@@ -48,7 +48,7 @@
                 </p>
                 <img src="{{asset('icons/arrow.svg')}}" alt="Arrow" class="w-1/4 self-end">
             </a>
-            <a href="#"
+            <a href="/monitor"
                 class="bg-gradient-to-r from-primary to-secondary rounded-2xl shadow-lg p-8 flex flex-col hover:scale-105 transition duration-300 ease-in-out">
                 <div class="flex items-center gap-4 flex-col lg:flex-row">
                     <div class="bg-white h-20 w-20 rounded-full flex justify-center items-center">
@@ -61,7 +61,7 @@
                 </p>
                 <img src="{{asset('icons/arrow.svg')}}" alt="Arrow" class="w-1/4 self-end">
             </a>
-            <a href="#"
+            {{-- <a href="/login" --}} <a href="{{ route('settings.monitor') }}"
                 class="bg-gradient-to-r from-quaternary to-tertiary rounded-2xl shadow-lg p-8 flex flex-col hover:scale-105 transition duration-300 ease-in-out">
                 <div class="flex items-center gap-4 flex-col lg:flex-row">
                     <div class="bg-white h-20 w-20 rounded-full flex justify-center items-center">
@@ -78,7 +78,7 @@
     </main>
 
     <footer class="bg-white bg-opacity-50 rounded-2xl shadow-lg p-6">
-        <p class="mt-4 text-primary font-poppins font-medium text-center">&copy; 2024 - Internship UIN Malang | All
+        <p class="text-primary font-poppins font-medium text-center">&copy; 2024 - Internship UIN Malang | All
             rights reserved.</p>
     </footer>
 </body>

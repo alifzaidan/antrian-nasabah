@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-export default {
+module.exports = {
     content: [
         "./resources/**/*.blade.php",
         "./resources/**/*.js",
@@ -8,18 +8,19 @@ export default {
     theme: {
         extend: {
             colors: {
-                'primary': "#004080",
-                'secondary': "#1DCAF4",
-                'tertiary': "#FF6B00",
-                'quaternary': "#FFC000",
+                primary: "#004080",
+                secondary: "#1DCAF4",
+                tertiary: "#FF6B00",
+                quaternary: "#FFC000",
             },
             backgroundImage: {
                 pattern: "url('../../public/img/bg-pattern.png')",
+                "pattern-dark": "url('../../public/img/bg-pattern-dark.png')",
             },
             fontFamily: {
                 poppins: ["Poppins", "sans-serif"],
             },
         },
     },
-    plugins: [],
+    plugins: [require("@tailwindcss/forms")],
 };
