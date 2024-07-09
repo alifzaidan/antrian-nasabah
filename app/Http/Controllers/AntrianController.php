@@ -11,12 +11,14 @@ class AntrianController extends Controller
 {
     public function index()
     {
+
         $tanggal = Carbon::now()->format('Y-m-d');
         $lastAntrian = Antrian::whereDate('tanggal', $tanggal)->orderBy('no_antrian', 'desc')->first();
         $nomorTerakhir = $lastAntrian ? $lastAntrian->no_antrian : 0;
-        $nomorAntrian = 'T' . str_pad($nomorTerakhir, 2, '0', STR_PAD_LEFT);
+        $nomorAntrian = 'T' . str_pad($nomorTerakhir, 3, '0', STR_PAD_LEFT);
+        $nextAntrian = $lastAntrian ? $lastAntrian->no_antrian + 1 : 1;
 
-        return view('ambil-antrian', compact('nomorAntrian'));
+        return view('ambil-antrian', compact('tanggal', 'nomorAntrian', 'nextAntrian'));
     }
 
     /**
@@ -32,17 +34,19 @@ class AntrianController extends Controller
      */
     public function store(StoreAntrianRequest $request)
     {
-        $tanggal = Carbon::now()->format('Y-m-d');
-        $lastAntrianToday = Antrian::whereDate('tanggal', $tanggal)->orderBy('no_antrian', 'desc')->first();
-        $nomorAntrianBaru = $lastAntrianToday ? $lastAntrianToday->no_antrian + 1 : 1;
+        $request->validate([
+            'tanggal' => 'required',
+            'no_antrian' => 'required',
+            'status' => 'required',
+        ]);
 
-        $antrian = new Antrian();
-        $antrian->tanggal = $tanggal;
-        $antrian->nomor_antrian = $nomorAntrianBaru;
-        $antrian->status = '0';
-        $antrian->save();
+        Antrian::create([
+            'tanggal' => $request->tanggal,
+            'no_antrian' => $request->no_antrian,
+            'status' => $request->status,
+        ]);
 
-        return redirect()->route('ambil-antrian.store')->with('success', 'Antrian berhasil ditambahkan');
+        return redirect()->route('ambil-antrian.index');
     }
 
     /**

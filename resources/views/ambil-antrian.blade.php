@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Antrean Nasabah Bank BRI">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Antrean Nasabah Bank BRI</title>
     <link rel="shortcut icon" href="{{asset('img/favicon.png')}}" type="image/x-icon">
     @vite('resources/css/app.css')
@@ -14,23 +15,32 @@
     <header
         class="bg-white bg-opacity-50 rounded-2xl shadow-lg p-6 flex flex-col sm:flex-row gap-8 justify-between items-center">
         <img src="{{asset('img/logo-bri-dark.png')}}" alt="Logo BRI" class="h-14">
-        <div class="text-primary font-poppins">
-            <h1>Senin, 01 Juli 2024</h1>
-            <h1 class="font-bold text-5xl">09.25</h1>
+        <div class="text-primary font-poppins w-52 sm:text-left text-center">
+            <h1 id="date">Senin, 01 Juli 2024</h1>
+            <h1 class="font-bold text-5xl" id="clock">00.00</h1>
         </div>
     </header>
 
     <main class="h-3/4">
-        <div class="grid sm:grid-cols-2 grid-cols-1 gap-10 my-10 h-full">
+        <div class="grid sm:grid-cols-2 grid-cols-1 gap-8 my-8 h-full">
             <div class="bg-primary bg-opacity-10 rounded-2xl shadow-lg p-8 flex flex-col">
                 <h2 class="text-4xl  font-bold font-poppins text-center text-primary">Teller</h2>
                 <div class="bg-white rounded-2xl my-6 p-6 grow sm:relative flex flex-col items-center justify-center">
                     <h3 class="text-xl font-poppins sm:absolute top-4 italic">Antrean Sekarang :</h3>
-                    <p class="text-5xl lg:text-7xl font-bold font-poppins">TL002</p>
+                    <p id="antrian" class="text-5xl lg:text-7xl font-bold font-poppins">{{ $nomorAntrian }}</p>
+                    <p hidden id="antrianTerakhir" class="text-5xl lg:text-7xl font-bold font-poppins">{{ $nextAntrian
+                        }}
+                    </p>
                 </div>
-                <button
-                    class="bg-gradient-to-r from-primary to-secondary py-4 lg:py-6 rounded-2xl font-poppins font-semibold text-2xl lg:text-3xl text-white hover:scale-105 transition duration-300 ease-in-out">Ambil
-                    Nomor</button>
+                <form id="addAntrian" action="{{ route('ambil-antrian.store') }}">
+                    @csrf
+                    <input hidden type="date" name="tanggal" value="{{ $tanggal }}">
+                    <input hidden type="number" name="no_antrian" value="{{ $nextAntrian }}">
+                    <input hidden type="number" name="status" value="0">
+                    <button
+                        class="bg-gradient-to-r from-primary to-secondary py-4 lg:py-6 w-full rounded-2xl font-poppins font-semibold text-2xl lg:text-3xl text-white hover:scale-105 transition duration-300 ease-in-out">Ambil
+                        Nomor</button>
+                </form>
             </div>
             <div class="bg-primary bg-opacity-10 rounded-2xl shadow-lg p-8 flex flex-col">
                 <h2 class="text-4xl  font-bold font-poppins text-center text-tertiary">Customer Services</h2>
@@ -45,31 +55,55 @@
         </div>
     </main>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script>
+        function updateDateTime() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const currentDate = new Intl.DateTimeFormat('id-ID', options).format(now);
+    
+            let hours = now.getHours();
+            let minutes = now.getMinutes();
+            let seconds = now.getSeconds();
+    
+            hours = hours < 10 ? '0' + hours : hours;
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+    
+            document.getElementById('date').textContent = currentDate;
+            document.getElementById('clock').textContent = hours + ':' + minutes + ':' + seconds;
+        }
+        setInterval(updateDateTime, 1000);
+        updateDateTime();
+    </script>
 
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $.ajaxSetup({
+    <script>
+        document.getElementById('addAntrian').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+
+            fetch(this.action, {
+                method: 'POST',
+                body: formData,
                 headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                 }
-            });
-            $('#antrian').load('{{ route('ambil-antrian.index') }}');
-            $('#insert').on('click', function() {
-                $.ajax({
-                    type: 'POST'
-                    , url: '{{ route('ambil-antrian.store') }}'
-                    , success: function(result) {
-                        if (result === 'Sukses') {
-                            // $('#antrian').load('{{ route('ambil-antrian.index') }}').fadeIn('slow');
-                            console.log("Sukses");
-                        }
-                    }
-                    , error: function(xhr, status, error) {
-                        console.log("Error: " + xhr.responseText);
-                    }
-                });
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response;
+            })
+            .then(data => {
+                console.log('Success:', data);
+                console.log(formData.get('no_antrian'));
+                const formattedNumber = 'T' + String(formData.get('no_antrian')).padStart(3, '0');
+                document.getElementById('antrian').textContent = formattedNumber;
+                document.getElementById('antrianTerakhir').textContent = parseInt(document.getElementById('antrianTerakhir').textContent) + 1
+                document.querySelector('input[name="no_antrian"]').value = document.getElementById('antrianTerakhir').textContent;
+            })
+            .catch((error) => {
+                console.error('Error:', error);
             });
         });
     </script>

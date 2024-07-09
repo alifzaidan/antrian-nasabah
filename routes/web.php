@@ -14,6 +14,8 @@ Route::group(['as' => 'ambil-antrian.', 'prefix' => '/ambil-antrian'], function 
     Route::post('/store', [AntrianController::class, 'store'])->name('store');
 });
 
+// Route::post('/ambil-antrian/store', [AntrianController::class, 'store'])->middleware('web');
+
 Route::get('/panggil-antrian', function () {
     return view('panggil-antrian');
 });

@@ -11,7 +11,7 @@ class StoreAntrianRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,9 @@ class StoreAntrianRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'tanggal' => 'required',
+            'no_antrian' => 'required',
+            'status' => 'required',
         ];
     }
 }
