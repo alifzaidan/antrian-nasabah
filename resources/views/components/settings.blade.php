@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Antrean Nasabah Bank BRI">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $title }} | Antrean Nasabah Bank BRI</title>
     <link rel="shortcut icon" href="{{asset('img/favicon.png')}}" type="image/x-icon">
     @vite('../../resources/css/app.css')
