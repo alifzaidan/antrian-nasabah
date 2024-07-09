@@ -37,3 +37,6 @@ Route::group(['as' => 'settings.', 'prefix' => '/settings'], function () {
     Route::get('/operasional', [SettingsController::class, 'operasional'])->name('operasional');
     Route::get('/unit', [SettingsController::class, 'unit'])->name('unit');
 });
+use App\Http\Controllers\VideoController;
+
+Route::post('/upload-video', [VideoController::class, 'store'])->name('video.store');
