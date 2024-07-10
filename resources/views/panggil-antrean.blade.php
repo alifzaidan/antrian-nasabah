@@ -26,17 +26,17 @@
                     <h2 class="text-4xl font-bold font-poppins text-center text-primary">Teller</h2>
                 </div>
                 <div class="flex flex-col gap-4">
-                    <a href="panggil-antrian/detail"
+                    <a href="panggil-antrean/detail"
                         class="flex justify-between items-center p-4 bg-gradient-to-r from-primary to-secondary py-4 rounded-2xl hover:scale-105 transition duration-300 ease-in-out">
                         <p class="font-poppins font-semibold text-2xl text-white ">Counter 1</p>
                         <img src="{{asset('icons/arrow-simple-right.svg')}}" alt="Arrow" class="w-3">
                     </a>
-                    <a href="panggil-antrian/detail"
+                    <a href="panggil-antrean/detail"
                         class="flex justify-between items-center p-4 bg-gradient-to-r from-primary to-secondary py-4 rounded-2xl hover:scale-105 transition duration-300 ease-in-out">
                         <p class="font-poppins font-semibold text-2xl text-white ">Counter 2</p>
                         <img src="{{asset('icons/arrow-simple-right.svg')}}" alt="Arrow" class="w-3">
                     </a>
-                    <a href="panggil-antrian/detail"
+                    <a href="panggil-antrean/detail"
                         class="flex justify-between items-center p-4 bg-gradient-to-r from-primary to-secondary py-4 rounded-2xl hover:scale-105 transition duration-300 ease-in-out">
                         <p class="font-poppins font-semibold text-2xl text-white ">Counter 3</p>
                         <img src="{{asset('icons/arrow-simple-right.svg')}}" alt="Arrow" class="w-3">
@@ -53,17 +53,17 @@
                     </h2>
                 </div>
                 <div class="flex flex-col gap-4">
-                    <a href="panggil-antrian/detail"
+                    <a href="panggil-antrean/detail"
                         class="flex justify-between items-center p-4 bg-gradient-to-r from-tertiary to-quaternary py-4 rounded-2xl hover:scale-105 transition duration-300 ease-in-out">
                         <p class="font-poppins font-semibold text-2xl text-white ">Counter 4</p>
                         <img src="{{asset('icons/arrow-simple-right.svg')}}" alt="Arrow" class="w-3">
                     </a>
-                    <a href="panggil-antrian/detail"
+                    <a href="panggil-antrean/detail"
                         class="flex justify-between items-center p-4 bg-gradient-to-r from-tertiary to-quaternary py-4 rounded-2xl hover:scale-105 transition duration-300 ease-in-out">
                         <p class="font-poppins font-semibold text-2xl text-white ">Counter 5</p>
                         <img src="{{asset('icons/arrow-simple-right.svg')}}" alt="Arrow" class="w-3">
                     </a>
-                    <a href="panggil-antrian/detail"
+                    <a href="panggil-antrean/detail"
                         class="flex justify-between items-center p-4 bg-gradient-to-r from-tertiary to-quaternary py-4 rounded-2xl hover:scale-105 transition duration-300 ease-in-out">
                         <p class="font-poppins font-semibold text-2xl text-white ">Counter 6</p>
                         <img src="{{asset('icons/arrow-simple-right.svg')}}" alt="Arrow" class="w-3">

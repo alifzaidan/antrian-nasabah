@@ -4,14 +4,14 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreAntrianRequest extends FormRequest
+class UpdateAntreanTellerRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -22,9 +22,7 @@ class StoreAntrianRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'tanggal' => 'required',
-            'no_antrian' => 'required',
-            'status' => 'required',
+            //
         ];
     }
 }

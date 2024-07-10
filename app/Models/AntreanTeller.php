@@ -5,15 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Antrian extends Model
+class AntreanTeller extends Model
 {
     use HasFactory;
 
-    protected $table = 'tbl_antrian';
+    protected $table = 'antrean_tellers';
 
     protected $fillable = [
         'tanggal',
-        'no_antrian',
+        'no_antrean',
         'status',
         'waktu_panggilan'
     ];

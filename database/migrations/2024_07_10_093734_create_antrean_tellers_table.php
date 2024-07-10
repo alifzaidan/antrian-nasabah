@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tbl_antrian', function (Blueprint $table) {
+        Schema::create('antrean_tellers', function (Blueprint $table) {
             $table->id();
             $table->date('tanggal');
-            $table->smallInteger('no_antrian');
+            $table->smallInteger('no_antrean');
             $table->enum('status', ['0', '1'])->default('0');
-            $table->dateTime('waktu_panggilan')->nullable();
+            $table->smallInteger('no_counter')->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('antrians');
+        Schema::dropIfExists('antrean_tellers');
     }
 };

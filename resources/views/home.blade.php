@@ -22,7 +22,7 @@
 
     <main>
         <div class="grid sm:grid-cols-2 grid-cols-1 gap-10 my-10">
-            <a href="{{ route('ambil-antrian.index') }}"
+            <a href="{{ route('ambil-antrean.index') }}"
                 class="bg-gradient-to-r from-tertiary to-quaternary rounded-2xl shadow-lg p-8 flex flex-col hover:scale-105 transition duration-300 ease-in-out">
                 <div class="flex items-center gap-4 flex-col lg:flex-row">
                     <div class="bg-white h-20 w-20 rounded-full flex justify-center items-center">
@@ -35,7 +35,7 @@
                 </p>
                 <img src="{{asset('icons/arrow.svg')}}" alt="Arrow" class="w-1/4 self-end">
             </a>
-            <a href="/panggil-antrian"
+            <a href="/panggil-antrean"
                 class="bg-gradient-to-r from-secondary to-primary rounded-2xl shadow-lg p-8 flex flex-col hover:scale-105 transition duration-300 ease-in-out">
                 <div class="flex items-center gap-4 flex-col lg:flex-row">
                     <div class="bg-white h-20 w-20 rounded-full flex justify-center items-center">

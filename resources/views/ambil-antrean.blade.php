@@ -27,15 +27,17 @@
                 <h2 class="text-4xl  font-bold font-poppins text-center text-primary">Teller</h2>
                 <div class="bg-white rounded-2xl my-6 p-6 grow sm:relative flex flex-col items-center justify-center">
                     <h3 class="text-xl font-poppins sm:absolute top-4 italic">Antrean Sekarang :</h3>
-                    <p id="antrian" class="text-5xl lg:text-7xl font-bold font-poppins">{{ $nomorAntrian }}</p>
-                    <p hidden id="antrianTerakhir" class="text-5xl lg:text-7xl font-bold font-poppins">{{ $nextAntrian
-                        }}
+                    <p id="antrean" class="text-5xl lg:text-7xl text-center font-bold font-poppins">
+                        {{ $nomorAntrean == 'TL000' ? '0' : $nomorAntrean }}
+                    </p>
+                    <p hidden id="antreanTerakhir" class="text-5xl lg:text-7xl font-bold font-poppins">
+                        {{ $nextAntrean }}
                     </p>
                 </div>
-                <form id="addAntrian" action="{{ route('ambil-antrian.store') }}">
+                <form id="addAntrean" action="{{ route('ambil-antrean.store') }}">
                     @csrf
                     <input hidden type="date" name="tanggal" value="{{ $tanggal }}">
-                    <input hidden type="number" name="no_antrian" value="{{ $nextAntrian }}">
+                    <input hidden type="number" name="no_antrean" value="{{ $nextAntrean }}">
                     <input hidden type="number" name="status" value="0">
                     <button
                         class="bg-gradient-to-r from-primary to-secondary py-4 lg:py-6 w-full rounded-2xl font-poppins font-semibold text-2xl lg:text-3xl text-white hover:scale-105 transition duration-300 ease-in-out">Ambil
@@ -77,7 +79,7 @@
     </script>
 
     <script>
-        document.getElementById('addAntrian').addEventListener('submit', function(event) {
+        document.getElementById('addAntrean').addEventListener('submit', function(event) {
             event.preventDefault();
             const formData = new FormData(this);
 
@@ -96,11 +98,11 @@
             })
             .then(data => {
                 console.log('Success:', data);
-                console.log(formData.get('no_antrian'));
-                const formattedNumber = 'T' + String(formData.get('no_antrian')).padStart(3, '0');
-                document.getElementById('antrian').textContent = formattedNumber;
-                document.getElementById('antrianTerakhir').textContent = parseInt(document.getElementById('antrianTerakhir').textContent) + 1
-                document.querySelector('input[name="no_antrian"]').value = document.getElementById('antrianTerakhir').textContent;
+                console.log(formData.get('no_antrean'));
+                const formattedNumber = 'TL' + String(formData.get('no_antrean')).padStart(3, '0');
+                document.getElementById('antrean').textContent = formattedNumber;
+                document.getElementById('antreanTerakhir').textContent = parseInt(document.getElementById('antreanTerakhir').textContent) + 1
+                document.querySelector('input[name="no_antrean"]').value = document.getElementById('antreanTerakhir').textContent;
             })
             .catch((error) => {
                 console.error('Error:', error);
