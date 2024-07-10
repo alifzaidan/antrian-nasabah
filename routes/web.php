@@ -1,17 +1,18 @@
 <?php
 
-use App\Http\Controllers\AntreanTellerController;
-use App\Http\Controllers\SettingsController;
-use App\Http\Controllers\VideoController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\VideoController;
+use App\Http\Controllers\AntreanController;
+use App\Http\Controllers\SettingsController;
 
 Route::get('/', function () {
     return view('home');
 });
 
 Route::group(['as' => 'ambil-antrean.', 'prefix' => '/ambil-antrean'], function () {
-    Route::get('/data', [AntreanTellerController::class, 'index'])->name('index');
-    Route::post('/store', [AntreanTellerController::class, 'store'])->name('store');
+    Route::get('/data', [AntreanController::class, 'index'])->name('index');
+    Route::post('/teller', [AntreanController::class, 'storeTeller'])->name('store_teller');
+    Route::post('/cs', [AntreanController::class, 'storeCs'])->name('store_cs');
 });
 
 Route::get('/panggil-antrean', function () {
