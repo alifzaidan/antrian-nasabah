@@ -34,6 +34,8 @@ Route::get('/login', function () {
 Route::group(['as' => 'settings.', 'prefix' => '/settings'], function () {
     Route::get('/monitor', [SettingsController::class, 'monitor'])->name('monitor');
     Route::get('/operasional', [SettingsController::class, 'operasional'])->name('operasional');
+    Route::post('/operasional/reset-teller', [SettingsController::class, 'resetTeller'])->name('operasional.reset.teller');
+    Route::post('/operasional/reset-cs', [SettingsController::class, 'resetCs'])->name('operasional.reset.cs');
     Route::get('/unit', [SettingsController::class, 'unit'])->name('unit');
 });
 

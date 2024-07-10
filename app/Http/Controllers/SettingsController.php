@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AntreanCs;
+use App\Models\AntreanTeller;
 use Illuminate\Http\Request;
 
 class SettingsController extends Controller
@@ -19,7 +21,15 @@ class SettingsController extends Controller
         $title = 'Manajemen Operasional';
         $slug = 'operasional';
 
-        return view('settings.operasional', compact('title', 'slug'));
+        $jumlahAntreanTeller = AntreanTeller::count();
+        $tanggalAwalTeller = AntreanTeller::orderBy('tanggal', 'asc')->first()->tanggal ?? '-';
+        $tanggalAkhirTeller = AntreanTeller::orderBy('tanggal', 'desc')->first()->tanggal ?? '-';
+
+        $jumlahAntreanCs = AntreanCs::count();
+        $tanggalAwalCs = AntreanCs::orderBy('tanggal', 'asc')->first()->tanggal ?? '-';
+        $tanggalAkhirCs = AntreanCs::orderBy('tanggal', 'desc')->first()->tanggal ?? '-';
+
+        return view('settings.operasional', compact('title', 'slug', 'jumlahAntreanTeller', 'tanggalAwalTeller', 'tanggalAkhirTeller', 'jumlahAntreanCs', 'tanggalAwalCs', 'tanggalAkhirCs'));
     }
 
     public function unit()
@@ -28,5 +38,17 @@ class SettingsController extends Controller
         $slug = 'unit';
 
         return view('settings.unit', compact('title', 'slug'));
+    }
+
+    public function resetTeller()
+    {
+        AntreanTeller::truncate();
+        return redirect()->route('settings.operasional')->with('success', 'Data antrean teller berhasil direset.');
+    }
+
+    public function resetCs()
+    {
+        AntreanCs::truncate();
+        return redirect()->route('settings.operasional')->with('success', 'Data antrean cs berhasil direset.');
     }
 }
