@@ -28,7 +28,7 @@
                 <div class="bg-white rounded-2xl my-6 p-6 grow sm:relative flex flex-col items-center justify-center">
                     <h3 class="text-xl font-poppins sm:absolute top-4 italic">Antrean Sekarang :</h3>
                     <p id="antreanTeller" class="text-5xl lg:text-7xl text-center font-bold font-poppins">
-                        {{ $nomorAntreanTeller == 'TL000' ? '0' : $nomorAntreanTeller }}
+                        {{ $nomorAntreanTeller == 'TL000' ? '-' : $nomorAntreanTeller }}
                     </p>
                     <p hidden id="antreanTerakhirTeller" class="text-5xl lg:text-7xl font-bold font-poppins">
                         {{ $nextAntreanTeller }}
@@ -49,7 +49,7 @@
                 <div class="bg-white rounded-2xl my-6 p-6 grow sm:relative flex flex-col items-center justify-center">
                     <h3 class="text-xl font-poppins sm:absolute top-4 italic">Antrean Sekarang :</h3>
                     <p id="antreanCs" class="text-5xl lg:text-7xl text-center font-bold font-poppins">
-                        {{ $nomorAntreanCs == 'CS000' ? '0' : $nomorAntreanCs }}
+                        {{ $nomorAntreanCs == 'CS000' ? '-' : $nomorAntreanCs }}
                     </p>
                     <p hidden id="antreanTerakhirCs" class="text-5xl lg:text-7xl font-bold font-poppins">
                         {{ $nextAntreanCs }}

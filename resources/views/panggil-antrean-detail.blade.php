@@ -26,7 +26,7 @@
     </header>
 
     <main>
-        <div class="grid sm:grid-cols-4 grid-cols-2 gap-5 my-10">
+        <div class="grid xl:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-5 my-10">
             <div class="bg-primary bg-opacity-10 rounded-2xl shadow-lg p-4">
                 <div class="bg-white rounded-2xl flex items-center justify-center gap-4 flex-col p-6 h-full">
                     <h1 class="text-lg font-poppins text-center">Jumlah Antrean</h1>
@@ -40,7 +40,7 @@
                 <div class="bg-white rounded-2xl flex items-center justify-center gap-4 flex-col p-6 h-full">
                     <h1 class="text-lg font-poppins text-center">Antrean Sekarang</h1>
                     <div class="flex gap-4">
-                        <img src="{{asset('icons/people-2.svg')}}" alt="Jumlah Antrean" class="w-12">
+                        <img src="{{asset('icons/people-2.svg')}}" alt="Jumlah Antrean" class="w-12 block">
                         <h2 class="text-5xl font-bold font-poppins text-center text-tertiary">TL004</h2>
                     </div>
                 </div>
@@ -49,7 +49,7 @@
                 <div class="bg-white rounded-2xl flex items-center justify-center gap-4 flex-col p-6 h-full">
                     <h1 class="text-lg font-poppins text-center">Antrean Selanjutnya</h1>
                     <div class="flex gap-4">
-                        <img src="{{asset('icons/people-3.svg')}}" alt="Jumlah Antrean" class="w-12">
+                        <img src="{{asset('icons/people-3.svg')}}" alt="Jumlah Antrean" class="w-12 block">
                         <h2 class="text-5xl font-bold font-poppins text-center text-secondary">TL005</h2>
                     </div>
                 </div>
@@ -65,14 +65,15 @@
             </div>
         </div>
 
-        <div class="grid sm:grid-cols-2 grid-cols-1 gap-5 py-2 ">
+        <div class="grid lg:grid-cols-2 grid-cols-1 gap-5 py-2 ">
             <div class="bg-primary bg-opacity-10 rounded-2xl shadow-lg p-4">
                 <div class="bg-white rounded-2xl px-4 py-2">
-                    <h1 class="my-4 font-poppins font-semibold text-2xl text-center text-primary">Antrean Belum
-                        Dipanggil</h1>
+                    <h1
+                        class="my-4 font-poppins font-semibold underline text-2xl text-center text-primary bg-primary bg-opacity-10 rounded-lg py-2">
+                        Antrean Belum Dipanggil</h1>
                     <table class="table border w-full text-center">
                         <thead class="bg-primary bg-opacity-10">
-                            <tr class="font-poppins font-bold text-lg">
+                            <tr class="font-poppins font-semibold text-lg">
                                 <th class="px-4 py-2">No. Antrean</th>
                                 <th class="px-4 py-2">Panggil</th>
                             </tr>
@@ -111,11 +112,12 @@
             </div>
             <div class="bg-primary bg-opacity-10 rounded-2xl shadow-lg p-4">
                 <div class="bg-white rounded-2xl px-4 py-2">
-                    <h1 class="my-4 font-poppins font-semibold text-2xl text-center text-primary">Antrean Sudah
-                        Dipanggil</h1>
+                    <h1
+                        class="my-4 font-poppins font-semibold underline text-2xl text-center text-primary bg-primary bg-opacity-10 rounded-lg py-2">
+                        Antrean Sudah Dipanggil</h1>
                     <table class="table border w-full text-center">
                         <thead class="bg-primary bg-opacity-10">
-                            <tr class="font-poppins font-bold text-lg">
+                            <tr class="font-poppins font-semibold text-lg">
                                 <th class="px-4 py-2">No. Antrean</th>
                                 <th class="px-4 py-2">No. Counter</th>
                             </tr>
