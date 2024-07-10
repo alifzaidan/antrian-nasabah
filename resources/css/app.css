@@ -24,3 +24,23 @@
         src: url("../../public/fonts/Poppins-Bold.ttf") format("truetype");
     }
 }
+
+.marquee {
+    @apply overflow-hidden whitespace-nowrap;
+}
+
+.marquee span {
+    @apply inline-block;
+    display: inline-block;
+    padding-right: 100px;
+    animation: marquee 5s linear infinite;
+}
+
+@keyframes marquee {
+    0% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
