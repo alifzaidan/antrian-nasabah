@@ -3,7 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\VideoController;
 use App\Http\Controllers\AntreanController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Middleware\Authenticate;
 
 Route::get('/', function () {
     return view('home');
@@ -32,11 +34,16 @@ Route::get('/login', function () {
 });
 
 Route::group(['as' => 'settings.', 'prefix' => '/settings'], function () {
-    Route::get('/monitor', [SettingsController::class, 'monitor'])->name('monitor');
-    Route::get('/operasional', [SettingsController::class, 'operasional'])->name('operasional');
-    Route::post('/operasional/reset-teller', [SettingsController::class, 'resetTeller'])->name('operasional.reset.teller');
-    Route::post('/operasional/reset-cs', [SettingsController::class, 'resetCs'])->name('operasional.reset.cs');
-    Route::get('/unit', [SettingsController::class, 'unit'])->name('unit');
+    Route::get('/login', [AuthController::class, 'index'])->name('login');
+    Route::post('/login', [AuthController::class, 'login_proccess'])->name('login.proccess');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::middleware(Authenticate::class)->group(function () {
+        Route::get('/monitor', [SettingsController::class, 'monitor'])->name('monitor');
+        Route::get('/operasional', [SettingsController::class, 'operasional'])->name('operasional');
+        Route::post('/operasional/reset-teller', [SettingsController::class, 'resetTeller'])->name('operasional.reset.teller');
+        Route::post('/operasional/reset-cs', [SettingsController::class, 'resetCs'])->name('operasional.reset.cs');
+        Route::get('/unit', [SettingsController::class, 'unit'])->name('unit');
+    });
 });
 
 Route::post('/upload-video', [VideoController::class, 'store'])->name('video.store');

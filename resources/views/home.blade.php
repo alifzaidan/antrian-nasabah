@@ -61,7 +61,7 @@
                 </p>
                 <img src="{{asset('icons/arrow.svg')}}" alt="Arrow" class="w-1/4 self-end">
             </a>
-            {{-- <a href="/login" --}} <a href="{{ route('settings.monitor') }}"
+            <a href="{{ route('settings.login') }}"
                 class="bg-gradient-to-r from-quaternary to-tertiary rounded-2xl shadow-lg p-8 flex flex-col hover:scale-105 transition duration-300 ease-in-out">
                 <div class="flex items-center gap-4 flex-col lg:flex-row">
                     <div class="bg-white h-20 w-20 rounded-full flex justify-center items-center">
