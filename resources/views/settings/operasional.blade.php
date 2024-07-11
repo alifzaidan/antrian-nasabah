@@ -36,7 +36,7 @@
                                     <td class="px-6 py-4 font-semibold font-poppins whitespace-nowrap">{{
                                         $jumlahAntreanTeller }}</td>
                                     <td class="px-6 py-4 font-poppins whitespace-nowrap">
-                                        <form action="{{ route('settings.operasional.reset.teller') }}" method="POST">
+                                        <form action="{{ route('settings.reset.teller') }}" method="POST">
                                             @csrf
                                             <button type="submit"
                                                 class="bg-orange-500 hover:bg-orange-700 text-white w-full font-poppins font-semibold py-2 px-4 rounded-lg">
@@ -53,7 +53,7 @@
                                     <td class="px-6 py-4 font-semibold font-poppins whitespace-nowrap">{{
                                         $jumlahAntreanCs }}</td>
                                     <td class="px-6 py-4 font-poppins whitespace-nowrap">
-                                        <form action="{{ route('settings.operasional.reset.cs') }}" method="POST">
+                                        <form action="{{ route('settings.reset.cs') }}" method="POST">
                                             @csrf
                                             <button type="submit"
                                                 class="bg-orange-500 hover:bg-orange-700 text-white w-full font-poppins font-semibold py-2 px-4 rounded-lg">

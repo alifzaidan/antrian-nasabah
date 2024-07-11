@@ -42,7 +42,10 @@ class SettingsController extends Controller
         $title = 'Manajemen Unit';
         $slug = 'unit';
 
-        return view('settings.unit', compact('title', 'slug'));
+        $user = Auth::user();
+        $unit = $user->unit;
+
+        return view('settings.unit', compact('title', 'slug', 'unit'));
     }
 
     public function resetTeller()
@@ -99,5 +102,16 @@ class SettingsController extends Controller
         }
 
         return redirect()->back()->with('success', 'Customer Services removed successfully.');
+    }
+
+    public function updateUnit(Request $request, $unitId)
+    {
+        $unit = Unit::findOrFail($unitId);
+        $unit->nama = $request->input('nama');
+        $unit->alamat = $request->input('alamat');
+        $unit->no_telp = $request->input('no_telp');
+        $unit->save();
+
+        return redirect()->back()->with('success', 'Unit updated successfully.');
     }
 }
