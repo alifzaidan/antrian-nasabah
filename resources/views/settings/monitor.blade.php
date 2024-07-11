@@ -8,10 +8,11 @@
             <div>
                 <div class="mt-2">
                     <label for="runningtext"
-                        class="block font-semibold font-poppins text-lg leading-6 text-primary mb-2">Running Text {{
-                        Auth::user()->username }}</label>
+                        class="block font-semibold font-poppins text-lg leading-6 text-primary mb-2">
+                        Running Text
+                    </label>
                     <input id="runningtext" name="runningtext" type="text"
-                        placeholder="Selamat Datang di Unit Lowokwaru" required
+                        placeholder="Selamat Datang di Unit {{ Auth::user()->username }}" required
                         class="block w-full rounded-md border-0 py-2 text-primary shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-tertiary sm:leading-6">
                 </div>
             </div>

@@ -72,50 +72,62 @@
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="font-poppins text-primary font-semibold text-xl">Data Teller</h3>
                         <div class="flex space-x-2">
-                            <button
-                                class="font-poppins font-semibold bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded-lg">
-                                Tambah
-                            </button>
-                            <button
-                                class="font-poppins font-semibold bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded-lg">
-                                Hapus
-                            </button>
+                            <form action="{{ route('settings.add-teller', $unit->id) }}" method="POST">
+                                @csrf
+                                <button type="submit"
+                                    class="font-poppins font-semibold bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded-lg">
+                                    Tambah
+                                </button>
+                            </form>
+                            <form action="{{ route('settings.remove-teller', $unit->id) }}" method="POST">
+                                @csrf
+                                <button type="submit"
+                                    class="font-poppins font-semibold bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded-lg">
+                                    Hapus
+                                </button>
+                            </form>
                         </div>
                     </div>
                     <div class="grid grid-cols-1 gap-2">
-                        <div class="font-poppins font-reguler border-b border-gray-300 py-2">Teller - 1
-                        </div>
-                        <div class="font-poppins font-reguler border-b border-gray-300 py-2">Teller - 2
-                        </div>
-                        <div class="font-poppins font-reguler border-b border-gray-300 py-2">Teller - 3
-                        </div>
-                        <div class="font-poppins font-reguler border-b border-gray-300 py-2">-</div>
-                        <div class="font-poppins font-reguler border-b border-gray-300 py-2">-</div>
+                        @for ($i = 1; $i <= 5; $i++) @if ($i <=$unit->jumlah_teller)
+                            <div class="font-poppins font-reguler border-b border-gray-300 py-2">
+                                Teller - {{ $i }}
+                            </div>
+                            @else
+                            <div class="font-poppins font-reguler border-b border-gray-300 py-2">-</div>
+                            @endif
+                            @endfor
                     </div>
                 </div>
                 <div class="bg-white mt-4 shadow-md rounded-2xl p-4">
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="font-poppins text-primary font-semibold text-xl">Data Customer Service</h3>
                         <div class="flex space-x-2">
-                            <button
-                                class="font-poppins font-semibold bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded-lg">
-                                Tambah
-                            </button>
-                            <button
-                                class="font-poppins font-semibold bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded-lg">
-                                Hapus
-                            </button>
+                            <form action="{{ route('settings.add-cs', $unit->id) }}" method="POST">
+                                @csrf
+                                <button type="submit"
+                                    class="font-poppins font-semibold bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded-lg">
+                                    Tambah
+                                </button>
+                            </form>
+                            <form action="{{ route('settings.remove-cs', $unit->id) }}" method="POST">
+                                @csrf
+                                <button type="submit"
+                                    class="font-poppins font-semibold bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded-lg">
+                                    Hapus
+                                </button>
+                            </form>
                         </div>
                     </div>
                     <div class="grid grid-cols-1 gap-2">
-                        <div class="font-poppins font-reguler border-b border-gray-300 py-2">Customer
-                            Service - 1</div>
-                        <div class="font-poppins font-reguler border-b border-gray-300 py-2">Customer
-                            Service - 2</div>
-                        <div class="font-poppins font-reguler border-b border-gray-300 py-2">Customer
-                            Service - 3</div>
-                        <div class="font-poppins font-reguler border-b border-gray-300 py-2">-</div>
-                        <div class="font-poppins font-reguler border-b border-gray-300 py-2">-</div>
+                        @for ($i = 1; $i <= 5; $i++) @if ($i <=$unit->jumlah_cs)
+                            <div class="font-poppins font-reguler border-b border-gray-300 py-2">
+                                Customer Services - {{ $i }}
+                            </div>
+                            @else
+                            <div class="font-poppins font-reguler border-b border-gray-300 py-2">-</div>
+                            @endif
+                            @endfor
                     </div>
                 </div>
             </div>

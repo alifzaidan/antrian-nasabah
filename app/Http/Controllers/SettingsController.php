@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\AntreanCs;
 use App\Models\AntreanTeller;
+use App\Models\Unit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SettingsController extends Controller
 {
@@ -29,7 +31,10 @@ class SettingsController extends Controller
         $tanggalAwalCs = AntreanCs::orderBy('tanggal', 'asc')->first()->tanggal ?? '-';
         $tanggalAkhirCs = AntreanCs::orderBy('tanggal', 'desc')->first()->tanggal ?? '-';
 
-        return view('settings.operasional', compact('title', 'slug', 'jumlahAntreanTeller', 'tanggalAwalTeller', 'tanggalAkhirTeller', 'jumlahAntreanCs', 'tanggalAwalCs', 'tanggalAkhirCs'));
+        $user = Auth::user();
+        $unit = $user->unit;
+
+        return view('settings.operasional', compact('title', 'slug', 'unit', 'jumlahAntreanTeller', 'tanggalAwalTeller', 'tanggalAkhirTeller', 'jumlahAntreanCs', 'tanggalAwalCs', 'tanggalAkhirCs'));
     }
 
     public function unit()
@@ -50,5 +55,49 @@ class SettingsController extends Controller
     {
         AntreanCs::truncate();
         return redirect()->route('settings.operasional')->with('success', 'Data antrean cs berhasil direset.');
+    }
+
+    public function addTeller($unitId)
+    {
+        $unit = Unit::findOrFail($unitId);
+        if ($unit->jumlah_teller < 5) {
+            $unit->jumlah_teller += 1;
+            $unit->save();
+        }
+
+        return redirect()->back()->with('success', 'Teller added successfully.');
+    }
+
+    public function removeTeller($unitId)
+    {
+        $unit = Unit::findOrFail($unitId);
+        if ($unit->jumlah_teller > 0) {
+            $unit->jumlah_teller -= 1;
+            $unit->save();
+        }
+
+        return redirect()->back()->with('success', 'Teller removed successfully.');
+    }
+
+    public function addCs($unitId)
+    {
+        $unit = Unit::findOrFail($unitId);
+        if ($unit->jumlah_cs < 5) {
+            $unit->jumlah_cs += 1;
+            $unit->save();
+        }
+
+        return redirect()->back()->with('success', 'Customer Services added successfully.');
+    }
+
+    public function removeCs($unitId)
+    {
+        $unit = Unit::findOrFail($unitId);
+        if ($unit->jumlah_cs > 0) {
+            $unit->jumlah_cs -= 1;
+            $unit->save();
+        }
+
+        return redirect()->back()->with('success', 'Customer Services removed successfully.');
     }
 }
