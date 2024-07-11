@@ -14,11 +14,15 @@
             </div>
         </div>
 
-        <form x-ref="form" class="space-y-6" action="#" method="POST">
+        <form x-ref="form" class="space-y-6" action="{{ $units->isEmpty() ? route('settings.unit.store') : route('settings.unit.update', $units[0]->id) }}" method="POST">
+            @if($units->isNotEmpty())
+                @method('PUT')
+            @endif
+            @csrf
             <div>
                 <div class="mt-2">
                     <label for="nama" class="block font-semibold text-lg text-primary mb-2">Nama Unit</label>
-                    <input id="nama" name="nama" type="text" placeholder="Lowokwaru, Malang" required
+                    <input id="nama" name="nama" type="text" placeholder="Lowokwaru, Malang" required value="{{ $units[0]->nama ?? '' }}"
                         class="block w-full rounded-md border-0 py-2 text-primary shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-tertiary sm:leading-6">
                 </div>
             </div>
@@ -28,13 +32,13 @@
                     <textarea id="alamat" name="alamat" type="text"
                         placeholder="Jl. Tlogomas Ruko Megah Jaya No.10, Tlogomas, Kec. Lowokwaru, Kota Malang, Jawa Timur, Malang, Jawa Timur, Indonesia 65144"
                         required
-                        class="block w-full rounded-md border-0 py-2 h-32 text-primary shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-tertiary sm:leading-6"></textarea>
+                        class="block w-full rounded-md border-0 py-2 h-32 text-primary shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-tertiary sm:leading-6">{{ $units[0]->alamat ??  '' }}</textarea>
                 </div>
             </div>
             <div>
                 <div class="mt-2">
                     <label for="no_telp" class="block font-semibold text-lg text-primary mb-2">No Telpon Unit</label>
-                    <input id="no_telp" name="no_telp" type="text" placeholder="(0341) 572220" required
+                    <input id="no_telp" name="no_telp" type="text" placeholder="(0341) 572220" required value="{{ $units[0]->no_telp ??  '' }}"
                         class="block w-full rounded-md border-0 py-2 text-primary shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-tertiary sm:leading-6">
                 </div>
             </div>

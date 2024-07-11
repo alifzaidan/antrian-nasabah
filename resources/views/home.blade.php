@@ -72,6 +72,7 @@
                 <p class="font-poppins text-white my-4 md:my-8 md:text-lg">
                     Halaman Settings untuk manajemen konten dan menambahkan Teller dan Customer Service
                 </p>
+                
                 <img src="{{asset('icons/arrow.svg')}}" alt="Arrow" class="w-1/4 self-end">
             </a>
         </div>

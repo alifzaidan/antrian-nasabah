@@ -5,14 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Video extends Model
+class Unit extends Model
 {
     use HasFactory;
 
-    protected $table = 'videos';
+    protected $table = 'units';
 
     protected $fillable = [
-        'judul',
-        'path',
+        'nama',
+        'alamat',
+        'no_telp',
     ];
 }

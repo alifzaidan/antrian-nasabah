@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Unit;
+use App\Http\Requests\StoreUnitRequest;
 use Illuminate\Http\Request;
 
 class SettingsController extends Controller
@@ -26,7 +28,23 @@ class SettingsController extends Controller
     {
         $title = 'Manajemen Unit';
         $slug = 'unit';
+        
+        $units = Unit::all();
 
-        return view('settings.unit', compact('title', 'slug'));
+        return view('settings.unit', compact('units', 'title', 'slug'));
+    }
+
+    public function store(StoreUnitRequest $request)
+    {
+        Unit::create($request->validated());
+
+        return redirect()->route('settings.unit')->with('success', 'Unit berhasil disimpan.');
+    }
+
+    public function update(StoreUnitRequest $request, Unit $unit)
+    {
+        $unit->update($request->validated());
+
+        return redirect()->route('settings.unit')->with('success', 'Unit berhasil diperbarui.');
     }
 }
