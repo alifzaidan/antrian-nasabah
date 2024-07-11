@@ -2,8 +2,9 @@
     <x-slot:title>{{ $title }}</x-slot:title>
     <x-slot:slug>{{ $slug }}</x-slot:slug>
 
-    <div x-data="{ open: false, files: [], showConfirm: false, selectedVideo: '', uploadProgress: 0 }" class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-        <form action="#" method="POST" class="space-y-6" @submit.prevent="showConfirm = true">
+    <div x-data="{ open: false, files: [], showConfirm: false, selectedVideo: '' }" class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        <form action="{{ route('video.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+            @csrf <!-- CSRF Token for Laravel -->
             <div>
                 <div class="mt-2">
                     <label for="runningtext" class="block font-semibold font-poppins text-lg leading-6 text-primary mb-2">Running Text</label>
@@ -13,7 +14,7 @@
             </div>
 
             <div>
-                <label for="Video" class="block font-semibold font-poppins text-lg leading-6 text-primary mb-2">Video</label> 
+                <label for="video" class="block font-semibold font-poppins text-lg leading-6 text-primary mb-2">Video</label> 
                 <a href="#" @click="open = true" class="flex w-40 justify-center rounded-2xl bg-gradient-to-r from-primary to-secondary py-3 font-semibold leading-6 text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary hover:scale-105 transition duration-300 ease-in-out font-poppins text-lg">Tambah</a>
                 <div class="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                     <!-- Konten Video -->
@@ -42,41 +43,31 @@
 
         <div x-show="open" @click.away="open = false" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
             <div class="bg-white p-4 rounded-lg" style="width: 400px; height: 420px;">
-                <form @submit="uploadVideo">
+                <form @submit.prevent="uploadVideo">
+                    @csrf <!-- CSRF Token for Laravel -->
                     <h1 class="font-poppins font-semibold text-xl text-primary">Tambah Video</h1>
                     <div>
-                        <label for="title" class="block font-poppins text-md text-primary">Judul Video</label>
-                        <input type="text" name="title" id="title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-tertiary focus:ring-tertiary sm:text-sm">
+                        <label for="judul" class="block font-poppins text-md text-primary">Judul Video</label>
+                        <input type="text" name="judul" id="judul" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-tertiary focus:ring-tertiary sm:text-sm">
                     </div>
                     <div class="mt-4">
                         <label for="video" class="block font-poppins text-md text-primary">Upload Video</label>
-                        <div class="mt-1 flex justify-center items-center flex-col px-6 pt-5 pb-6 border-2 h-48 border-gray-300 border-dashed rounded-md" @dragover.prevent @drop.prevent="files = $event.dataTransfer.files">
+                        <div class="mt-1 flex justify-center items-center flex-col px-6 pt-5 pb-6 border-2 h-48 border-gray-300 border-dashed rounded-md">
                             <div class="space-y-1 text-center">
                                 <img class="mx-auto" src="{{ asset('icons/upload.svg') }}" alt="Upload Video">
                                 <div class="text-sm text-gray-600">
-                                    <label for="file-upload" class="relative cursor-pointer rounded-md bg-white font-medium text-indigo-600 hover:text-indigo-500 focus-without:outline-none ">
+                                    <label for="file-upload" class="relative cursor-pointer rounded-md bg-white font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none ">
                                         <span class="font-poppins">Upload a file</span>
-                                        <input id="file-upload" name="video" type="file" class="sr-only" @change="files = $event.target.files" accept="video/*">
+                                        <input id="file-upload" name="video" type="file" class="sr-only" accept="video/*" @change="files = $event.target.files; document.getElementById('file-name').textContent = files[0].name;">
                                     </label>
                                     <p class="pl-1 font-poppins">or drag and drop files here</p>
+                                    <p id="file-name" class="text-gray-500 mt-2"></p>
                                 </div>
-                                <template x-if="files.length">
-                                    <div>
-                                        <p x-text="files[0].name"></p>
-                                    </div>
-                                </template>
                             </div>
                         </div>
                     </div>
-                    <div x-show="uploadProgress > 0" class="mt-4">
-                        <label class="block font-poppins text-md text-primary">Upload Progress</label>
-                        <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-                            <div class="bg-blue-600 h-2.5 rounded-full" :style="{ width: uploadProgress + '%' }"></div>
-                        </div>
-                        <p x-text="uploadProgress + '%'"></p>
-                    </div>
                     <div class="mt-4 flex justify-end">
-                        <button type="button" @click="open = false; files = []" class="mr-2 inline-flex justify-center rounded-md border border-transparent bg-red-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 font-poppins">Batal</button>
+                        <button type="button" @click="open = false" class="mr-2 inline-flex justify-center rounded-md border border-transparent bg-red-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 font-poppins">Batal</button>
                         <button type="submit" class="inline-flex justify-center rounded-md border border-transparent bg-green-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 font-poppins">Simpan</button>
                     </div>
                 </form>
@@ -101,35 +92,27 @@
     }
     function uploadVideo() {
         let formData = new FormData();
-        formData.append('title', document.querySelector('#title').value);
+        formData.append('judul', document.querySelector('#judul').value);
         formData.append('video', document.querySelector('#file-upload').files[0]);
 
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         formData.append('_token', csrfToken);
 
         let xhr = new XMLHttpRequest();
-        xhr.open('POST', '/upload-video', true);
-
-        xhr.upload.addEventListener('progress', function(e) {
-            if (e.lengthComputable) {
-                let percentComplete = (e.loaded / e.total) * 100;
-                document.querySelector('[x-data]').__x.$data.uploadProgress = percentComplete;
-            }
-        });
+        xhr.open('POST', '{{ route('video.store') }}', true);
 
         xhr.addEventListener('load', function() {
             if (xhr.status === 200) {
                 alert('Upload successful!');
                 document.querySelector('[x-data]').__x.$data.open = false;
                 document.querySelector('[x-data]').__x.$data.files = [];
-                document.querySelector('[x-data]').__x.$data.uploadProgress = 0;
+            } else if (xhr.status === 413) {    
+                alert('Upload failed: File too large.');
             } else {
-                console.log(xhr.status)
-                alert('Upload failed!');
+                alert('Upload failed: ' + xhr.responseText);
             }
         });
 
         xhr.send(formData);
     }
-    
 </script>

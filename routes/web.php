@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\AntreanTellerController;
 use App\Http\Controllers\SettingsController;
-use App\Http\Controllers\VideoController;
+use App\Http\Controllers\StoreVideoController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -36,4 +36,4 @@ Route::group(['as' => 'settings.', 'prefix' => '/settings'], function () {
     Route::get('/unit', [SettingsController::class, 'unit'])->name('unit');
 });
 
-Route::post('/upload-video', [VideoController::class, 'store'])->name('video.store');
+Route::post('/upload-video', [StoreVideoController::class, 'store'])->name('video.store');
