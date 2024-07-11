@@ -40,6 +40,7 @@ Route::group(['as' => 'settings.', 'prefix' => '/settings'], function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::middleware(Authenticate::class)->group(function () {
         Route::get('/monitor', [SettingsController::class, 'monitor'])->name('monitor');
+        Route::put('/monitor/{unitId}', [SettingsController::class, 'updateMonitor'])->name('monitor.update');
         Route::get('/operasional', [SettingsController::class, 'operasional'])->name('operasional');
         Route::post('/reset-teller', [SettingsController::class, 'resetTeller'])->name('reset.teller');
         Route::post('/reset-cs', [SettingsController::class, 'resetCs'])->name('reset.cs');

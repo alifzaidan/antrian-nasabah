@@ -4,16 +4,18 @@
 
     <div x-data="{ open: false, files: [], showConfirm: false, selectedVideo: '', uploadProgress: 0 }"
         class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-        <form action="#" method="POST" class="space-y-6" @submit.prevent="showConfirm = true">
+        <form x-ref="form" action="{{ route('settings.monitor.update', $unit->id) }}" method="POST" class="space-y-6">
+            @method('PUT')
+            @csrf
             <div>
                 <div class="mt-2">
-                    <label for="runningtext"
+                    <label for="running_text"
                         class="block font-semibold font-poppins text-lg leading-6 text-primary mb-2">
                         Running Text
                     </label>
-                    <input id="runningtext" name="runningtext" type="text"
-                        placeholder="Selamat Datang di Unit {{ Auth::user()->username }}" required
-                        class="block w-full rounded-md border-0 py-2 text-primary shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-tertiary sm:leading-6">
+                    <input id="running_text" name="running_text" type="text"
+                        placeholder="Selamat Datang di Unit Lowokwaru" value="{{ $unit->running_text }}" required
+                        class="block w-full rounded-md border-0 py-2 text-primary font-poppins shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-tertiary sm:leading-6">
                 </div>
             </div>
 
@@ -50,10 +52,12 @@
                 </div>
             </div>
 
+            <input type="hidden" name="selectedVideo" x-model="selectedVideo">
+
             <div class="flex justify-end gap-4">
                 <button type="reset" @click="selectedVideo = ''"
                     class="w-40 text-lg rounded-2xl bg-gray-500 py-3 font-semibold leading-6 text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary hover:scale-105 transition duration-300 ease-in-out">Reset</button>
-                <button type="submit"
+                <button type="submit" @click.prevent="showConfirm = true"
                     class="w-40 text-lg rounded-2xl bg-gradient-to-r from-primary to-secondary py-3 font-semibold leading-6 text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary hover:scale-105 transition duration-300 ease-in-out">Simpan</button>
             </div>
         </form>
@@ -114,7 +118,7 @@
                 <div class="flex justify-end mt-4">
                     <button @click="showConfirm = false"
                         class="mr-2 inline-flex justify-center rounded-md border border-transparent bg-red-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">Tidak</button>
-                    <button @click="showConfirm = false; open = false; submitForm()"
+                    <button @click="showConfirm = false; $refs.form.submit();"
                         class="inline-flex justify-center rounded-md border border-transparent bg-green-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">Ya</button>
                 </div>
             </div>
@@ -124,7 +128,7 @@
 
 <script>
     function submitForm() {
-        document.querySelector('form').submit();
+        document.querySelector('myForm').submit();
     }
     function uploadVideo() {
         let formData = new FormData();

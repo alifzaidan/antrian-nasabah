@@ -15,7 +15,10 @@ class SettingsController extends Controller
         $title = 'Manajemen Monitor';
         $slug = 'monitor';
 
-        return view('settings.monitor', compact('title', 'slug'));
+        $user = Auth::user();
+        $unit = $user->unit;
+
+        return view('settings.monitor', compact('title', 'slug', 'unit'));
     }
 
     public function operasional()
@@ -46,6 +49,27 @@ class SettingsController extends Controller
         $unit = $user->unit;
 
         return view('settings.unit', compact('title', 'slug', 'unit'));
+    }
+
+    public function updateMonitor(Request $request, $unitId)
+    {
+        $unit = Unit::findOrFail($unitId);
+        $unit->running_text = $request->input('running_text');
+        $unit->video_display = $request->input('selectedVideo');
+        $unit->save();
+
+        return redirect()->back()->with('success', 'Monitor updated successfully.');
+    }
+
+    public function updateUnit(Request $request, $unitId)
+    {
+        $unit = Unit::findOrFail($unitId);
+        $unit->nama = $request->input('nama');
+        $unit->alamat = $request->input('alamat');
+        $unit->no_telp = $request->input('no_telp');
+        $unit->save();
+
+        return redirect()->back()->with('success', 'Unit updated successfully.');
     }
 
     public function resetTeller()
@@ -102,16 +126,5 @@ class SettingsController extends Controller
         }
 
         return redirect()->back()->with('success', 'Customer Services removed successfully.');
-    }
-
-    public function updateUnit(Request $request, $unitId)
-    {
-        $unit = Unit::findOrFail($unitId);
-        $unit->nama = $request->input('nama');
-        $unit->alamat = $request->input('alamat');
-        $unit->no_telp = $request->input('no_telp');
-        $unit->save();
-
-        return redirect()->back()->with('success', 'Unit updated successfully.');
     }
 }
