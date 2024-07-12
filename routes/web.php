@@ -4,6 +4,7 @@ use App\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AntreanController;
+use App\Http\Controllers\PanggilAntreanController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\StoreVideoController;
 
@@ -12,18 +13,26 @@ Route::get('/', function () {
 });
 
 Route::group(['as' => 'ambil-antrean.', 'prefix' => '/ambil-antrean'], function () {
-    Route::get('/data', [AntreanController::class, 'index'])->name('index');
+    Route::get('/', [AntreanController::class, 'index'])->name('index');
     Route::post('/teller', [AntreanController::class, 'storeTeller'])->name('store_teller');
     Route::post('/cs', [AntreanController::class, 'storeCs'])->name('store_cs');
 });
 
-Route::get('/panggil-antrean', function () {
-    return view('panggil-antrean');
+Route::group(['as' => 'panggil-antrean.', 'prefix' => '/panggil-antrean'], function () {
+    Route::get('/', [PanggilAntreanController::class, 'index'])->name('index');
+    Route::get('/teller/{counterId}', [PanggilAntreanController::class, 'detailTeller'])->name('teller');
+    Route::post('/teller/panggil/{antreanId}', [PanggilAntreanController::class, 'panggilAntreanTeller'])->name('teller.panggil');
+    Route::get('/cs/{counterId}', [PanggilAntreanController::class, 'detailCs'])->name('cs');
+    Route::post('/cs/panggil/{antreanId}', [PanggilAntreanController::class, 'panggilAntreanCs'])->name('cs.panggil');
 });
 
-Route::get('/panggil-antrean/detail', function () {
-    return view('panggil-antrean-detail');
-});
+// Route::get('/panggil-antrean', function () {
+//     return view('panggil-antrean');
+// });
+
+// Route::get('/panggil-antrean/detail', function () {
+//     return view('panggil-antrean-detail');
+// });
 
 Route::get('/monitor', function () {
     return view('monitor');
