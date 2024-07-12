@@ -10,8 +10,10 @@ class StoreVideoController extends Controller
 {
     public function index()
     {
-        //
+        $videos = StoreVideo::all();
+            return view('settings.monitor', compact('videos'));
     }
+
 
     public function create()
     {
@@ -28,7 +30,7 @@ class StoreVideoController extends Controller
     
             StoreVideo::create([
                 'judul' => $validated['judul'],
-                'path' => $path,
+                'path' => "storage/videos/". $filename,
             ]);
     
             return redirect()->back()->with('success', 'Video berhasil diunggah!');

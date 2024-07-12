@@ -53,3 +53,6 @@ Route::group(['as' => 'settings.', 'prefix' => '/settings'], function () {
 });
 
 Route::post('/upload-video', [StoreVideoController::class, 'store'])->name('video.store');
+Route::delete('/video/{id}', [StoreVideoController::class, 'destroy'])->name('video.destroy');
+
+

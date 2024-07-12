@@ -17,21 +17,28 @@
                 <label for="video" class="block font-semibold font-poppins text-lg leading-6 text-primary mb-2">Video</label> 
                 <a href="#" @click="open = true" class="flex w-40 justify-center rounded-2xl bg-gradient-to-r from-primary to-secondary py-3 font-semibold leading-6 text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary hover:scale-105 transition duration-300 ease-in-out font-poppins text-lg">Tambah</a>
                 <div class="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <!-- Konten Video -->
-                    <template x-for="(video, index) in ['BRIMO', 'CBP Rupiah', 'Cinta Bangga Paham', 'Pesta Rakyat Simpedes']" :key="index">
-                        <div class="bg-primary bg-opacity-5 rounded-lg p-4 ring-1 ring-primary justify-center" :class="selectedVideo === video ? 'bg-opacity-20' : 'bg-opacity-5'">
-                            <h2 class="text-center font-poppins mb-2" x-text="video"></h2>
-                            <div class="aspect-video w-full bg-white rounded-xl"></div>
-                            <div class="flex justify-evenly mt-2 gap-2">
-                                <button type="button" :disabled="selectedVideo === video" @click="if (selectedVideo !== video) selectedVideo = ''; selectedVideo = video" :class="selectedVideo === video ? 'opacity-50 cursor-not-allowed' : ''" class="font-poppins bg-red-600 py-2 px-4 rounded-xl w-full text-white text-center hover:bg-red-700 transition duration-200">
-                                    Hapus
-                                </button>
-                                <button type="button" @click="selectedVideo === video ? selectedVideo = '' : selectedVideo = video" :class="selectedVideo === video ? 'opacity-50 cursor-not-allowed' : ''" class="font-poppins bg-green-600 py-2 px-4 rounded-xl w-full text-white text-center hover:bg-green-700 transition duration-200">
-                                    Tampilkan
-                                </button>
-                            </div>
-                        </div>
-                    </template>
+                    <!-- Konten Video Dinamis dari Database -->
+                    @foreach ($videos as $video)
+            <div id="video-{{ $video->id }}" class="bg-primary bg-opacity-5 rounded-lg p-4 ring-1 ring-primary justify-center">
+                <h2 class="text-center font-poppins mb-2">{{ $video->judul }}</h2>
+                <div class="aspect-video w-full bg-white rounded-xl">
+                    <video controls class="w-full h-full">
+                        <source src="{{ asset($video->path) }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <div class="flex justify-evenly mt-2 gap-2">
+                    <button type="button" onclick="deleteVideo({{ $video->id }})" class="font-poppins bg-red-600 py-2 px-4 rounded-xl w-full text-white text-center hover:bg-red-700 transition duration-200">
+                        Hapus
+                    </button>
+                    <button type="button" class="font-poppins bg-green-600 py-2 px-4 rounded-xl w-full text-white text-center hover:bg-green-700 transition duration-200">
+                        Tampilkan
+                    </button>
+                </div>
+            </div>
+        @endforeach
+
+                <meta name="csrf-token" content="{{ csrf_token() }}">
                 </div>
             </div>
 
@@ -74,15 +81,15 @@
             </div>
         </div>
 
-        <div x-show="showConfirm" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+        {{-- <div x-show="showConfirm" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
             <div class="bg-white p-4 rounded-lg shadow-xl">
                 <p class="font-poppins mb-4 text-lg">Apakah Anda yakin untuk menyimpan perubahan ini?</p>
                 <div class="flex justify-end mt-4">
                     <button @click="showConfirm = false" class="mr-2 inline-flex justify-center rounded-md border border-transparent bg-red-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">Tidak</button>
-                    <button @click="showConfirm = false; open = false; submitForm()" class="inline-flex justify-center rounded-md border border-transparent bg-green-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">Ya</button>
+                    <button @click="showConfirm = false; open = false; submitForm() setTimeout(() => location.reload(), 1000)" class="inline-flex justify-center rounded-md border border-transparent bg-green-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">Ya</button>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>    
 </x-settings>
 
@@ -103,6 +110,7 @@
 
         xhr.addEventListener('load', function() {
             if (xhr.status === 200) {
+                location.reload();
                 alert('Upload successful!');
                 document.querySelector('[x-data]').__x.$data.open = false;
                 document.querySelector('[x-data]').__x.$data.files = [];
@@ -115,4 +123,31 @@
 
         xhr.send(formData);
     }
+    function deleteVideo(videoId) {
+    fetch(`/video/${videoId}`, {
+        method: 'DELETE',
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+            if (response.ok) {
+                // Pastikan elemen video dengan ID yang sesuai ada di DOM
+                const videoElement = document.getElementById(`video-${videoId}`);
+                if (videoElement) {
+                    // Hapus elemen video dari DOM
+                    videoElement.remove();
+                } else {
+                    console.error('Error: Video element not found.');
+                }
+            } else {
+                alert('Gagal menghapus video.');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+    
+
 </script>

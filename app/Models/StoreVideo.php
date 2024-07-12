@@ -10,4 +10,6 @@ class StoreVideo extends Model
     use HasFactory;
 
     protected $fillable = ['judul', 'path'];
+
+    
 }
