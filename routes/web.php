@@ -1,12 +1,11 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\VideoController;
-use App\Http\Controllers\AntreanController;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\SettingsController;
-use App\Http\Controllers\UnitController;
 use App\Http\Middleware\Authenticate;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AntreanController;
+use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\StoreVideoController;
 
 Route::get('/', function () {
     return view('home');
@@ -53,4 +52,4 @@ Route::group(['as' => 'settings.', 'prefix' => '/settings'], function () {
     });
 });
 
-Route::post('/upload-video', [VideoController::class, 'store'])->name('video.store');
+Route::post('/upload-video', [StoreVideoController::class, 'store'])->name('video.store');
