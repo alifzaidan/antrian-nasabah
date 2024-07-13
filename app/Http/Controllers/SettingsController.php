@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\AntreanCs;
 use App\Models\AntreanTeller;
 use App\Models\Unit;
+use App\Models\StoreVideo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class SettingsController extends Controller
 {
@@ -17,8 +19,9 @@ class SettingsController extends Controller
 
         $user = Auth::user();
         $unit = $user->unit;
+        $videos = StoreVideo::all();
 
-        return view('settings.monitor', compact('title', 'slug', 'unit'));
+        return view('settings.monitor', compact('title', 'slug', 'unit', 'videos'));
     }
 
     public function operasional()
@@ -127,4 +130,14 @@ class SettingsController extends Controller
 
         return redirect()->back()->with('success', 'Customer Services removed successfully.');
     }
+    public function destroy($videoId)
+    {
+        $video = StoreVideo::findOrFail($videoId);
+        
+        // Menghapus video dari database
+        $video->delete();
+    
+        return redirect()->back()->with('success', 'Video deleted successfully.');
+    }
+    
 }
