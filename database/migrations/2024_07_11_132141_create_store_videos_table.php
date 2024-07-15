@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('store_videos', function (Blueprint $table) {
             $table->id();
-            $table->string('judul'); // Menambahkan kolom judul
-            $table->string('path'); // Menambahkan kolom path
+            $table->string('judul');
+            $table->string('path');
             $table->timestamps();
         });
     }

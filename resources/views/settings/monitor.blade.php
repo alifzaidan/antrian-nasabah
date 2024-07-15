@@ -2,17 +2,18 @@
     <x-slot:title>{{ $title }}</x-slot:title>
     <x-slot:slug>{{ $slug }}</x-slot:slug>
 
-    <div x-data="{ open: false, files: [], showConfirm: false, selectedVideo: '' }"
+    <div x-data="{ open: false, files: [], showConfirm: false, selectedVideo: '{{ $unit->video_id }}' }"
         class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-        <form action="{{ route('settings.video.store') }}" method="POST" enctype="multipart/form-data"
+        <form action="{{ route('settings.monitor.update', $unit->id) }}" method="POST" enctype="multipart/form-data"
             class="space-y-6">
+            @method('PUT')
             @csrf
             <div>
                 <div class="mt-2">
                     <label for="runningtext"
                         class="block font-semibold font-poppins text-lg leading-6 text-primary mb-2">Running
                         Text</label>
-                    <input id="runningtext" name="runningtext" type="text"
+                    <input id="running_text" name="running_text" type="text" value="{{ $unit->running_text }}"
                         placeholder="Selamat Datang di Unit Lowokwaru" required
                         class="block w-full rounded-md border-0 py-2 text-primary shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-tertiary sm:leading-6">
                 </div>
@@ -38,21 +39,18 @@
                             <button type="button" onclick="deleteVideo({{ $video->id }})"
                                 class="font-poppins bg-red-600 py-2 px-4 rounded-xl w-full text-white text-center hover:bg-red-700 transition duration-200">
                                 Hapus
-                                {{-- @isset($videoPath)
-                                {{ $videoPath }}
-                                @endisset --}}
                             </button>
-                            <button type="button"
+                            <button type="button" @click="selectedVideo = {{ $video->id }}"
+                                :class="selectedVideo === {{ $video->id }} ? 'bg-green-700' : 'bg-green-600'"
                                 class="font-poppins bg-green-600 py-2 px-4 rounded-xl w-full text-white text-center hover:bg-green-700 transition duration-200">
                                 Tampilkan
                             </button>
                         </div>
                     </div>
                     @endforeach
-
-                    <meta name="csrf-token" content="{{ csrf_token() }}">
                 </div>
             </div>
+            <input type="hidden" name="video_id" :value="selectedVideo">
 
             <div class="flex justify-end gap-4">
                 <button type="reset" @click="selectedVideo = ''"
