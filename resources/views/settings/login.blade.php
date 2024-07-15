@@ -11,7 +11,8 @@
 </head>
 
 <body class="px-10 md:px-20 xl:px-40 py-10 flex min-h-screen flex-col justify-center">
-    <div class="grid md:grid-cols-2 grid-cols-1 gap-10 bg-white bg-opacity-50 rounded-2xl shadow-lg py-10 px-24">
+    <div
+        class="grid md:grid-cols-2 grid-cols-1 gap-10 bg-white bg-opacity-50 rounded-2xl shadow-lg py-10 px-10 lg:px-24">
         <div class="pb-8 md:border-0 border-b-2 border-tertiary">
             <img src="{{asset('img/logo-bri-dark.png')}}" alt="Logo BRI" class="w-40 md:m-0 mx-auto">
             <div class="mt-4 text-primary font-poppins font-medium md:text-base text-sm md:text-left text-center">
@@ -21,15 +22,16 @@
                 <h1>(0341) 415666</h1>
             </div>
         </div>
-        <div class="mx-auto w-full max-w-sm">
+        <div class="mx-auto w-full lg:max-w-sm">
             <h1 class="text-primary font-poppins font-bold text-4xl text-center mb-4">Login</h1>
-            <form class="space-y-6" action="#" method="POST">
+            <form class="space-y-6" action="{{ route('settings.login') }}" method="POST">
+                @csrf
                 <div>
                     <label for="username"
                         class="block font-medium font-poppins sm:text-base text-sm leading-6 text-primary">Username</label>
                     <div class="mt-2">
                         <input id="username" name="username" type="text" required
-                            class="block w-full rounded-md border-0 py-2 text-primary shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-tertiary sm:leading-6">
+                            class="block w-full rounded-md border-0 py-2 text-primary font-poppins shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-tertiary sm:leading-6">
                     </div>
                 </div>
 
@@ -38,13 +40,13 @@
                         class="block font-medium font-poppins sm:text-base text-sm leading-6 text-primary">Password</label>
                     <div class="mt-2">
                         <input id="password" name="password" type="password" required
-                            class="block w-full rounded-md border-0 py-2 text-primary shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-tertiary sm:leading-6">
+                            class="block w-full rounded-md border-0 py-2 text-primary font-poppins shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-tertiary sm:leading-6">
                     </div>
                 </div>
 
                 <div>
                     <button type="submit"
-                        class="flex w-full justify-center text-lg rounded-2xl bg-gradient-to-r from-primary to-secondary py-3 font-semibold leading-6 text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary hover:scale-105 transition duration-300 ease-in-out">Masuk</button>
+                        class="flex w-full justify-center text-lg rounded-lg bg-gradient-to-r from-primary font-poppins to-secondary py-3 font-semibold leading-6 text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary hover:scale-105 transition duration-300 ease-in-out">Masuk</button>
                 </div>
             </form>
 

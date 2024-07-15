@@ -27,18 +27,18 @@
                 <h2 class="text-4xl  font-bold font-poppins text-center text-primary">Teller</h2>
                 <div class="bg-white rounded-2xl my-6 p-6 grow sm:relative flex flex-col items-center justify-center">
                     <h3 class="text-xl font-poppins sm:absolute top-4 italic">Antrean Sekarang :</h3>
-                    <p id="antrean" class="text-5xl lg:text-7xl text-center font-bold font-poppins">
-                        {{ $nomorAntrean == 'TL000' ? '0' : $nomorAntrean }}
+                    <p id="antreanTeller" class="text-5xl lg:text-7xl text-center font-bold font-poppins">
+                        {{ $nomorAntreanTeller == 'TL000' ? '-' : $nomorAntreanTeller }}
                     </p>
-                    <p hidden id="antreanTerakhir" class="text-5xl lg:text-7xl font-bold font-poppins">
-                        {{ $nextAntrean }}
+                    <p hidden id="antreanTerakhirTeller" class="text-5xl lg:text-7xl font-bold font-poppins">
+                        {{ $nextAntreanTeller }}
                     </p>
                 </div>
-                <form id="addAntrean" action="{{ route('ambil-antrean.store') }}">
+                <form id="addAntreanTeller" action="{{ route('ambil-antrean.store_teller') }}" method="POST">
                     @csrf
-                    <input hidden type="date" name="tanggal" value="{{ $tanggal }}">
-                    <input hidden type="number" name="no_antrean" value="{{ $nextAntrean }}">
-                    <input hidden type="number" name="status" value="0">
+                    <input hidden type="date" name="tanggal" id="tanggalTeller" value="{{ $tanggal }}">
+                    <input hidden type="number" name="no_antrean" id="noAntreanTeller" value="{{ $nextAntreanTeller }}">
+                    <input hidden type="number" name="status" id="statusTeller" value="0">
                     <button
                         class="bg-gradient-to-r from-primary to-secondary py-4 lg:py-6 w-full rounded-2xl font-poppins font-semibold text-2xl lg:text-3xl text-white hover:scale-105 transition duration-300 ease-in-out">Ambil
                         Nomor</button>
@@ -48,11 +48,22 @@
                 <h2 class="text-4xl  font-bold font-poppins text-center text-tertiary">Customer Services</h2>
                 <div class="bg-white rounded-2xl my-6 p-6 grow sm:relative flex flex-col items-center justify-center">
                     <h3 class="text-xl font-poppins sm:absolute top-4 italic">Antrean Sekarang :</h3>
-                    <p class="text-5xl lg:text-7xl font-bold font-poppins">CS001</p>
+                    <p id="antreanCs" class="text-5xl lg:text-7xl text-center font-bold font-poppins">
+                        {{ $nomorAntreanCs == 'CS000' ? '-' : $nomorAntreanCs }}
+                    </p>
+                    <p hidden id="antreanTerakhirCs" class="text-5xl lg:text-7xl font-bold font-poppins">
+                        {{ $nextAntreanCs }}
+                    </p>
                 </div>
-                <button
-                    class="bg-gradient-to-r from-tertiary to-quaternary py-4 lg:py-6 rounded-2xl font-poppins font-semibold text-2xl lg:text-3xl text-white hover:scale-105 transition duration-300 ease-in-out">Ambil
-                    Nomor</button>
+                <form id="addAntreanCs" action="{{ route('ambil-antrean.store_cs') }}" method="POST">
+                    @csrf
+                    <input hidden type="date" name="tanggal" id="tanggalCs" value="{{ $tanggal }}">
+                    <input hidden type="number" name="no_antrean" id="noAntreanCs" value="{{ $nextAntreanCs }}">
+                    <input hidden type="number" name="status" id="statusCs" value="0">
+                    <button
+                        class="bg-gradient-to-r from-tertiary to-quaternary py-4 lg:py-6 w-full rounded-2xl font-poppins font-semibold text-2xl lg:text-3xl text-white hover:scale-105 transition duration-300 ease-in-out">Ambil
+                        Nomor</button>
+                </form>
             </div>
         </div>
     </main>
@@ -79,13 +90,13 @@
     </script>
 
     <script>
-        document.getElementById('addAntrean').addEventListener('submit', function(event) {
+        document.getElementById('addAntreanTeller').addEventListener('submit', function(event) {
             event.preventDefault();
-            const formData = new FormData(this);
+            const formDataTeller = new FormData(this);
 
             fetch(this.action, {
                 method: 'POST',
-                body: formData,
+                body: formDataTeller,
                 headers: {
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                 }
@@ -98,14 +109,45 @@
             })
             .then(data => {
                 console.log('Success:', data);
-                console.log(formData.get('no_antrean'));
-                const formattedNumber = 'TL' + String(formData.get('no_antrean')).padStart(3, '0');
-                document.getElementById('antrean').textContent = formattedNumber;
-                document.getElementById('antreanTerakhir').textContent = parseInt(document.getElementById('antreanTerakhir').textContent) + 1
-                document.querySelector('input[name="no_antrean"]').value = document.getElementById('antreanTerakhir').textContent;
+                console.log(formDataTeller.get('no_antrean'));
+                const formattedNumber = 'TL' + String(formDataTeller.get('no_antrean')).padStart(3, '0');
+                document.getElementById('antreanTeller').textContent = formattedNumber;
+                document.getElementById('antreanTerakhirTeller').textContent = parseInt(document.getElementById('antreanTerakhirTeller').textContent) + 1
+                document.getElementById('noAntreanTeller').value = document.getElementById('antreanTerakhirTeller').textContent;
             })
             .catch((error) => {
                 console.error('Error:', error);
+            });
+        });
+        
+        document.getElementById('addAntreanCs').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formDataCs = new FormData(this);
+
+            fetch(this.action, {
+                method: 'POST',
+                body: formDataCs,
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response;
+            })
+            .then(data => {
+                console.log('Success:', data);
+                console.log(formDataCs.get('no_antrean'));
+                const formattedNumber = 'CS' + String(formDataCs.get('no_antrean')).padStart(3, '0');
+                document.getElementById('antreanCs').textContent = formattedNumber;
+                document.getElementById('antreanTerakhirCs').textContent = parseInt(document.getElementById('antreanTerakhirCs').textContent) + 1
+                document.getElementById('noAntreanCs').value = document.getElementById('antreanTerakhirCs').textContent;
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                console.log(formDataCs.get('no_antrean'));
             });
         });
     </script>

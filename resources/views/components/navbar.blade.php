@@ -5,7 +5,7 @@
                 <div class="flex-shrink-0 md:hidden">
                     <img class="h-8" src="{{ asset('img/logo-bri-light.png') }}" alt="Bank Rakyat Indonesia">
                 </div>
-                <div class="md:block hidden relative w-80">
+                <div class="md:block hidden relative w-52">
                     <input type="text" placeholder="Search..."
                         class="pl-4 pr-10 py-2 w-full rounded-lg font-poppins text-sm leading-5 text-primary bg-white border border-gray-300 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary">
                     <svg class="w-5 h-5 absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500" fill="none"
@@ -20,9 +20,10 @@
                 <div class="ml-4 flex items-center md:ml-6">
                     <div class="relative ml-3">
                         <div class="flex items-center gap-4">
-                            <h2 class="font-poppins font-medium leading-none text-white">Admin</h2>
+                            <h2 class="font-poppins font-medium leading-none text-right text-white">{{
+                                Auth::user()->name }}</h2>
                             <button type="button" @click="isOpen = !isOpen"
-                                class="relative flex max-w-xs items-center rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary"
+                                class="flex-shrink-0 relative flex max-w-xs items-center rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary"
                                 id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                                 <span class="absolute -inset-1.5"></span>
                                 <span class="sr-only">Open user menu</span>
@@ -36,12 +37,15 @@
                             x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
                             class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white p-2 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                             role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
-                            <a href="/login"
-                                class="flex items-center justify-between hover:bg-primary hover:bg-opacity-10 rounded-md px-4 py-2 transition duration-200"
-                                role="menuitem" tabindex="-1" id="user-menu-item-2">
-                                <p class="font-poppins text-sm font-medium">Logout</p>
-                                <img class="w-3" src="{{ asset('icons/logout.svg') }}" alt="Logout">
-                            </a>
+                            <form action="{{ route('settings.logout') }}" method="POST">
+                                @csrf
+                                <button type="submit"
+                                    class="w-full flex items-center justify-between hover:bg-primary hover:bg-opacity-10 rounded-md px-4 py-2 transition duration-200"
+                                    role="menuitem" tabindex="-1" id="user-menu-item-2">
+                                    <p class="font-poppins text-sm font-medium">Logout</p>
+                                    <img class="w-3" src="{{ asset('icons/logout.svg') }}" alt="Logout">
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -101,13 +105,16 @@
                     <div class="flex-shrink-0 bg-white rounded-full">
                         <img class="h-6 w-6 m-2" src="{{ asset('icons/people-4.svg') }}" alt="Admin">
                     </div>
-                    <div class="ml-3 font-medium font-poppins leading-none text-white">Admin</div>
+                    <div class="ml-3 font-medium font-poppins leading-none text-white">{{ Auth::user()->name }}</div>
                 </div>
-                <a href="#"
-                    class="flex items-center gap-2 rounded-md px-3 py-2 bg-tertiary text-white hover:bg-opacity-80 hover:text-white transition duration-200">
-                    <p class="font-poppins text-sm font-medium">Logout</p>
-                    <img class="w-3" src="{{ asset('icons/logout-light.svg') }}" alt="Logout">
-                </a>
+                <form action="{{ route('settings.logout') }}" method="POST">
+                    @csrf
+                    <button type="submit"
+                        class="flex items-center gap-2 rounded-md px-3 py-2 bg-tertiary text-white hover:bg-opacity-80 hover:text-white transition duration-200">
+                        <p class="font-poppins text-sm font-medium">Logout</p>
+                        <img class="w-3" src="{{ asset('icons/logout-light.svg') }}" alt="Logout">
+                    </button>
+                </form>
             </div>
         </div>
     </div>

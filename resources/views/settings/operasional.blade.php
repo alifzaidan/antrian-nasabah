@@ -4,108 +4,130 @@
 
     <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-6">
         <div class="bg-primary bg-opacity-10 rounded-2xl shadow-lg p-4">
-            <div class="grid grid-cols-1 gap-4 mt-0">
+            <div class="grid grid-cols-1 gap-4">
                 <div class="bg-white shadow-md rounded-2xl p-4">
-                    <div class="grid grid-cols-5 gap-4">
-                        <div>
-                            <h3 class="font-poppins text-primary font-semibold text-xl">Operasional</h3>
-                        </div>
-                        <div>
-                            <h3 class="font-poppins text-primary font-semibold text-xl">Tgl. Data Awal</h3>
-                        </div>
-                        <div>
-                            <h3 class="font-poppins text-primary font-semibold text-xl">Tgl. Data Akhir</h3>
-                        </div>
-                        <div>
-                            <h3 class="font-poppins text-primary font-semibold text-xl">Total Data Antrean</h3>
-                        </div>
-                        <div></div>
-                        <div class="font-poppins text-primary font-semibold border-b border-gray-300 py-2">
-                            Teller
-                        </div>
-                        <div class="font-poppins text-primary font-reguler border-b border-gray-300 py-2">
-                            02/01/2024
-                        </div>
-                        <div class="font-poppins text-primary font-reguler border-b border-gray-300 py-2">
-                            02/02/2024
-                        </div>
-                        <div class="font-poppins text-primary font-reguler border-b border-gray-300 py-2">
-                            30
-                        </div>
-                        <div class="flex justify-center space-x">
-                            <button class="bg-orange-500 hover:bg-orange-700 text-white w-full font-poppins font-semibold py-2 px-4 rounded-lg">
-                                Reset
-                            </button>
-                        </div>
-                        <div class="font-poppins text-primary font-semibold border-b border-gray-300 py-2">
-                        Customer Service
-                        </div>
-                        <div class="font-poppins text-primary font-reguler border-b border-gray-300 py-2">
-                            02/01/2024
-                        </div>
-                        <div class="font-poppins text-primary font-reguler border-b border-gray-300 py-2">
-                            02/02/2024
-                        </div>
-                        <div class="font-poppins text-primary font-reguler border-b border-gray-300 py-2">
-                            30
-                        </div>
-                        <div class="flex justify-center space-x">
-                            <button class="bg-orange-500 hover:bg-orange-700 text-white w-full font-poppins font-semibold py-2 px-4 rounded-lg">
-                                Reset
-                            </button>
-                        </div>
+                    <h2 class="font-poppins text-xl text-primary font-semibold mb-4">Data Antrean Nasabah</h2>
+                    <div class="overflow-x-auto rounded-lg">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-primary bg-opacity-10">
+                                <tr>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 font-poppins uppercase tracking-wider">
+                                        Operasional</th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 font-poppins uppercase tracking-wider">
+                                        Tgl. Data Awal</th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 font-poppins uppercase tracking-wider">
+                                        Tgl. Data Akhir</th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 font-poppins uppercase tracking-wider">
+                                        Total Data Antrean</th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 font-poppins uppercase tracking-wider">
+                                        Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <tr>
+                                    <td class="px-6 py-4 font-semibold font-poppins whitespace-nowrap">Teller</td>
+                                    <td class="px-6 py-4 font-poppins whitespace-nowrap">{{ $tanggalAwalTeller }}</td>
+                                    <td class="px-6 py-4 font-poppins whitespace-nowrap">{{ $tanggalAkhirTeller }}</td>
+                                    <td class="px-6 py-4 font-semibold font-poppins whitespace-nowrap">{{
+                                        $jumlahAntreanTeller }}</td>
+                                    <td class="px-6 py-4 font-poppins whitespace-nowrap">
+                                        <form action="{{ route('settings.reset.teller') }}" method="POST">
+                                            @csrf
+                                            <button type="submit"
+                                                class="bg-orange-500 hover:bg-orange-700 text-white w-full font-poppins font-semibold py-2 px-4 rounded-lg">
+                                                Reset
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 font-semibold font-poppins whitespace-nowrap">Customer Service
+                                    </td>
+                                    <td class="px-6 py-4 font-poppins whitespace-nowrap">{{ $tanggalAwalCs }}</td>
+                                    <td class="px-6 py-4 font-poppins whitespace-nowrap">{{ $tanggalAkhirCs }}</td>
+                                    <td class="px-6 py-4 font-semibold font-poppins whitespace-nowrap">{{
+                                        $jumlahAntreanCs }}</td>
+                                    <td class="px-6 py-4 font-poppins whitespace-nowrap">
+                                        <form action="{{ route('settings.reset.cs') }}" method="POST">
+                                            @csrf
+                                            <button type="submit"
+                                                class="bg-orange-500 hover:bg-orange-700 text-white w-full font-poppins font-semibold py-2 px-4 rounded-lg">
+                                                Reset
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-            <div class="grid grid-cols-2 gap-4 mt-0">
+            <div class="grid lg:grid-cols-2 grid-cols-1 lg:gap-4 gap-0">
                 <div class="bg-white mt-4 shadow-md rounded-2xl p-4">
                     <div class="flex justify-between items-center mb-4">
-                        <h3 class="font-poppins text-primary font-semibold text-xl">No. Teller</h3>
+                        <h3 class="font-poppins text-primary font-semibold text-xl">Data Teller</h3>
                         <div class="flex space-x-2">
-                            <button
-                                class="font-poppins font-semibold bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded-lg">
-                                Tambah
-                            </button>
-                            <button
-                                class="font-poppins font-semibold bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded-lg">
-                                Hapus
-                            </button>
+                            <form action="{{ route('settings.add-teller', $unit->id) }}" method="POST">
+                                @csrf
+                                <button type="submit"
+                                    class="font-poppins font-semibold bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded-lg">
+                                    Tambah
+                                </button>
+                            </form>
+                            <form action="{{ route('settings.remove-teller', $unit->id) }}" method="POST">
+                                @csrf
+                                <button type="submit"
+                                    class="font-poppins font-semibold bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded-lg">
+                                    Hapus
+                                </button>
+                            </form>
                         </div>
                     </div>
                     <div class="grid grid-cols-1 gap-2">
-                        <div class="font-poppins text-primary font-reguler border-b border-gray-300 py-2">Teller - 1
-                        </div>
-                        <div class="font-poppins text-primary font-reguler border-b border-gray-300 py-2">Teller - 2
-                        </div>
-                        <div class="font-poppins text-primary font-reguler border-b border-gray-300 py-2">Teller - 3
-                        </div>
-                        <div class="font-poppins text-primary font-reguler border-b border-gray-300 py-2">-</div>
-                        <div class="font-poppins text-primary font-reguler border-b border-gray-300 py-2">-</div>
+                        @for ($i = 1; $i <= 5; $i++) @if ($i <=$unit->jumlah_teller)
+                            <div class="font-poppins font-reguler border-b border-gray-300 py-2">
+                                Teller - {{ $i }}
+                            </div>
+                            @else
+                            <div class="font-poppins font-reguler border-b border-gray-300 py-2">-</div>
+                            @endif
+                            @endfor
                     </div>
                 </div>
                 <div class="bg-white mt-4 shadow-md rounded-2xl p-4">
                     <div class="flex justify-between items-center mb-4">
-                        <h3 class="font-poppins text-primary font-semibold text-xl">No. Customer Service</h3>
+                        <h3 class="font-poppins text-primary font-semibold text-xl">Data Customer Service</h3>
                         <div class="flex space-x-2">
-                            <button
-                                class="font-poppins font-semibold bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded-lg">
-                                Tambah
-                            </button>
-                            <button
-                                class="font-poppins font-semibold bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded-lg">
-                                Hapus
-                            </button>
+                            <form action="{{ route('settings.add-cs', $unit->id) }}" method="POST">
+                                @csrf
+                                <button type="submit"
+                                    class="font-poppins font-semibold bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded-lg">
+                                    Tambah
+                                </button>
+                            </form>
+                            <form action="{{ route('settings.remove-cs', $unit->id) }}" method="POST">
+                                @csrf
+                                <button type="submit"
+                                    class="font-poppins font-semibold bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded-lg">
+                                    Hapus
+                                </button>
+                            </form>
                         </div>
                     </div>
                     <div class="grid grid-cols-1 gap-2">
-                        <div class="font-poppins text-primary font-reguler border-b border-gray-300 py-2">Customer
-                            Service - 1</div>
-                        <div class="font-poppins text-primary font-reguler border-b border-gray-300 py-2">Customer
-                            Service - 2</div>
-                        <div class="font-poppins text-primary font-reguler border-b border-gray-300 py-2">Customer
-                            Service - 3</div>
-                        <div class="font-poppins text-primary font-reguler border-b border-gray-300 py-2">-</div>
-                        <div class="font-poppins text-primary font-reguler border-b border-gray-300 py-2">-</div>
+                        @for ($i = 1; $i <= 5; $i++) @if ($i <=$unit->jumlah_cs)
+                            <div class="font-poppins font-reguler border-b border-gray-300 py-2">
+                                Customer Services - {{ $i }}
+                            </div>
+                            @else
+                            <div class="font-poppins font-reguler border-b border-gray-300 py-2">-</div>
+                            @endif
+                            @endfor
                     </div>
                 </div>
             </div>

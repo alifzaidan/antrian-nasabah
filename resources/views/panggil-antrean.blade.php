@@ -26,21 +26,12 @@
                     <h2 class="text-4xl font-bold font-poppins text-center text-primary">Teller</h2>
                 </div>
                 <div class="flex flex-col gap-4">
-                    <a href="panggil-antrean/detail"
+                    @for ($i = 1; $i <= $jumlahTeller; $i++) <a href="{{ route('panggil-antrean.teller', $i) }}"
                         class="flex justify-between items-center p-4 bg-gradient-to-r from-primary to-secondary py-4 rounded-2xl hover:scale-105 transition duration-300 ease-in-out">
-                        <p class="font-poppins font-semibold text-2xl text-white ">Counter 1</p>
+                        <p class="font-poppins font-semibold text-2xl text-white ">Counter {{ $i }}</p>
                         <img src="{{asset('icons/arrow-simple-right.svg')}}" alt="Arrow" class="w-3">
-                    </a>
-                    <a href="panggil-antrean/detail"
-                        class="flex justify-between items-center p-4 bg-gradient-to-r from-primary to-secondary py-4 rounded-2xl hover:scale-105 transition duration-300 ease-in-out">
-                        <p class="font-poppins font-semibold text-2xl text-white ">Counter 2</p>
-                        <img src="{{asset('icons/arrow-simple-right.svg')}}" alt="Arrow" class="w-3">
-                    </a>
-                    <a href="panggil-antrean/detail"
-                        class="flex justify-between items-center p-4 bg-gradient-to-r from-primary to-secondary py-4 rounded-2xl hover:scale-105 transition duration-300 ease-in-out">
-                        <p class="font-poppins font-semibold text-2xl text-white ">Counter 3</p>
-                        <img src="{{asset('icons/arrow-simple-right.svg')}}" alt="Arrow" class="w-3">
-                    </a>
+                        </a>
+                        @endfor
                 </div>
             </div>
 
@@ -53,21 +44,13 @@
                     </h2>
                 </div>
                 <div class="flex flex-col gap-4">
-                    <a href="panggil-antrean/detail"
+                    @for ($i = $jumlahTeller + 1; $i <= $jumlahTeller + $jumlahCs; $i++) <a
+                        href="{{ route('panggil-antrean.cs', $i) }}"
                         class="flex justify-between items-center p-4 bg-gradient-to-r from-tertiary to-quaternary py-4 rounded-2xl hover:scale-105 transition duration-300 ease-in-out">
-                        <p class="font-poppins font-semibold text-2xl text-white ">Counter 4</p>
+                        <p class="font-poppins font-semibold text-2xl text-white ">Counter {{ $i }}</p>
                         <img src="{{asset('icons/arrow-simple-right.svg')}}" alt="Arrow" class="w-3">
-                    </a>
-                    <a href="panggil-antrean/detail"
-                        class="flex justify-between items-center p-4 bg-gradient-to-r from-tertiary to-quaternary py-4 rounded-2xl hover:scale-105 transition duration-300 ease-in-out">
-                        <p class="font-poppins font-semibold text-2xl text-white ">Counter 5</p>
-                        <img src="{{asset('icons/arrow-simple-right.svg')}}" alt="Arrow" class="w-3">
-                    </a>
-                    <a href="panggil-antrean/detail"
-                        class="flex justify-between items-center p-4 bg-gradient-to-r from-tertiary to-quaternary py-4 rounded-2xl hover:scale-105 transition duration-300 ease-in-out">
-                        <p class="font-poppins font-semibold text-2xl text-white ">Counter 6</p>
-                        <img src="{{asset('icons/arrow-simple-right.svg')}}" alt="Arrow" class="w-3">
-                    </a>
+                        </a>
+                        @endfor
                 </div>
             </div>
         </div>
