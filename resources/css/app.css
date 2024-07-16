@@ -26,19 +26,18 @@
 }
 
 .marquee {
-    @apply overflow-hidden whitespace-nowrap;
+    @apply overflow-hidden whitespace-nowrap box-border;
 }
 
 .marquee span {
     @apply inline-block;
-    display: inline-block;
-    padding-right: 100px;
-    animation: marquee 5s linear infinite;
+    padding-left: 30%;
+    animation: marquee 10s linear infinite;
 }
 
 @keyframes marquee {
     0% {
-        transform: translateX(0%);
+        transform: translateX(100%);
     }
     100% {
         transform: translateX(-100%);
