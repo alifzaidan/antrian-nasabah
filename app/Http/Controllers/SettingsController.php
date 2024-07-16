@@ -19,9 +19,10 @@ class SettingsController extends Controller
 
         $user = Auth::user();
         $unit = $user->unit;
+        $namaUnit = $unit->nama;
         $videos = StoreVideo::all();
 
-        return view('settings.monitor', compact('title', 'slug', 'unit', 'videos'));
+        return view('settings.monitor', compact('title', 'slug', 'unit', 'videos', 'namaUnit'));
     }
 
     public function operasional()

@@ -16,6 +16,7 @@
     <div class="min-h-full flex">
         <x-sidebar>
             <x-slot:slug>{{ $slug }}</x-slot:slug>
+            <x-slot:namaUnit>{{ $namaUnit }}</x-slot:namaUnit>
         </x-sidebar>
 
         <div class="min-h-full md:ml-64 w-full">

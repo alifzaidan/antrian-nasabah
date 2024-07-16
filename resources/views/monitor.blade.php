@@ -82,7 +82,42 @@
                             x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
                             class="flex flex-col gap-2 items-center">
                             <h1 class="text-2xl text-center font-semibold font-poppins text-primary leading-tight">
+                                Jumlah Antrean<br>Teller
+                            </h1>
+                            <div class="flex gap-4">
+                                <img src="{{ asset('icons/people-1.svg') }}" alt="Jumlah Antrian" class="w-18">
+                                <h2 class="text-7xl font-bold font-poppins text-center text-quaternary">3</h2>
+                            </div>
+                        </div>
+                        <div x-show="currentSlide === 1" x-transition:enter="transition transform ease-out duration-500"
+                            x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
+                            class="flex flex-col gap-2 items-center">
+                            <h1 class="text-2xl text-center font-semibold font-poppins text-primary leading-tight">
                                 Sisa Antrean<br>Teller
+                            </h1>
+                            <div class="flex gap-4">
+                                <img src="{{ asset('icons/people-1.svg') }}" alt="Jumlah Antrian" class="w-18">
+                                <h2 class="text-7xl font-bold font-poppins text-center text-quaternary">4</h2>
+                            </div>
+                        </div>
+                        <div class="absolute bottom-4 flex justify-center space-x-2">
+                            <template x-for="i in slides" :key="i">
+                                <div :class="{'bg-primary': currentSlide === i-1, 'bg-gray-300': currentSlide !== i-1}"
+                                    class="w-2 h-2 rounded-full"></div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+                <div x-data="{ currentSlide: 0, slides: 2, interval: null }"
+                    x-init="interval = setInterval(() => { currentSlide = (currentSlide + 1) % slides }, 5000)"
+                    class="bg-white bg-opacity-75 rounded-2xl shadow-lg p-4 h-full flex-1 relative">
+                    <div
+                        class="relative bg-white rounded-2xl flex flex-col items-center justify-center gap-4 p-6 h-full">
+                        <div x-show="currentSlide === 0" x-transition:enter="transition transform ease-out duration-500"
+                            x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
+                            class="flex flex-col gap-2 items-center">
+                            <h1 class="text-2xl text-center font-semibold font-poppins text-primary leading-tight">
+                                Jumlah Antrean<br>Customer Services
                             </h1>
                             <div class="flex gap-4">
                                 <img src="{{ asset('icons/people-1.svg') }}" alt="Jumlah Antrian" class="w-18">
@@ -108,47 +143,16 @@
                         </div>
                     </div>
                 </div>
-                <div x-data="{ currentSlide: 0, slides: 2, interval: null }"
-                    x-init="interval = setInterval(() => { currentSlide = (currentSlide + 1) % slides }, 5000)"
-                    class="bg-white bg-opacity-75 rounded-2xl shadow-lg p-4 h-full flex-1 relative">
-                    <div
-                        class="relative bg-white rounded-2xl flex flex-col items-center justify-center gap-4 p-6 h-full">
-                        <div x-show="currentSlide === 0" x-transition:enter="transition transform ease-out duration-500"
-                            x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
-                            class="flex flex-col gap-2 items-center">
-                            <h1 class="text-2xl text-center font-semibold font-poppins text-primary leading-tight">
-                                Jumlah Antrean<br>Teller
-                            </h1>
-                            <div class="flex gap-4">
-                                <img src="{{ asset('icons/people-1.svg') }}" alt="Jumlah Antrian" class="w-18">
-                                <h2 class="text-7xl font-bold font-poppins text-center text-quaternary">3</h2>
-                            </div>
-                        </div>
-                        <div x-show="currentSlide === 1" x-transition:enter="transition transform ease-out duration-500"
-                            x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
-                            class="flex flex-col gap-2 items-center">
-                            <h1 class="text-2xl text-center font-semibold font-poppins text-primary leading-tight">
-                                Jumlah Antrean<br>Customer Services
-                            </h1>
-                            <div class="flex gap-4">
-                                <img src="{{ asset('icons/people-1.svg') }}" alt="Jumlah Antrian" class="w-18">
-                                <h2 class="text-7xl font-bold font-poppins text-center text-quaternary">4</h2>
-                            </div>
-                        </div>
-                        <div class="absolute bottom-4 flex justify-center space-x-2">
-                            <template x-for="i in slides" :key="i">
-                                <div :class="{'bg-primary': currentSlide === i-1, 'bg-gray-300': currentSlide !== i-1}"
-                                    class="w-2 h-2 rounded-full"></div>
-                            </template>
-                        </div>
-                    </div>
-                </div>
             </div>
             <div
                 class="w-full px-8 py-4 bg-white rounded-xl bg-opacity-75 font-poppins font-semibold text-2xl col-span-2">
+                @if($unit[0]->running_text)
                 <div class="marquee">
-                    <span>Selamat Datang di Kantor Cabang Malang Sutoyo</span>
+                    <span>{{ $unit[0]->running_text }}</span>
                 </div>
+                @else
+                <p class="text-center text-red-600 italic">Silahkan edit running text pada menu settings</p>
+                @endif
             </div>
         </div>
     </main>

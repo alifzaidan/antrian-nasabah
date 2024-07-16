@@ -4,13 +4,13 @@ use App\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AntreanController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MonitorController;
 use App\Http\Controllers\PanggilAntreanController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\StoreVideoController;
 
-Route::get('/', function () {
-    return view('home');
-});
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::group(['as' => 'ambil-antrean.', 'prefix' => '/ambil-antrean'], function () {
     Route::get('/', [AntreanController::class, 'index'])->name('index');
@@ -26,13 +26,7 @@ Route::group(['as' => 'panggil-antrean.', 'prefix' => '/panggil-antrean'], funct
     Route::post('/cs/panggil/{antreanId}', [PanggilAntreanController::class, 'panggilAntreanCs'])->name('cs.panggil');
 });
 
-Route::get('/monitor', function () {
-    return view('monitor');
-});
-
-Route::get('/login', function () {
-    return view('settings/login');
-});
+Route::get('/monitor', [MonitorController::class, 'index'])->name('monitor');
 
 Route::group(['as' => 'settings.', 'prefix' => '/settings'], function () {
     Route::get('/login', [AuthController::class, 'index'])->name('login');

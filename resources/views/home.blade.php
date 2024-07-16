@@ -14,9 +14,11 @@
     <header class="bg-white bg-opacity-50 rounded-2xl shadow-lg p-6">
         <img src="{{asset('img/logo-bri-dark.png')}}" alt="Logo BRI" class="w-40 m-auto">
         <div class="mt-4 text-primary font-poppins font-medium text-center">
-            <h1>Bank BRI Kantor Cabang Malang Sutoyo</h1>
-            <h1>Jl. Letjen Sutoyo No.105, Lowokwaru, Kec.Lowokwaru, Kota Malang, Jawa Timur, Indonesia 65141</h1>
-            <h1>(0341) 415666</h1>
+            <h1>Bank BRI Unit {{ $unit[0]->nama }}</h1>
+            <h1 class="{{ $unit[0]->alamat ? '' : 'text-red-600 italic' }}">{{ $unit[0]->alamat ?? 'Silahkan
+                masukan alamat unit pada menu settings!!' }}</h1>
+            <h1 class="{{ $unit[0]->no_telp ? '' : 'text-red-600 italic' }}">{{ $unit[0]->no_telp ?? 'Silahkan
+                masukan nomor telepon unit pada menu settings!!' }}</h1>
         </div>
     </header>
 
@@ -48,7 +50,7 @@
                 </p>
                 <img src="{{asset('icons/arrow.svg')}}" alt="Arrow" class="w-1/4 self-end">
             </a>
-            <a href="/monitor"
+            <a href="{{ route('monitor') }}"
                 class="bg-gradient-to-r from-primary to-secondary rounded-2xl shadow-lg p-8 flex flex-col hover:scale-105 transition duration-300 ease-in-out">
                 <div class="flex items-center gap-4 flex-col lg:flex-row">
                     <div class="bg-white h-20 w-20 rounded-full flex justify-center items-center">

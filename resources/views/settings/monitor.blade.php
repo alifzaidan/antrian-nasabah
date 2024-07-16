@@ -1,6 +1,7 @@
 <x-settings>
     <x-slot:title>{{ $title }}</x-slot:title>
     <x-slot:slug>{{ $slug }}</x-slot:slug>
+    <x-slot:namaUnit>{{ $namaUnit }}</x-slot:namaUnit>
 
     <div x-data="{ open: false, files: [], showConfirm: false, selectedVideo: '{{ $unit->video_id }}' }"
         class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
