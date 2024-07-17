@@ -1,10 +1,11 @@
+
 <x-settings>
     <x-slot:title>{{ $title }}</x-slot:title>
     <x-slot:slug>{{ $slug }}</x-slot:slug>
 
-    <div x-data="{ open: false, files: [], showConfirm: false, selectedVideo: '{{ $unit->video_id }}' }"
+    <div x-data="{ open: false, files: [], showConfirm: false, selectedVideo: localStorage.getItem('selectedVideo') || '{{ $unit->video_id }}' }"
         class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-        <form action="{{ route('settings.monitor.update', $unit->id) }}" method="POST" enctype="multipart/form-data"
+        <form id="settingsForm" action="{{ route('settings.monitor.update', $unit->id) }}" method="POST" enctype="multipart/form-data"
             class="space-y-6">
             @method('PUT')
             @csrf
@@ -27,7 +28,8 @@
                 <div class="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                     @foreach ($videos as $video)
                     <div id="video-{{ $video->id }}"
-                        class="bg-primary bg-opacity-5 rounded-lg p-4 ring-1 ring-primary justify-center">
+                        :class="selectedVideo == {{ $video->id }} ? 'bg-gray-400' : 'bg-primary bg-opacity-5'"
+                        class="rounded-lg p-4 ring-1 ring-primary justify-center transition duration-200">
                         <h2 class="text-center font-poppins mb-2">{{ $video->judul }}</h2>
                         <div class="aspect-video w-full bg-white rounded-xl">
                             <video controls class="w-full h-full">
@@ -37,12 +39,15 @@
                         </div>
                         <div class="flex justify-evenly mt-2 gap-2">
                             <button type="button" onclick="deleteVideo({{ $video->id }})"
-                                class="font-poppins bg-red-600 py-2 px-4 rounded-xl w-full text-white text-center hover:bg-red-700 transition duration-200">
+                                :disabled="selectedVideo == {{ $video->id }}"
+                                :class="selectedVideo == {{ $video->id }} ? 'bg-red-800 cursor-not-allowed' : 'bg-red-600 hover:bg-red-700'"
+                                class="font-poppins py-2 px-4 rounded-xl w-full text-white text-center transition duration-200">
                                 Hapus
                             </button>
-                            <button type="button" @click="selectedVideo = {{ $video->id }}"
-                                :class="selectedVideo === {{ $video->id }} ? 'bg-green-700' : 'bg-green-600'"
-                                class="font-poppins bg-green-600 py-2 px-4 rounded-xl w-full text-white text-center hover:bg-green-700 transition duration-200">
+                            <button type="button" @click="selectedVideo = {{ $video->id }}; localStorage.setItem('selectedVideo', {{ $video->id }});"
+                                :disabled="selectedVideo == {{ $video->id }}"
+                                :class="selectedVideo == {{ $video->id }} ? 'bg-green-900 cursor-not-allowed' : 'bg-green-600 hover:bg-green-700'"
+                                class="font-poppins py-2 px-4 rounded-xl w-full text-white text-center transition duration-200">
                                 Tampilkan
                             </button>
                         </div>
@@ -53,9 +58,9 @@
             <input type="hidden" name="video_id" :value="selectedVideo">
 
             <div class="flex justify-end gap-4">
-                <button type="reset" @click="selectedVideo = ''"
+                <button type="reset" @click="selectedVideo = ''; localStorage.removeItem('selectedVideo');"
                     class="w-40 text-lg rounded-2xl bg-gray-500 py-3 font-semibold leading-6 text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary hover:scale-105 transition duration-300 ease-in-out">Reset</button>
-                <button type="submit"
+                <button type="button" onclick="confirmAndSubmit()"
                     class="w-40 text-lg rounded-2xl bg-gradient-to-r from-primary to-secondary py-3 font-semibold leading-6 text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary hover:scale-105 transition duration-300 ease-in-out">Simpan</button>
             </div>
         </form>
@@ -100,81 +105,163 @@
                 </form>
             </div>
         </div>
-
-        {{-- <div x-show="showConfirm" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-            <div class="bg-white p-4 rounded-lg shadow-xl">
-                <p class="font-poppins mb-4 text-lg">Apakah Anda yakin untuk menyimpan perubahan ini?</p>
-                <div class="flex justify-end mt-4">
-                    <button @click="showConfirm = false"
-                        class="mr-2 inline-flex justify-center rounded-md border border-transparent bg-red-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">Tidak</button>
-                    <button
-                        @click="showConfirm = false; open = false; submitForm() setTimeout(() => location.reload(), 1000)"
-                        class="inline-flex justify-center rounded-md border border-transparent bg-green-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">Ya</button>
-                </div>
-            </div>
-        </div> --}}
     </div>
-</x-settings>
 
-<script>
-    function submitForm() {
-        document.querySelector('form').submit();
-    }
-    function uploadVideo() {
-        let formData = new FormData();
-        formData.append('judul', document.querySelector('#judul').value);
-        formData.append('video', document.querySelector('#file-upload').files[0]);
-
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-        formData.append('_token', csrfToken);
-
-        let xhr = new XMLHttpRequest();
-        xhr.open('POST', '{{ route('settings.video.store') }}', true);
-
-        xhr.addEventListener('load', function() {
-            if (xhr.status === 200) {
-                location.reload();
-                alert('Upload successful!');
-                document.querySelector('[x-data]').__x.$data.open = false;
-                document.querySelector('[x-data]').__x.$data.files = [];
-            } else if (xhr.status === 413) {    
-                alert('Upload failed: File too large.');
-            } else {
-                alert('Upload failed: ' + xhr.responseText);
-            }
-        });
-
-        xhr.send(formData);
-    }
-    function deleteVideo(videoId) {
-        if (!confirm('Are you sure you want to delete this video?')) {
-            return;
+    <script>
+        function submitForm() {
+            document.querySelector('#settingsForm').submit();
         }
 
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        function uploadVideo() {
+            let judul = document.querySelector('#judul').value;
+            let fileInput = document.querySelector('#file-upload').files[0];
 
-        let xhr = new XMLHttpRequest();
-        xhr.open('DELETE', `/settings/video/${videoId}`, true);
-        xhr.setRequestHeader('X-CSRF-TOKEN', csrfToken);
+            if (!judul || !fileInput) {
+                Swal.fire({
+                    title: 'Form Belum Lengkap',
+                    text: 'Tolong isi judul dan pilih video terlebih dahulu.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+                return;
+            }
 
-        xhr.addEventListener('load', function() {
-            if (xhr.status === 200) {
-                try {
-                    const response = JSON.parse(xhr.responseText);
-                    if (response.success) {
-                        alert('Delete successful!');
-                        location.reload();
-                    } else {
-                        alert('Delete failed: ' + response.message);
-                    }
-                } catch (e) {
-                    alert('Delete failed: Invalid response from server.');
+            let formData = new FormData();
+            formData.append('judul', judul);
+            formData.append('video', fileInput);
+
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            formData.append('_token', csrfToken);
+
+            let xhr = new XMLHttpRequest();
+            xhr.open('POST', '{{ route('settings.video.store') }}', true);
+
+            // Track upload progress
+            xhr.upload.onprogress = function(event) {
+                if (event.lengthComputable) {
+                    let percentComplete = (event.loaded / event.total) * 100;
+                    Swal.update({
+                        title: 'Uploading...',
+                        html: 'Progress: ' + percentComplete.toFixed(2) + '%',
+                        allowOutsideClick: false,
+                        onBeforeOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
                 }
-            } else {
-                alert('Delete failed: ' + xhr.statusText);
+            };
+
+            xhr.addEventListener('load', function() {
+                if (xhr.status === 200) {
+                    Swal.fire({
+                        title: 'Upload sukses',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    }).then(() => {
+                        location.reload();
+                        document.querySelector('[x-data]').__x.$data.open = false;
+                        document.querySelector('[x-data]').__x.$data.files = [];
+                    });
+                } else if (xhr.status === 413) {
+                    Swal.fire({
+                        title: 'Upload gagal',
+                        text: 'file terlalu besar, maksimal 10MB',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'Upload gagal',
+                        text: xhr.responseText,
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            });
+
+            xhr.send(formData);
+        }
+
+        function deleteVideo(videoId) {
+        Swal.fire({
+            title: 'apakah anda yakin?',
+            text: 'anda tidak akan bisa mengembalikan data yang sudah dihapus',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'ya, hapus'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+                let xhr = new XMLHttpRequest();
+                xhr.open('DELETE', `/settings/video/${videoId}`, true);
+                xhr.setRequestHeader('X-CSRF-TOKEN', csrfToken);
+
+                xhr.addEventListener('load', function() {
+                    if (xhr.status === 200) {
+                        try {
+                            const response = JSON.parse(xhr.responseText);
+                            if (response.success) {
+                                Swal.fire(
+                                    'Terhapus!',
+                                    'Video berhasil dihapus.',
+                                    'success'
+                                ).then(() => {
+                                    location.reload();
+                                });
+                            } else {
+                                Swal.fire(
+                                    'Gagal!',
+                                    'Gagal Menghapus :' + response.message,
+                                    'error'
+                                );
+                            }
+                        } catch (e) {
+                            Swal.fire(
+                                'Failed!',
+                                'Delete failed: Invalid response from server.',
+                                'error'
+                            );
+                        }
+                    } else {
+                        Swal.fire(
+                            'Failed!',
+                            'Delete failed: ' + xhr.statusText,
+                            'error'
+                        );
+                    }
+                });
+
+                xhr.send();
+            }
+        });
+    }
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            let selectedVideo = localStorage.getItem('selectedVideo');
+            if (selectedVideo) {
+                document.querySelector(`[x-data]`).__x.$data.selectedVideo = selectedVideo;
             }
         });
 
-        xhr.send();
-    }
-</script>
+        function confirmAndSubmit() {
+            Swal.fire({
+                title: 'Konfirmasi',
+                text: 'Apakah Anda yakin ingin menyimpan perubahan?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ok',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    submitForm();
+                }
+            });
+        }
+    </script>
+</x-settings>
