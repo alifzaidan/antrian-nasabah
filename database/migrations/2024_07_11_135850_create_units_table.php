@@ -19,7 +19,8 @@ return new class extends Migration
             $table->smallInteger('jumlah_teller');
             $table->smallInteger('jumlah_cs');
             $table->string('running_text')->nullable();
-            $table->string('video_display')->nullable();
+            $table->unsignedBigInteger('video_id')->nullable();
+            $table->foreign('video_id')->references('id')->on('store_videos')->onDelete('cascade');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

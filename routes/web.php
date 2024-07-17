@@ -4,13 +4,13 @@ use App\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AntreanController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MonitorController;
 use App\Http\Controllers\PanggilAntreanController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\StoreVideoController;
 
-Route::get('/', function () {
-    return view('home');
-});
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::group(['as' => 'ambil-antrean.', 'prefix' => '/ambil-antrean'], function () {
     Route::get('/', [AntreanController::class, 'index'])->name('index');
@@ -26,21 +26,7 @@ Route::group(['as' => 'panggil-antrean.', 'prefix' => '/panggil-antrean'], funct
     Route::post('/cs/panggil/{antreanId}', [PanggilAntreanController::class, 'panggilAntreanCs'])->name('cs.panggil');
 });
 
-// Route::get('/panggil-antrean', function () {
-//     return view('panggil-antrean');
-// });
-
-// Route::get('/panggil-antrean/detail', function () {
-//     return view('panggil-antrean-detail');
-// });
-
-Route::get('/monitor', function () {
-    return view('monitor');
-});
-
-Route::get('/login', function () {
-    return view('settings/login');
-});
+Route::get('/monitor', [MonitorController::class, 'index'])->name('monitor');
 
 Route::group(['as' => 'settings.', 'prefix' => '/settings'], function () {
     Route::get('/login', [AuthController::class, 'index'])->name('login');
@@ -49,6 +35,8 @@ Route::group(['as' => 'settings.', 'prefix' => '/settings'], function () {
     Route::middleware(Authenticate::class)->group(function () {
         Route::get('/monitor', [SettingsController::class, 'monitor'])->name('monitor');
         Route::put('/monitor/{unitId}', [SettingsController::class, 'updateMonitor'])->name('monitor.update');
+        Route::post('/upload-video', [StoreVideoController::class, 'store'])->name('video.store');
+        Route::delete('/video/{videoId}', [StoreVideoController::class, 'destroy'])->name('video.destroy');
         Route::get('/operasional', [SettingsController::class, 'operasional'])->name('operasional');
         Route::post('/reset-teller', [SettingsController::class, 'resetTeller'])->name('reset.teller');
         Route::post('/reset-cs', [SettingsController::class, 'resetCs'])->name('reset.cs');
@@ -60,8 +48,3 @@ Route::group(['as' => 'settings.', 'prefix' => '/settings'], function () {
         Route::put('/unit/{unitId}', [SettingsController::class, 'updateUnit'])->name('unit.update');
     });
 });
-
-Route::post('/upload-video', [StoreVideoController::class, 'store'])->name('video.store');
-Route::delete('/video/{id}', [StoreVideoController::class, 'destroy'])->name('video.destroy');
-
-

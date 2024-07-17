@@ -27,6 +27,6 @@
     </div>
     <div class="mt-auto mr-5 font-poppins text-white">
         <h3 class="text-xl font-semibold underline">BRI Kantor Unit</h3>
-        <h4 class="font-medium">Lowokwaru, Malang</h4>
+        <h4 class="font-medium">{{ $namaUnit }}</h4>
     </div>
 </div>

@@ -19,9 +19,10 @@ class SettingsController extends Controller
 
         $user = Auth::user();
         $unit = $user->unit;
+        $namaUnit = $unit->nama;
         $videos = StoreVideo::all();
 
-        return view('settings.monitor', compact('title', 'slug', 'unit', 'videos'));
+        return view('settings.monitor', compact('title', 'slug', 'unit', 'videos', 'namaUnit'));
     }
 
     public function operasional()
@@ -58,7 +59,7 @@ class SettingsController extends Controller
     {
         $unit = Unit::findOrFail($unitId);
         $unit->running_text = $request->input('running_text');
-        $unit->video_display = $request->input('selectedVideo');
+        $unit->video_id = $request->input('video_id');
         $unit->save();
 
         return redirect()->back()->with('success', 'Monitor updated successfully.');
@@ -130,14 +131,4 @@ class SettingsController extends Controller
 
         return redirect()->back()->with('success', 'Customer Services removed successfully.');
     }
-    public function destroy($videoId)
-    {
-        $video = StoreVideo::findOrFail($videoId);
-        
-        // Menghapus video dari database
-        $video->delete();
-    
-        return redirect()->back()->with('success', 'Video deleted successfully.');
-    }
-    
 }
