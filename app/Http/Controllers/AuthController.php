@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Unit;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,7 +13,8 @@ class AuthController extends Controller
     // Menampilkan form login
     public function index()
     {
-        return view('settings.login');
+        $unit = Unit::all();
+        return view('settings.login', compact('unit'));
     }
 
     // Menangani proses login
