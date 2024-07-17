@@ -41,12 +41,12 @@ class PanggilAntreanController extends Controller
         $antreanBelumDipanggil = AntreanTeller::whereDate('tanggal', $tanggal)
             ->where('status', 1)
             ->orderBy('no_antrean', 'asc')
-            ->paginate(5);
+            ->paginate(5, ['*'], 'belum_dipanggil');
 
         $antreanSudahDipanggil = AntreanTeller::whereDate('tanggal', $tanggal)
             ->where('status', 2)
             ->orderBy('no_antrean', 'desc')
-            ->paginate(5);
+            ->paginate(5, ['*'], 'sudah_dipanggil');
 
         return view('panggil-antrean-detail', compact('counterId', 'kodeOperasional', 'antreanSekarangFormat', 'antreanSelanjutnyaFormat', 'jumlahAntrean', 'sisaAntrean', 'antreanBelumDipanggil', 'antreanSudahDipanggil'));
     }
@@ -73,12 +73,12 @@ class PanggilAntreanController extends Controller
         $antreanBelumDipanggil = AntreanCs::whereDate('tanggal', $tanggal)
             ->where('status', 1)
             ->orderBy('no_antrean', 'asc')
-            ->paginate(5);
+            ->paginate(5, ['*'], 'belum_dipanggil');
 
         $antreanSudahDipanggil = AntreanCs::whereDate('tanggal', $tanggal)
             ->where('status', 2)
             ->orderBy('no_antrean', 'desc')
-            ->paginate(5);
+            ->paginate(5, ['*'], 'sudah_dipanggil');
 
         return view('panggil-antrean-detail', compact('counterId', 'kodeOperasional', 'antreanSekarangFormat', 'antreanSelanjutnyaFormat', 'jumlahAntrean', 'sisaAntrean', 'antreanBelumDipanggil', 'antreanSudahDipanggil'));
     }

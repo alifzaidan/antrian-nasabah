@@ -107,7 +107,8 @@
                         </tbody>
                     </table>
                     <div class="mt-4">
-                        {{ $antreanBelumDipanggil->links() }}
+                        {{ $antreanBelumDipanggil->appends(['sudah_dipanggil' =>
+                        $antreanSudahDipanggil->currentPage()])->links() }}
                     </div>
                 </div>
             </div>
@@ -140,7 +141,8 @@
                         </tbody>
                     </table>
                     <div class="mt-4">
-                        {{ $antreanSudahDipanggil->links() }}
+                        {{ $antreanSudahDipanggil->appends(['belum_dipanggil' =>
+                        $antreanBelumDipanggil->currentPage()])->links() }}
                     </div>
                 </div>
             </div>
