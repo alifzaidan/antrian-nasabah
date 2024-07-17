@@ -27,7 +27,7 @@
     </header>
 
     <main>
-        <div class="grid xl:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-5 my-10">
+        <div class="grid xl:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-5 my-5">
             <div class="bg-primary bg-opacity-10 rounded-2xl shadow-lg p-4">
                 <div class="bg-white rounded-2xl flex items-center justify-center gap-4 flex-col p-6 h-full">
                     <h1 class="text-lg font-poppins text-center">Jumlah Antrean</h1>
@@ -69,7 +69,7 @@
             </div>
         </div>
 
-        <div class="grid lg:grid-cols-2 grid-cols-1 gap-5 py-2 ">
+        <div class="grid lg:grid-cols-2 grid-cols-1 gap-5">
             <div class="bg-primary bg-opacity-10 rounded-2xl shadow-lg p-4">
                 <div class="bg-white rounded-2xl px-4 py-2 h-full">
                     <h1
@@ -94,7 +94,7 @@
                                         method="POST">
                                         @csrf
                                         <input type="hidden" name="no_counter" value="{{ $counterId }}">
-                                        <button type="submit"
+                                        <button type="submit" id="call-button"
                                             class="bg-primary py-3 px-6 rounded-lg flex items-center justify-center gap-2 hover:scale-105 transition duration-200 ease-in-out">
                                             <img src="{{asset('icons/microphone-light.svg')}}" alt="Microphone"
                                                 class="w-3">
@@ -148,6 +148,26 @@
             </div>
         </div>
     </main>
+    <audio id="call-audio" src="{{ asset('audio/call-sound.mp3') }}" preload="auto"></audio>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const callButtons = document.querySelectorAll('#call-button');
+            const callAudio = document.getElementById('call-audio');
+
+            if (sessionStorage.getItem('playAudioAfterReload')) {
+                sessionStorage.removeItem('playAudioAfterReload');
+                callAudio.play();
+            }
+
+            callButtons.forEach(button => {
+                button.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    sessionStorage.setItem('playAudioAfterReload', 'true');
+                    button.closest('form').submit();
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>
