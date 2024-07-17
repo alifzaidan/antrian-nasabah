@@ -109,26 +109,24 @@
                 </div>
                 <form id="logout-form" action="{{ route('settings.logout') }}" method="POST" x-data="{ isOpen: false }">
                     @csrf
-                    <button type="button"
-                        @click="isOpen = true"
+                    <button type="button" @click="isOpen = true"
                         class="w-full flex items-center justify-between hover:bg-primary hover:bg-opacity-10 rounded-md px-4 py-2 transition duration-200"
                         role="menuitem" tabindex="-1" id="user-menu-item-2">
                         <p class="font-poppins text-sm font-medium">Logout</p>
                         <img class="w-3" src="{{ asset('icons/logout.svg') }}" alt="Logout">
                     </button>
-                    
-                    <script>
 
+                    <script>
                         document.getElementById('logout-form').addEventListener('submit', function(e) {
                             e.preventDefault();
                             Swal.fire({
                                 title: 'Logout',
-                                text: 'apakah anda yakin ingin logout?',
+                                text: 'Apakah anda yakin ingin logout?',
                                 icon: 'warning',
                                 showCancelButton: true,
                                 confirmButtonColor: '#3085d6',
                                 cancelButtonColor: '#d33',
-                                confirmButtonText: 'ya, logout',
+                                confirmButtonText: 'Ya, Logout',
                             }).then((result) => {
                                 if (result.isConfirmed) {
                                     this.submit();
@@ -137,9 +135,8 @@
                         });
                     </script>
                 </form>
-                
+
             </div>
         </div>
     </div>
 </nav>
-
