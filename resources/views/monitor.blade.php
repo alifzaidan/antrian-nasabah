@@ -26,10 +26,10 @@
                 </div>
             </div>
             {{-- Video --}}
-            <div class="bg-white bg-opacity-75 rounded-2xl shadow-lg p-4 row-span-2">
-                <div class="bg-white rounded-2xl flex items-center p-1 h-full">
-                    <video id="videoPlayer" class="w-full rounded-2xl" autoplay muted loop>
-                        <source src="{{ asset('video/example.mp4') }}" type="video/mp4">
+            <div class="bg-white aspect-video bg-opacity-75 rounded-2xl shadow-lg p-4 row-span-2">
+                <div class="bg-white aspect-video rounded-xl flex items-center p-2 h-full">
+                    <video id="videoPlayer" class="w-full rounded-xl object- h-full" autoplay muted loop>
+                        <source src="{{ asset($video->path) }}" type="video/mp4">
                     </video>
                 </div>
             </div>
@@ -42,13 +42,15 @@
                     </div>
                     <div class="h-[3px] w-full bg-primary my-4"></div>
                     <div class="flex items-center justify-between w-full">
-                        <h2 class="text-7xl font-bold font-poppins text-tertiary">TL001</h2>
+                        <h2
+                            class="{{ $antreanTellerFormat == 'Belum ada' ?  'text-5xl' : 'text-7xl'}} font-bold font-poppins text-tertiary">
+                            {{ $antreanTellerFormat }}</h2>
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary" fill="none"
                             viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
                                 d="M14 5l7 7m0 0l-7 7m7-7H3" />
                         </svg>
-                        <h2 class="text-7xl font-bold font-poppins text-tertiary">3</h2>
+                        <h2 class="text-7xl font-bold font-poppins text-tertiary">{{ $antreanTellerCounter }}</h2>
                     </div>
                 </div>
             </div>
@@ -61,13 +63,15 @@
                     </div>
                     <div class="h-[3px] w-full bg-primary my-4"></div>
                     <div class="flex items-center justify-between w-full">
-                        <h2 class="text-7xl font-bold font-poppins text-tertiary">CS001</h2>
+                        <h2
+                            class="{{ $antreanCsFormat == 'Belum ada' ?  'text-5xl' : 'text-7xl'}} font-bold font-poppins text-tertiary">
+                            {{ $antreanCsFormat }}</h2>
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary" fill="none"
                             viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
                                 d="M14 5l7 7m0 0l-7 7m7-7H3" />
                         </svg>
-                        <h2 class="text-7xl font-bold font-poppins text-tertiary">2</h2>
+                        <h2 class="text-7xl font-bold font-poppins text-tertiary">{{ $antreanCsCounter }}</h2>
                     </div>
                 </div>
             </div>
@@ -86,7 +90,8 @@
                             </h1>
                             <div class="flex gap-4">
                                 <img src="{{ asset('icons/people-1.svg') }}" alt="Jumlah Antrian" class="w-18">
-                                <h2 class="text-7xl font-bold font-poppins text-center text-quaternary">3</h2>
+                                <h2 class="text-7xl font-bold font-poppins text-center text-quaternary">{{
+                                    $jumlahAntreanTeller }}</h2>
                             </div>
                         </div>
                         <div x-show="currentSlide === 1" x-transition:enter="transition transform ease-out duration-500"
@@ -96,8 +101,9 @@
                                 Sisa Antrean<br>Teller
                             </h1>
                             <div class="flex gap-4">
-                                <img src="{{ asset('icons/people-1.svg') }}" alt="Jumlah Antrian" class="w-18">
-                                <h2 class="text-7xl font-bold font-poppins text-center text-quaternary">4</h2>
+                                <img src="{{ asset('icons/people-1.svg') }}" alt="Sisa Antrian" class="w-18">
+                                <h2 class="text-7xl font-bold font-poppins text-center text-quaternary">{{
+                                    $sisaAntreanTeller }}</h2>
                             </div>
                         </div>
                         <div class="absolute bottom-4 flex justify-center space-x-2">
@@ -121,7 +127,8 @@
                             </h1>
                             <div class="flex gap-4">
                                 <img src="{{ asset('icons/people-1.svg') }}" alt="Jumlah Antrian" class="w-18">
-                                <h2 class="text-7xl font-bold font-poppins text-center text-quaternary">3</h2>
+                                <h2 class="text-7xl font-bold font-poppins text-center text-quaternary">{{
+                                    $jumlahAntreanCs }}</h2>
                             </div>
                         </div>
                         <div x-show="currentSlide === 1" x-transition:enter="transition transform ease-out duration-500"
@@ -131,8 +138,10 @@
                                 Sisa Antrean<br>Customer Services
                             </h1>
                             <div class="flex gap-4">
-                                <img src="{{ asset('icons/people-1.svg') }}" alt="Jumlah Antrian" class="w-18">
-                                <h2 class="text-7xl font-bold font-poppins text-center text-quaternary">4</h2>
+                                <img src="{{ asset('icons/people-1.svg') }}" alt="Sisa Antrian" class="w-18">
+                                <h2 class="text-7xl font-bold font-poppins text-center text-quaternary">{{
+                                    $sisaAntreanCs }}
+                                </h2>
                             </div>
                         </div>
                         <div class="absolute bottom-4 flex justify-center space-x-2">
