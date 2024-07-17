@@ -90,6 +90,7 @@
     </script>
 
     <script>
+        //Teller
         document.getElementById('addAntreanTeller').addEventListener('submit', function(event) {
             event.preventDefault();
             const formDataTeller = new FormData(this);
@@ -120,6 +121,7 @@
             });
         });
         
+        //CS
         document.getElementById('addAntreanCs').addEventListener('submit', function(event) {
             event.preventDefault();
             const formDataCs = new FormData(this);
