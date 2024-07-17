@@ -26,9 +26,9 @@
                 </div>
             </div>
             {{-- Video --}}
-            <div class="bg-white aspect-video bg-opacity-75 rounded-2xl shadow-lg p-4 row-span-2">
-                <div class="bg-white aspect-video rounded-xl flex items-center p-2 h-full">
-                    <video id="videoPlayer" class="w-full rounded-xl object- h-full" autoplay muted loop>
+            <div class="bg-white bg-opacity-75 rounded-2xl shadow-lg p-4 row-span-2">
+                <div class="bg-white aspect-video rounded-xl flex items-center justify-center w-full p-2 h-full">
+                    <video id="videoPlayer" class="rounded-xl h-full" autoplay muted loop>
                         <source src="{{ asset($video->path) }}" type="video/mp4">
                     </video>
                 </div>
