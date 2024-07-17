@@ -1,4 +1,3 @@
-
 <x-settings>
     <x-slot:title>{{ $title }}</x-slot:title>
     <x-slot:slug>{{ $slug }}</x-slot:slug>
@@ -6,8 +5,8 @@
 
     <div x-data="{ open: false, files: [], showConfirm: false, selectedVideo: localStorage.getItem('selectedVideo') || '{{ $unit->video_id }}' }"
         class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-        <form id="settingsForm" action="{{ route('settings.monitor.update', $unit->id) }}" method="POST" enctype="multipart/form-data"
-            class="space-y-6">
+        <form id="settingsForm" action="{{ route('settings.monitor.update', $unit->id) }}" method="POST"
+            enctype="multipart/form-data" class="space-y-6">
             @method('PUT')
             @csrf
             <div>
@@ -39,13 +38,14 @@
                             </video>
                         </div>
                         <div class="flex justify-evenly mt-2 gap-2">
-                            <button type="button" onclick="deleteVideo({{ $video->id }})"
+                            <button type="button" onclick="deleteVideo({{ $video->id }}, '{{ $video->judul }}')"
                                 :disabled="selectedVideo == {{ $video->id }}"
                                 :class="selectedVideo == {{ $video->id }} ? 'bg-red-800 cursor-not-allowed' : 'bg-red-600 hover:bg-red-700'"
                                 class="font-poppins py-2 px-4 rounded-xl w-full text-white text-center transition duration-200">
                                 Hapus
                             </button>
-                            <button type="button" @click="selectedVideo = {{ $video->id }}; localStorage.setItem('selectedVideo', {{ $video->id }});"
+                            <button type="button"
+                                @click="selectedVideo = {{ $video->id }}; localStorage.setItem('selectedVideo', {{ $video->id }});"
                                 :disabled="selectedVideo == {{ $video->id }}"
                                 :class="selectedVideo == {{ $video->id }} ? 'bg-green-900 cursor-not-allowed' : 'bg-green-600 hover:bg-green-700'"
                                 class="font-poppins py-2 px-4 rounded-xl w-full text-white text-center transition duration-200">
@@ -119,10 +119,10 @@
 
             if (!judul || !fileInput) {
                 Swal.fire({
-                    title: 'Form Belum Lengkap',
-                    text: 'Tolong isi judul dan pilih video terlebih dahulu.',
-                    icon: 'error',
-                    confirmButtonText: 'OK'
+                    title: 'Form Belum Lengkap'
+                    , text: 'Tolong isi judul dan pilih video terlebih dahulu.'
+                    , icon: 'error'
+                    , confirmButtonText: 'OK'
                 });
                 return;
             }
@@ -137,15 +137,14 @@
             let xhr = new XMLHttpRequest();
             xhr.open('POST', '{{ route('settings.video.store') }}', true);
 
-            // Track upload progress
             xhr.upload.onprogress = function(event) {
                 if (event.lengthComputable) {
                     let percentComplete = (event.loaded / event.total) * 100;
                     Swal.update({
-                        title: 'Uploading...',
-                        html: 'Progress: ' + percentComplete.toFixed(2) + '%',
-                        allowOutsideClick: false,
-                        onBeforeOpen: () => {
+                        title: 'Uploading...'
+                        , html: 'Progress: ' + percentComplete.toFixed(2) + '%'
+                        , allowOutsideClick: false
+                        , onBeforeOpen: () => {
                             Swal.showLoading();
                         }
                     });
@@ -155,9 +154,9 @@
             xhr.addEventListener('load', function() {
                 if (xhr.status === 200) {
                     Swal.fire({
-                        title: 'Upload sukses',
-                        icon: 'success',
-                        confirmButtonText: 'OK'
+                        title: 'Upload sukses'
+                        , icon: 'success'
+                        , confirmButtonText: 'OK'
                     }).then(() => {
                         location.reload();
                         document.querySelector('[x-data]').__x.$data.open = false;
@@ -165,81 +164,79 @@
                     });
                 } else if (xhr.status === 413) {
                     Swal.fire({
-                        title: 'Upload gagal',
-                        text: 'file terlalu besar, maksimal 10MB',
-                        icon: 'error',
-                        confirmButtonText: 'OK'
+                        title: 'Upload gagal'
+                        , text: 'file terlalu besar, maksimal 10MB'
+                        , icon: 'error'
+                        , confirmButtonText: 'OK'
                     });
                 } else {
                     Swal.fire({
-                        title: 'Upload gagal',
-                        text: xhr.responseText,
-                        icon: 'error',
-                        confirmButtonText: 'OK'
+                        title: 'Upload gagal'
+                        , text: xhr.responseText
+                        , icon: 'error'
+                        , confirmButtonText: 'OK'
                     });
                 }
             });
-
             xhr.send(formData);
         }
 
-        function deleteVideo(videoId) {
-        Swal.fire({
-            title: 'apakah anda yakin?',
-            text: 'anda tidak akan bisa mengembalikan data yang sudah dihapus',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'ya, hapus'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        function deleteVideo(videoId, videoTitle) {
+            Swal.fire({
+                title: `Apakah anda yakin menghapus ${videoTitle}?`
+                , text: 'Anda tidak akan bisa mengembalikan data yang sudah dihapus'
+                , icon: 'warning'
+                , showCancelButton: true
+                , confirmButtonColor: '#3085d6'
+                , cancelButtonColor: '#d33'
+                , confirmButtonText: 'Ya, Hapus Video'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-                let xhr = new XMLHttpRequest();
-                xhr.open('DELETE', `/settings/video/${videoId}`, true);
-                xhr.setRequestHeader('X-CSRF-TOKEN', csrfToken);
+                    let xhr = new XMLHttpRequest();
+                    xhr.open('DELETE', `/settings/video/${videoId}`, true);
+                    xhr.setRequestHeader('X-CSRF-TOKEN', csrfToken);
 
-                xhr.addEventListener('load', function() {
-                    if (xhr.status === 200) {
-                        try {
-                            const response = JSON.parse(xhr.responseText);
-                            if (response.success) {
+                    xhr.addEventListener('load', function() {
+                        if (xhr.status === 200) {
+                            try {
+                                const response = JSON.parse(xhr.responseText);
+                                if (response.success) {
+                                    Swal.fire(
+                                        'Terhapus!'
+                                        , 'Video berhasil dihapus.'
+                                        , 'success'
+                                    ).then(() => {
+                                        location.reload();
+                                    });
+                                } else {
+                                    Swal.fire(
+                                        'Gagal!'
+                                        , 'Gagal Menghapus :' + response.message
+                                        , 'error'
+                                    );
+                                }
+                            } catch (e) {
                                 Swal.fire(
-                                    'Terhapus!',
-                                    'Video berhasil dihapus.',
-                                    'success'
-                                ).then(() => {
-                                    location.reload();
-                                });
-                            } else {
-                                Swal.fire(
-                                    'Gagal!',
-                                    'Gagal Menghapus :' + response.message,
-                                    'error'
+                                    'Failed!'
+                                    , 'Delete failed: Invalid response from server.'
+                                    , 'error'
                                 );
                             }
-                        } catch (e) {
+                        } else {
                             Swal.fire(
-                                'Failed!',
-                                'Delete failed: Invalid response from server.',
-                                'error'
+                                'Failed!'
+                                , 'Delete failed: ' + xhr.statusText
+                                , 'error'
                             );
                         }
-                    } else {
-                        Swal.fire(
-                            'Failed!',
-                            'Delete failed: ' + xhr.statusText,
-                            'error'
-                        );
-                    }
-                });
+                    });
 
-                xhr.send();
-            }
-        });
-    }
-
+                    xhr.send();
+                }
+            });
+        }
 
         document.addEventListener('DOMContentLoaded', () => {
             let selectedVideo = localStorage.getItem('selectedVideo');
@@ -250,14 +247,14 @@
 
         function confirmAndSubmit() {
             Swal.fire({
-                title: 'Konfirmasi',
-                text: 'Apakah Anda yakin ingin menyimpan perubahan?',
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ok',
-                cancelButtonText: 'Batal'
+                title: 'Konfirmasi'
+                , text: 'Apakah anda yakin ingin menyimpan perubahan?'
+                , icon: 'question'
+                , showCancelButton: true
+                , confirmButtonColor: '#3085d6'
+                , cancelButtonColor: '#d33'
+                , confirmButtonText: 'Ok'
+                , cancelButtonText: 'Batal'
             }).then((result) => {
                 if (result.isConfirmed) {
                     submitForm();

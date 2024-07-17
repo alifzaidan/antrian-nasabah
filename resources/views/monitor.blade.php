@@ -28,9 +28,13 @@
             {{-- Video --}}
             <div class="bg-white bg-opacity-75 rounded-2xl shadow-lg p-4 row-span-2">
                 <div class="bg-white aspect-video rounded-xl flex items-center justify-center w-full p-2 h-full">
+                    @if(isset($video->path))
                     <video id="videoPlayer" class="rounded-xl h-full" autoplay muted loop>
                         <source src="{{ asset($video->path) }}" type="video/mp4">
                     </video>
+                    @else
+                    <h1 class="text-2xl font-poppins font-bold italic underline text-red-600">Video not found</h1>
+                    @endif
                 </div>
             </div>
             {{-- Antrean Teller --}}
