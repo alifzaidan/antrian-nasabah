@@ -95,6 +95,8 @@
                                         @csrf
                                         <input type="hidden" name="no_counter" value="{{ $counterId }}">
                                         <button type="submit" id="call-button"
+                                            data-antrean="{{ $kodeOperasional . str_pad($antrean->no_antrean, 3, '0', STR_PAD_LEFT) }}"
+                                            data-counter="{{ $counterId }}"
                                             class="bg-primary py-3 px-6 rounded-lg flex items-center justify-center gap-2 hover:scale-105 transition duration-200 ease-in-out">
                                             <img src="{{asset('icons/microphone-light.svg')}}" alt="Microphone"
                                                 class="w-3">
@@ -155,14 +157,33 @@
             const callAudio = document.getElementById('call-audio');
 
             if (sessionStorage.getItem('playAudioAfterReload')) {
+                const antrean = sessionStorage.getItem('antrean');
+                const counter = sessionStorage.getItem('counter');
                 sessionStorage.removeItem('playAudioAfterReload');
+                sessionStorage.removeItem('antrean');
+                sessionStorage.removeItem('counter');
                 callAudio.play();
+                callAudio.onended = function() {
+                    const msg = new SpeechSynthesisUtterance(`Nomor antrean, ${antrean}, menuju ke, loket, ${counter}`);
+                    msg.lang = 'id-ID';
+                    msg.rate = 0.8;
+                    const voices = window.speechSynthesis.getVoices();
+                    msg.voice = voices.find(voice => voice.lang === 'id-ID' && voice.name.includes('female')) || voices.find(voice => voice.lang === 'id-ID');
+                    window.speechSynthesis.speak(msg);
+                };
+                console.log('Playing audio');
+                console.log('Antrean:', antrean);
+                console.log('Counter:', counter);
             }
 
             callButtons.forEach(button => {
                 button.addEventListener('click', function (event) {
                     event.preventDefault();
+                    const antrean = button.getAttribute('data-antrean');
+                    const counter = button.getAttribute('data-counter');
                     sessionStorage.setItem('playAudioAfterReload', 'true');
+                    sessionStorage.setItem('antrean', antrean);
+                    sessionStorage.setItem('counter', counter);
                     button.closest('form').submit();
                 });
             });
