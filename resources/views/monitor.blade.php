@@ -13,7 +13,7 @@
 
 <body class="h-full">
     <main class="min-h-screen">
-        <div class="grid grid-cols-2 grid-flow-row auto-rows-min gap-5 p-8 min-h-screen">
+        <div class="lg:grid flex flex-col grid-cols-2 grid-flow-row auto-rows-min gap-5 p-8 min-h-screen">
             {{-- Jam --}}
             <div class="flex gap-8 justify-between items-end">
                 <div>
@@ -39,22 +39,23 @@
             </div>
             {{-- Antrean Teller --}}
             <div class="bg-white bg-opacity-75 rounded-2xl shadow-lg p-4">
-                <div class="bg-white rounded-2xl px-16 py-2 h-full gap-4 flex flex-col justify-center">
+                <div class="bg-white rounded-2xl px-16 xl:py-2 py-8 h-full gap-4 flex flex-col justify-center">
                     <div class="flex items-center justify-between w-full">
-                        <h1 class="text-2xl font-semibold font-poppins text-primary">Nomor Antrean</h1>
-                        <h1 class="text-2xl font-semibold font-poppins text-primary">Counter</h1>
+                        <h1 class="lg:text-2xl text-xl font-semibold font-poppins text-primary">Nomor Antrean</h1>
+                        <h1 class="lg:text-2xl text-xl font-semibold font-poppins text-primary">Counter</h1>
                     </div>
                     <div class="h-[3px] w-full bg-primary my-4"></div>
                     <div class="flex items-center justify-between w-full">
                         <h2 id="antrean_teller"
-                            class="{{ $antreanTellerFormat == 'Belum ada' ?  'text-5xl' : 'text-7xl'}} font-bold font-poppins text-tertiary">
+                            class="{{ $antreanTellerFormat == 'Belum ada' ?  'text-5xl' : 'lg:text-7xl text-5xl'}} font-bold font-poppins text-tertiary">
                             {{ $antreanTellerFormat }}</h2>
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary" fill="none"
                             viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
                                 d="M14 5l7 7m0 0l-7 7m7-7H3" />
                         </svg>
-                        <h2 id="antrean_teller_counter" class="text-7xl font-bold font-poppins text-tertiary">{{
+                        <h2 id="antrean_teller_counter"
+                            class="lg:text-7xl text-5xl font-bold font-poppins text-tertiary">{{
                             $antreanTellerCounter }}</h2>
                     </div>
                 </div>
@@ -63,20 +64,20 @@
             <div class="bg-white bg-opacity-75 rounded-2xl shadow-lg p-4">
                 <div class="bg-white rounded-2xl px-16 py-8 h-full gap-4 flex flex-col justify-center">
                     <div class="flex items-center justify-between w-full">
-                        <h1 class="text-2xl font-semibold font-poppins text-primary">Nomor Antrean</h1>
-                        <h1 class="text-2xl font-semibold font-poppins text-primary">Counter</h1>
+                        <h1 class="lg:text-2xl text-xl font-semibold font-poppins text-primary">Nomor Antrean</h1>
+                        <h1 class="lg:text-2xl text-xl font-semibold font-poppins text-primary">Counter</h1>
                     </div>
                     <div class="h-[3px] w-full bg-primary my-4"></div>
                     <div class="flex items-center justify-between w-full">
                         <h2 id="antrean_cs"
-                            class="{{ $antreanCsFormat == 'Belum ada' ?  'text-5xl' : 'text-7xl'}} font-bold font-poppins text-tertiary">
+                            class="{{ $antreanCsFormat == 'Belum ada' ?  'text-5xl' : 'lg:text-7xl text-5xl'}} font-bold font-poppins text-tertiary">
                             {{ $antreanCsFormat }}</h2>
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary" fill="none"
                             viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
                                 d="M14 5l7 7m0 0l-7 7m7-7H3" />
                         </svg>
-                        <h2 id="antrean_cs_counter" class="text-7xl font-bold font-poppins text-tertiary">{{
+                        <h2 id="antrean_cs_counter" class="lg:text-7xl text-5xl font-bold font-poppins text-tertiary">{{
                             $antreanCsCounter }}</h2>
                     </div>
                 </div>
@@ -91,26 +92,28 @@
                         <div x-show="currentSlide === 0" x-transition:enter="transition transform ease-out duration-500"
                             x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
                             class="flex flex-col gap-2 items-center">
-                            <h1 class="text-2xl text-center font-semibold font-poppins text-primary leading-tight">
+                            <h1
+                                class="lg:text-2xl text-xl text-center font-semibold font-poppins text-primary leading-tight">
                                 Jumlah Antrean<br>Teller
                             </h1>
                             <div class="flex gap-4">
                                 <img src="{{ asset('icons/people-1.svg') }}" alt="Jumlah Antrian" class="w-18">
                                 <h2 id="jumlah_antrean_teller"
-                                    class="text-7xl font-bold font-poppins text-center text-quaternary">{{
+                                    class="lg:text-7xl text-5xl font-bold font-poppins text-center text-quaternary">{{
                                     $jumlahAntreanTeller }}</h2>
                             </div>
                         </div>
                         <div x-show="currentSlide === 1" x-transition:enter="transition transform ease-out duration-500"
                             x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
                             class="flex flex-col gap-2 items-center">
-                            <h1 class="text-2xl text-center font-semibold font-poppins text-primary leading-tight">
+                            <h1
+                                class="lg:text-2xl text-xl text-center font-semibold font-poppins text-primary leading-tight">
                                 Sisa Antrean<br>Teller
                             </h1>
                             <div class="flex gap-4">
                                 <img src="{{ asset('icons/people-1.svg') }}" alt="Sisa Antrian" class="w-18">
                                 <h2 id="sisa_antrean_teller"
-                                    class="text-7xl font-bold font-poppins text-center text-quaternary">{{
+                                    class="lg:text-7xl text-5xl font-bold font-poppins text-center text-quaternary">{{
                                     $sisaAntreanTeller }}</h2>
                             </div>
                         </div>
@@ -130,26 +133,28 @@
                         <div x-show="currentSlide === 0" x-transition:enter="transition transform ease-out duration-500"
                             x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
                             class="flex flex-col gap-2 items-center">
-                            <h1 class="text-2xl text-center font-semibold font-poppins text-primary leading-tight">
+                            <h1
+                                class="lg:text-2xl text-xl text-center font-semibold font-poppins text-primary leading-tight">
                                 Jumlah Antrean<br>Customer Services
                             </h1>
                             <div class="flex gap-4">
                                 <img src="{{ asset('icons/people-1.svg') }}" alt="Jumlah Antrian" class="w-18">
                                 <h2 id="jumlah_antrean_cs"
-                                    class="text-7xl font-bold font-poppins text-center text-quaternary">{{
+                                    class="lg:text-7xl text-5xl font-bold font-poppins text-center text-quaternary">{{
                                     $jumlahAntreanCs }}</h2>
                             </div>
                         </div>
                         <div x-show="currentSlide === 1" x-transition:enter="transition transform ease-out duration-500"
                             x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
                             class="flex flex-col gap-2 items-center">
-                            <h1 class="text-2xl text-center font-semibold font-poppins text-primary leading-tight">
+                            <h1
+                                class="lg:text-2xl text-xl text-center font-semibold font-poppins text-primary leading-tight">
                                 Sisa Antrean<br>Customer Services
                             </h1>
                             <div class="flex gap-4">
                                 <img src="{{ asset('icons/people-1.svg') }}" alt="Sisa Antrian" class="w-18">
                                 <h2 id="sisa_antrean_cs"
-                                    class="text-7xl font-bold font-poppins text-center text-quaternary">{{
+                                    class="lg:text-7xl text-5xl font-bold font-poppins text-center text-quaternary">{{
                                     $sisaAntreanCs }}
                                 </h2>
                             </div>
@@ -164,7 +169,7 @@
                 </div>
             </div>
             <div
-                class="w-full px-8 py-4 bg-white rounded-xl bg-opacity-75 font-poppins font-semibold text-2xl col-span-2">
+                class="w-full px-8 py-4 bg-white rounded-xl bg-opacity-75 font-poppins font-semibold lg:text-2xl text-xl col-span-2">
                 @if($unit[0]->running_text)
                 <div class="marquee">
                     <span>{{ $unit[0]->running_text }}</span>
