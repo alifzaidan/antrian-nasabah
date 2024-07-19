@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Antrean Nasabah Bank BRI">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Antrean Nasabah Bank BRI</title>
     <link rel="shortcut icon" href="{{asset('img/favicon.png')}}" type="image/x-icon">
     @vite('resources/css/app.css')
@@ -33,7 +34,8 @@
                     <h1 class="text-lg font-poppins text-center">Jumlah Antrean</h1>
                     <div class="flex gap-4">
                         <img src="{{asset('icons/people-1.svg')}}" alt="Jumlah Antrean" class="w-12">
-                        <h2 class="text-6xl font-bold font-poppins text-center text-quaternary">{{ $jumlahAntrean }}
+                        <h2 id="jumlah_antrean" class="text-6xl font-bold font-poppins text-center text-quaternary">{{
+                            $jumlahAntrean }}
                         </h2>
                     </div>
                 </div>
@@ -41,9 +43,10 @@
             <div class="bg-primary bg-opacity-10 rounded-2xl shadow-lg p-4">
                 <div class="bg-white rounded-2xl flex items-center justify-center gap-4 flex-col p-6 h-full">
                     <h1 class="text-lg font-poppins text-center">Antrean Sekarang</h1>
-                    <div class="flex gap-4">
+                    <div class="flex gap-4 ">
                         <img src="{{asset('icons/people-2.svg')}}" alt="Jumlah Antrean" class="w-12 block">
-                        <h2 class="text-5xl font-bold font-poppins text-center text-tertiary">{{ $antreanSekarangFormat
+                        <h2 id="antrean_sekarang" class="text-5xl font-bold font-poppins text-center text-tertiary">{{
+                            $antreanSekarangFormat
                             }}</h2>
                     </div>
                 </div>
@@ -53,7 +56,8 @@
                     <h1 class="text-lg font-poppins text-center">Antrean Selanjutnya</h1>
                     <div class="flex gap-4">
                         <img src="{{asset('icons/people-3.svg')}}" alt="Jumlah Antrean" class="w-12 block">
-                        <h2 class="text-5xl font-bold font-poppins text-center text-secondary">{{
+                        <h2 id="antrean_selanjutnya" class="text-5xl font-bold font-poppins text-center text-secondary">
+                            {{
                             $antreanSelanjutnyaFormat }}</h2>
                     </div>
                 </div>
@@ -63,7 +67,8 @@
                     <h1 class="text-lg font-poppins text-center">Sisa Antrean</h1>
                     <div class="flex gap-4">
                         <img src="{{asset('icons/people-4.svg')}}" alt="Jumlah Antrean" class="w-10">
-                        <h2 class="text-6xl font-bold font-poppins text-center text-primary">{{ $sisaAntrean }}</h2>
+                        <h2 id="sisa_antrean" class="text-6xl font-bold font-poppins text-center text-primary">{{
+                            $sisaAntrean }}</h2>
                     </div>
                 </div>
             </div>
@@ -75,7 +80,7 @@
                     <h1
                         class="my-4 font-poppins font-semibold underline text-2xl text-center text-primary bg-primary bg-opacity-10 rounded-lg py-2">
                         Antrean Belum Dipanggil</h1>
-                    <table class="table border w-full text-center">
+                    <table class="table border w-full text-center" id="tabel_antrean_belum">
                         <thead class="bg-primary bg-opacity-10">
                             <tr class="font-poppins font-semibold text-lg">
                                 <th class="px-4 py-2">No. Antrean</th>
@@ -108,7 +113,7 @@
                             @endforeach
                         </tbody>
                     </table>
-                    <div class="mt-4">
+                    <div class="mt-4" id="pagination_antrean_belum">
                         {{ $antreanBelumDipanggil->appends(['sudah_dipanggil' =>
                         $antreanSudahDipanggil->currentPage()])->links() }}
                     </div>
@@ -119,7 +124,7 @@
                     <h1
                         class="my-4 font-poppins font-semibold underline text-2xl text-center text-primary bg-primary bg-opacity-10 rounded-lg py-2">
                         Antrean Sudah Dipanggil</h1>
-                    <table class="table border w-full text-center">
+                    <table class="table border w-full text-center" id="tabel_antrean_sudah">
                         <thead class="bg-primary bg-opacity-10">
                             <tr class="font-poppins font-semibold text-lg">
                                 <th class="px-4 py-2">No. Antrean</th>
@@ -142,7 +147,7 @@
                             @endforeach
                         </tbody>
                     </table>
-                    <div class="mt-4">
+                    <div class="mt-4" id="pagination_antrean_sudah">
                         {{ $antreanSudahDipanggil->appends(['belum_dipanggil' =>
                         $antreanBelumDipanggil->currentPage()])->links() }}
                     </div>
@@ -151,42 +156,140 @@
         </div>
     </main>
     <audio id="call-audio" src="{{ asset('audio/call-sound.mp3') }}" preload="auto"></audio>
+    <div id="kode_operasional" class="hidden">{{ $kodeOperasional }}</div>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const callButtons = document.querySelectorAll('#call-button');
-            const callAudio = document.getElementById('call-audio');
+            const kodeOperasional = document.getElementById('kode_operasional').textContent;
+            
+            function fetchAntreanData() {
+                fetch(kodeOperasional == 'TL' ? '/panggil-antrean/antrean-data-teller' : '/panggil-antrean/antrean-data-cs')
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('jumlah_antrean').textContent = data.jumlah_antrean;
+                        document.getElementById('antrean_sekarang').textContent = data.antrean_sekarang;
+                        document.getElementById('antrean_selanjutnya').textContent = data.antrean_selanjutnya;
+                        document.getElementById('sisa_antrean').textContent = data.sisa_antrean;
 
-            if (sessionStorage.getItem('playAudioAfterReload')) {
-                const antrean = sessionStorage.getItem('antrean');
-                const counter = sessionStorage.getItem('counter');
-                sessionStorage.removeItem('playAudioAfterReload');
-                sessionStorage.removeItem('antrean');
-                sessionStorage.removeItem('counter');
-                callAudio.play();
-                callAudio.onended = function() {
-                    const msg = new SpeechSynthesisUtterance(`Nomor antrean, ${antrean}, menuju ke, loket, ${counter}`);
-                    msg.lang = 'id-ID';
-                    msg.rate = 0.8;
-                    const voices = window.speechSynthesis.getVoices();
-                    msg.voice = voices.find(voice => voice.lang === 'id-ID' && voice.name.includes('female')) || voices.find(voice => voice.lang === 'id-ID');
-                    window.speechSynthesis.speak(msg);
-                };
-                console.log('Playing audio');
-                console.log('Antrean:', antrean);
-                console.log('Counter:', counter);
+                        const antreanBelumContainer = document.querySelector('#tabel_antrean_belum tbody');
+                        antreanBelumContainer.innerHTML = '';
+
+                        data.belum_dipanggil.forEach(antrean => {
+                            const noAntrean = antrean.no_antrean;
+                            antreanBelumContainer.innerHTML += `
+                                <tr class="font-poppins font-medium text-lg">
+                                    <td class="px-4 py-3">
+                                        {{ $kodeOperasional }}${String(antrean.no_antrean).padStart(3, '0')}
+                                    </td>
+                                    <td class="px-4 py-3 flex justify-center">
+                                        <form id="panggilAntrean"
+                                            action="${'{{ $kodeOperasional }}' == 'TL' ? `/panggil-antrean/teller/panggil/${antrean.id}` : `/panggil-antrean/cs/panggil/${antrean.id}`}"
+                                            method="POST">
+                                            @csrf
+                                            <input type="hidden" name="no_counter" value="{{ $counterId }}">
+                                            <button id="call-button"
+                                                data-antrean="{{ $kodeOperasional }}${String(antrean.no_antrean).padStart(3, '0')}"
+                                                data-counter="{{ $counterId }}"
+                                                class="bg-primary py-3 px-6 rounded-lg flex items-center justify-center gap-2">
+                                                <img src="{{asset('icons/microphone-light.svg')}}" alt="Microphone"
+                                                    class="w-3">
+                                                <img src="{{asset('icons/rythm.svg')}}" alt="Rythm" class="h-5">
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            `;
+                        });
+
+                        const antreanSudahContainer = document.querySelector('#tabel_antrean_sudah tbody');
+                        antreanSudahContainer.innerHTML = '';
+
+                        data.sudah_dipanggil.forEach(antrean => {
+                            const noAntrean = antrean.no_antrean;
+                            antreanSudahContainer.innerHTML += `
+                                <tr class="font-poppins font-medium text-lg">
+                                    <td class="px-4 py-3">
+                                        {{ $kodeOperasional }}${String(antrean.no_antrean).padStart(3, '0')}
+                                    </td>
+                                    <td class="px-4 py-3 flex justify-center">
+                                        <form id="panggilAntrean"
+                                            action="${'{{ $kodeOperasional }}' == 'TL' ? `/panggil-antrean/teller/panggil/${antrean.id}` : `/panggil-antrean/cs/panggil/${antrean.id}`}"
+                                            method="POST">
+                                            @csrf
+                                            <input type="hidden" name="no_counter" value="{{ $counterId }}">
+                                            <button id="call-button"
+                                                data-antrean="{{ $kodeOperasional }}${String(antrean.no_antrean).padStart(3, '0')}"
+                                                data-counter="{{ $counterId }}"
+                                                class="bg-primary py-3 px-6 rounded-lg flex items-center justify-center gap-2">
+                                                <img src="{{asset('icons/microphone-light.svg')}}" alt="Microphone"
+                                                    class="w-3">
+                                                <img src="{{asset('icons/rythm.svg')}}" alt="Rythm" class="h-5">
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            `;
+                        });
+
+                        const callButtons = document.querySelectorAll('#call-button');
+                        const callAudio = document.getElementById('call-audio');
+                        const panggilAntrean = document.getElementById('panggilAntrean');
+
+                        function playAudioAndSpeak(antrean, counter) {
+                            callAudio.play();
+                            callAudio.onended = function() {
+                                const msg = new SpeechSynthesisUtterance(`Nomor antrean, ${antrean}, menuju ke, loket, ${counter}`);
+                                msg.lang = 'id-ID';
+                                msg.rate = 0.8;
+                                const voices = window.speechSynthesis.getVoices();
+                                msg.voice = voices.find(voice => voice.lang === 'id-ID' && voice.name.includes('female')) || voices.find(voice => voice.lang === 'id-ID');
+                                window.speechSynthesis.speak(msg);
+                            };
+                        }
+
+                        callButtons.forEach(form => {
+                            panggilAntrean.addEventListener('submit', function (event) {
+                                event.preventDefault();
+                                const antrean = panggilAntrean.querySelector('button').getAttribute('data-antrean');
+                                const counter = panggilAntrean.querySelector('button').getAttribute('data-counter');
+                                const formData = new FormData(this);
+
+                                fetch(this.action, {
+                                    method: 'POST',
+                                    body: formData,
+                                    headers: {
+                                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                                    }
+                                })
+                                .then(response => {
+                                    if (!response.ok) {
+                                        throw new Error('Network response was not ok');
+                                    }
+                                    return response;
+                                })
+                                .then(data => {
+                                    console.log('Success:', data);
+                                    
+                                })
+                                .catch((error) => {
+                                    console.error('Error:', error);
+                                });
+
+                                playAudioAndSpeak(antrean, counter);
+                            });
+                        });
+
+                        const paginationSudahLinks = document.getElementById('pagination_antrean_sudah');
+                        paginationSudahLinks.innerHTML = data.sudah_dipanggil_pagination;
+                        
+                        const paginationBelumLinks = document.getElementById('pagination_antrean_belum');
+                        paginationBelumLinks.innerHTML = data.belum_dipanggil_pagination;
+
+                    })
+                    .catch(error => console.error('Error fetching antrean data:', error));
             }
-
-            callButtons.forEach(button => {
-                button.addEventListener('click', function (event) {
-                    event.preventDefault();
-                    const antrean = button.getAttribute('data-antrean');
-                    const counter = button.getAttribute('data-counter');
-                    sessionStorage.setItem('playAudioAfterReload', 'true');
-                    sessionStorage.setItem('antrean', antrean);
-                    sessionStorage.setItem('counter', counter);
-                    button.closest('form').submit();
-                });
-            });
+            
+            setInterval(fetchAntreanData, 1000);
+            fetchAntreanData();
         });
     </script>
 </body>

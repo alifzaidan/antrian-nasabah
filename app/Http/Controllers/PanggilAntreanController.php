@@ -83,6 +83,84 @@ class PanggilAntreanController extends Controller
         return view('panggil-antrean-detail', compact('counterId', 'kodeOperasional', 'antreanSekarangFormat', 'antreanSelanjutnyaFormat', 'jumlahAntrean', 'sisaAntrean', 'antreanBelumDipanggil', 'antreanSudahDipanggil'));
     }
 
+    public function getAntreanDataTeller()
+    {
+        $tanggal = Carbon::now()->format('Y-m-d');
+
+        $antreanSekarang = AntreanTeller::whereDate('tanggal', $tanggal)
+            ->where('status', 2)
+            ->orderBy('no_antrean', 'desc')
+            ->first();
+        $antreanSekarangFormat = $antreanSekarang ? 'TL' . str_pad($antreanSekarang->no_antrean, 3, '0', STR_PAD_LEFT) : 'Belum ada';
+
+        $antreanSelanjutnya = AntreanTeller::whereDate('tanggal', $tanggal)
+            ->where('status', 1)
+            ->orderBy('no_antrean', 'asc')
+            ->first();
+        $antreanSelanjutnyaFormat = $antreanSelanjutnya ? 'TL' . str_pad($antreanSelanjutnya->no_antrean, 3, '0', STR_PAD_LEFT) : 'Belum ada';
+        $jumlahAntrean = AntreanTeller::whereDate('tanggal', $tanggal)->count();
+        $sisaAntrean = AntreanTeller::whereDate('tanggal', $tanggal)->where('status', 1)->count();
+        $antreanBelumDipanggil = AntreanTeller::whereDate('tanggal', $tanggal)
+            ->where('status', 1)
+            ->orderBy('no_antrean', 'asc')
+            ->paginate(5, ['*'], 'belum_dipanggil');
+
+        $antreanSudahDipanggil = AntreanTeller::whereDate('tanggal', $tanggal)
+            ->where('status', 2)
+            ->orderBy('no_antrean', 'desc')
+            ->paginate(5, ['*'], 'sudah_dipanggil');
+
+        return response()->json([
+            'antrean_sekarang' => $antreanSekarangFormat,
+            'antrean_selanjutnya' => $antreanSelanjutnyaFormat,
+            'jumlah_antrean' => $jumlahAntrean,
+            'sisa_antrean' => $sisaAntrean,
+            'belum_dipanggil' => $antreanBelumDipanggil->items(),
+            'belum_dipanggil_pagination' => (string) $antreanBelumDipanggil->appends(['sudah_dipanggil' => $antreanSudahDipanggil->currentPage()])->links(),
+            'sudah_dipanggil' => $antreanSudahDipanggil->items(),
+            'sudah_dipanggil_pagination' => (string) $antreanSudahDipanggil->appends(['belum_dipanggil' => $antreanBelumDipanggil->currentPage()])->links(),
+        ]);
+    }
+    
+    public function getAntreanDataCs()
+    {
+        $tanggal = Carbon::now()->format('Y-m-d');
+
+        $antreanSekarang = AntreanCs::whereDate('tanggal', $tanggal)
+            ->where('status', 2)
+            ->orderBy('no_antrean', 'desc')
+            ->first();
+        $antreanSekarangFormat = $antreanSekarang ? 'CS' . str_pad($antreanSekarang->no_antrean, 3, '0', STR_PAD_LEFT) : 'Belum ada';
+
+        $antreanSelanjutnya = AntreanCs::whereDate('tanggal', $tanggal)
+            ->where('status', 1)
+            ->orderBy('no_antrean', 'asc')
+            ->first();
+        $antreanSelanjutnyaFormat = $antreanSelanjutnya ? 'CS' . str_pad($antreanSelanjutnya->no_antrean, 3, '0', STR_PAD_LEFT) : 'Belum ada';
+        $jumlahAntrean = AntreanCs::whereDate('tanggal', $tanggal)->count();
+        $sisaAntrean = AntreanCs::whereDate('tanggal', $tanggal)->where('status', 1)->count();
+        $antreanBelumDipanggil = AntreanCs::whereDate('tanggal', $tanggal)
+            ->where('status', 1)
+            ->orderBy('no_antrean', 'asc')
+            ->paginate(5, ['*'], 'belum_dipanggil');
+
+        $antreanSudahDipanggil = AntreanCs::whereDate('tanggal', $tanggal)
+            ->where('status', 2)
+            ->orderBy('no_antrean', 'desc')
+            ->paginate(5, ['*'], 'sudah_dipanggil');
+
+        return response()->json([
+            'antrean_sekarang' => $antreanSekarangFormat,
+            'antrean_selanjutnya' => $antreanSelanjutnyaFormat,
+            'jumlah_antrean' => $jumlahAntrean,
+            'sisa_antrean' => $sisaAntrean,
+            'belum_dipanggil' => $antreanBelumDipanggil->items(),
+            'belum_dipanggil_pagination' => (string) $antreanBelumDipanggil->appends(['sudah_dipanggil' => $antreanSudahDipanggil->currentPage()])->links(),
+            'sudah_dipanggil' => $antreanSudahDipanggil->items(),
+            'sudah_dipanggil_pagination' => (string) $antreanSudahDipanggil->appends(['belum_dipanggil' => $antreanBelumDipanggil->currentPage()])->links(),
+        ]);
+    }
+
     public function panggilAntreanTeller(Request $request, $antreanId)
     {
         $antrean = AntreanTeller::find($antreanId);

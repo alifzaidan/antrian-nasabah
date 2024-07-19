@@ -46,7 +46,7 @@
                     </div>
                     <div class="h-[3px] w-full bg-primary my-4"></div>
                     <div class="flex items-center justify-between w-full">
-                        <h2
+                        <h2 id="antrean_teller"
                             class="{{ $antreanTellerFormat == 'Belum ada' ?  'text-5xl' : 'text-7xl'}} font-bold font-poppins text-tertiary">
                             {{ $antreanTellerFormat }}</h2>
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary" fill="none"
@@ -54,7 +54,8 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
                                 d="M14 5l7 7m0 0l-7 7m7-7H3" />
                         </svg>
-                        <h2 class="text-7xl font-bold font-poppins text-tertiary">{{ $antreanTellerCounter }}</h2>
+                        <h2 id="antrean_teller_counter" class="text-7xl font-bold font-poppins text-tertiary">{{
+                            $antreanTellerCounter }}</h2>
                     </div>
                 </div>
             </div>
@@ -67,7 +68,7 @@
                     </div>
                     <div class="h-[3px] w-full bg-primary my-4"></div>
                     <div class="flex items-center justify-between w-full">
-                        <h2
+                        <h2 id="antrean_cs"
                             class="{{ $antreanCsFormat == 'Belum ada' ?  'text-5xl' : 'text-7xl'}} font-bold font-poppins text-tertiary">
                             {{ $antreanCsFormat }}</h2>
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary" fill="none"
@@ -75,7 +76,8 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
                                 d="M14 5l7 7m0 0l-7 7m7-7H3" />
                         </svg>
-                        <h2 class="text-7xl font-bold font-poppins text-tertiary">{{ $antreanCsCounter }}</h2>
+                        <h2 id="antrean_cs_counter" class="text-7xl font-bold font-poppins text-tertiary">{{
+                            $antreanCsCounter }}</h2>
                     </div>
                 </div>
             </div>
@@ -94,7 +96,8 @@
                             </h1>
                             <div class="flex gap-4">
                                 <img src="{{ asset('icons/people-1.svg') }}" alt="Jumlah Antrian" class="w-18">
-                                <h2 class="text-7xl font-bold font-poppins text-center text-quaternary">{{
+                                <h2 id="jumlah_antrean_teller"
+                                    class="text-7xl font-bold font-poppins text-center text-quaternary">{{
                                     $jumlahAntreanTeller }}</h2>
                             </div>
                         </div>
@@ -106,7 +109,8 @@
                             </h1>
                             <div class="flex gap-4">
                                 <img src="{{ asset('icons/people-1.svg') }}" alt="Sisa Antrian" class="w-18">
-                                <h2 class="text-7xl font-bold font-poppins text-center text-quaternary">{{
+                                <h2 id="sisa_antrean_teller"
+                                    class="text-7xl font-bold font-poppins text-center text-quaternary">{{
                                     $sisaAntreanTeller }}</h2>
                             </div>
                         </div>
@@ -131,7 +135,8 @@
                             </h1>
                             <div class="flex gap-4">
                                 <img src="{{ asset('icons/people-1.svg') }}" alt="Jumlah Antrian" class="w-18">
-                                <h2 class="text-7xl font-bold font-poppins text-center text-quaternary">{{
+                                <h2 id="jumlah_antrean_cs"
+                                    class="text-7xl font-bold font-poppins text-center text-quaternary">{{
                                     $jumlahAntreanCs }}</h2>
                             </div>
                         </div>
@@ -143,7 +148,8 @@
                             </h1>
                             <div class="flex gap-4">
                                 <img src="{{ asset('icons/people-1.svg') }}" alt="Sisa Antrian" class="w-18">
-                                <h2 class="text-7xl font-bold font-poppins text-center text-quaternary">{{
+                                <h2 id="sisa_antrean_cs"
+                                    class="text-7xl font-bold font-poppins text-center text-quaternary">{{
                                     $sisaAntreanCs }}
                                 </h2>
                             </div>
@@ -171,24 +177,47 @@
     </main>
 
     <script>
-        function updateDateTime() {
-            const now = new Date();
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            const currentDate = new Intl.DateTimeFormat('id-ID', options).format(now);
-    
-            let hours = now.getHours();
-            let minutes = now.getMinutes();
-            let seconds = now.getSeconds();
-    
-            hours = hours < 10 ? '0' + hours : hours;
-            minutes = minutes < 10 ? '0' + minutes : minutes;
-            seconds = seconds < 10 ? '0' + seconds : seconds;
-    
-            document.getElementById('date').textContent = currentDate;
-            document.getElementById('clock').textContent = hours + ':' + minutes + ':' + seconds;
-        }
-        setInterval(updateDateTime, 1000);
-        updateDateTime();
+        document.addEventListener('DOMContentLoaded', function () {
+            function fetchAntreanData() {
+                fetch('/monitor/data')
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('antrean_teller').textContent = data.antrean_teller;
+                        document.getElementById('antrean_teller_counter').textContent = data.antrean_teller_counter;
+                        document.getElementById('antrean_cs').textContent = data.antrean_cs;
+                        document.getElementById('antrean_cs_counter').textContent = data.antrean_cs_counter;
+                        document.getElementById('jumlah_antrean_teller').textContent = data.jumlah_antrean_teller;
+                        document.getElementById('sisa_antrean_teller').textContent = data.sisa_antrean_teller;
+                        document.getElementById('jumlah_antrean_cs').textContent = data.jumlah_antrean_cs;
+                        document.getElementById('sisa_antrean_cs').textContent = data.sisa_antrean_cs;
+                    })
+                    .catch(error => console.error('Error fetching antrean data:', error));
+            }
+
+            function updateDateTime() {
+                const now = new Date();
+                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                const currentDate = new Intl.DateTimeFormat('id-ID', options).format(now);
+        
+                let hours = now.getHours();
+                let minutes = now.getMinutes();
+                let seconds = now.getSeconds();
+        
+                hours = hours < 10 ? '0' + hours : hours;
+                minutes = minutes < 10 ? '0' + minutes : minutes;
+                seconds = seconds < 10 ? '0' + seconds : seconds;
+        
+                document.getElementById('date').textContent = currentDate;
+                document.getElementById('clock').textContent = hours + ':' + minutes + ':' + seconds;
+            }
+
+            setInterval(updateDateTime, 1000);
+            setInterval(fetchAntreanData, 1000);
+            
+            updateDateTime();
+            fetchAntreanData();
+        });
+        
     </script>
 </body>
 

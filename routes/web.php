@@ -24,9 +24,12 @@ Route::group(['as' => 'panggil-antrean.', 'prefix' => '/panggil-antrean'], funct
     Route::post('/teller/panggil/{antreanId}', [PanggilAntreanController::class, 'panggilAntreanTeller'])->name('teller.panggil');
     Route::get('/cs/{counterId}', [PanggilAntreanController::class, 'detailCs'])->name('cs');
     Route::post('/cs/panggil/{antreanId}', [PanggilAntreanController::class, 'panggilAntreanCs'])->name('cs.panggil');
+    Route::get('/antrean-data-teller', [PanggilAntreanController::class, 'getAntreanDataTeller']);
+    Route::get('/antrean-data-cs', [PanggilAntreanController::class, 'getAntreanDataCs']);
 });
 
 Route::get('/monitor', [MonitorController::class, 'index'])->name('monitor');
+Route::get('/monitor/data', [MonitorController::class, 'getAntrean']);
 
 Route::group(['as' => 'settings.', 'prefix' => '/settings'], function () {
     Route::get('/login', [AuthController::class, 'index'])->name('login');
