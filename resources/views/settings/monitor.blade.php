@@ -6,7 +6,7 @@
     <div x-data="{ open: false, files: [], showConfirm: false, selectedVideo: localStorage.getItem('selectedVideo') || '{{ $unit->video_id }}' }"
         class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
         <form id="settingsForm" action="{{ route('settings.monitor.update', $unit->id) }}" method="POST"
-            enctype="multipart/form-data" class="space-y-6">
+            class="space-y-6">
             @method('PUT')
             @csrf
             <div>
