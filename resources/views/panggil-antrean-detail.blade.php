@@ -100,8 +100,7 @@
                                         @csrf
                                         <input type="hidden" name="no_antrean" value="{{ $antrean->no_antrean }}">
                                         <input type="hidden" name="no_counter" value="{{ $counterId }}">
-                                        <button type="submit" id="call-button"
-                                            data-counter="{{ $counterId }}"
+                                        <button type="submit" id="call-button" data-counter="{{ $counterId }}"
                                             class="bg-primary py-3 px-6 rounded-lg flex items-center justify-center gap-2 hover:scale-105 transition duration-200 ease-in-out">
                                             <img src="{{asset('icons/microphone-light.svg')}}" alt="Microphone"
                                                 class="w-3">
@@ -113,7 +112,7 @@
                             @endforeach
                         </tbody>
                     </table>
-                    <div class="mt-4" id="pagination_antrean_belum">
+                    <div class="mt-4 pagination" id="pagination_antrean_belum">
                         {{ $antreanBelumDipanggil->appends(['sudah_dipanggil' =>
                         $antreanSudahDipanggil->currentPage()])->links() }}
                     </div>
@@ -147,7 +146,7 @@
                             @endforeach
                         </tbody>
                     </table>
-                    <div class="mt-4" id="pagination_antrean_sudah">
+                    <div class="mt-4 pagination" id="pagination_antrean_sudah">
                         {{ $antreanSudahDipanggil->appends(['belum_dipanggil' =>
                         $antreanBelumDipanggil->currentPage()])->links() }}
                     </div>
@@ -161,8 +160,8 @@
         document.addEventListener('DOMContentLoaded', function () {
             const kodeOperasional = document.getElementById('kode_operasional').textContent;
             
-            function fetchAntreanData() {
-                fetch(kodeOperasional == 'TL' ? '/panggil-antrean/antrean-data-teller' : '/panggil-antrean/antrean-data-cs')
+            function fetchAntreanData(belum_dipanggil = 1, sudah_dipanggil = 1) {
+                fetch(kodeOperasional == 'TL' ? `/panggil-antrean/antrean-data-teller?sudah_dipanggil=${sudah_dipanggil}&belum_dipanggil=${belum_dipanggil}` : `/panggil-antrean/antrean-data-cs?sudah_dipanggil=${sudah_dipanggil}&belum_dipanggil=${belum_dipanggil}`)
                     .then(response => response.json())
                     .then(data => {
                         document.getElementById('jumlah_antrean').textContent = data.jumlah_antrean;
@@ -189,7 +188,7 @@
                                             <input type="hidden" name="no_counter" value="{{ $counterId }}">
                                             <button id="call-button"
                                                 data-counter="{{ $counterId }}"
-                                                class="bg-primary py-3 px-6 rounded-lg flex items-center justify-center gap-2">
+                                                class="bg-primary py-3 px-6 rounded-lg flex items-center justify-center gap-2 hover:scale-105 hover:bg-opacity-80 transition duration-200 ease-in-out">
                                                 <img src="{{asset('icons/microphone-light.svg')}}" alt="Microphone"
                                                     class="w-3">
                                                 <img src="{{asset('icons/rythm.svg')}}" alt="Rythm" class="h-5">
@@ -252,19 +251,30 @@
                                 });
                             });
                         });
-
-                        const paginationSudahLinks = document.getElementById('pagination_antrean_sudah');
-                        paginationSudahLinks.innerHTML = data.sudah_dipanggil_pagination;
                         
                         const paginationBelumLinks = document.getElementById('pagination_antrean_belum');
-                        paginationBelumLinks.innerHTML = data.belum_dipanggil_pagination;
+                        paginationBelumLinks.innerHTML = data.belum_dipanggil_pagination
 
+                        const paginationSudahLinks = document.getElementById('pagination_antrean_sudah');
+                        paginationSudahLinks.innerHTML = data.sudah_dipanggil_pagination
+
+
+                        document.querySelectorAll('.pagination a').forEach(link => {
+                            link.addEventListener('click', function (e) {
+                                e.preventDefault();
+                                const belum_dipanggil = new URL(this.href).searchParams.get('belum_dipanggil');
+                                const sudah_dipanggil = new URL(this.href).searchParams.get('sudah_dipanggil');
+                                fetchAntreanData(belum_dipanggil, sudah_dipanggil);
+                            });
+                        });
                     })
                     .catch(error => console.error('Error fetching antrean data:', error));
             }
-            
-            setInterval(fetchAntreanData, 1000);
             fetchAntreanData();
+
+            setInterval(() => {
+                fetchAntreanData();
+            }, 10000); 
         });
     </script>
 </body>

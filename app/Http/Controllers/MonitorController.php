@@ -60,7 +60,7 @@ class MonitorController extends Controller
             ->where('status', 2)
             ->orderBy('no_antrean', 'desc')
             ->first();
-        $antreanCsFormat = $antreanCs ? 'TL' . str_pad($antreanCs->no_antrean, 3, '0', STR_PAD_LEFT) : 'Belum ada';
+        $antreanCsFormat = $antreanCs ? 'CS' . str_pad($antreanCs->no_antrean, 3, '0', STR_PAD_LEFT) : 'Belum ada';
         $antreanCsCounter = $antreanCs ? $antreanCs->no_counter : '-';
 
         $jumlahAntreanCs = AntreanCs::whereDate('tanggal', $tanggal)->count();

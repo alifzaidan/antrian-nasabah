@@ -206,6 +206,15 @@
                 fetch('/monitor/data')
                     .then(response => response.json())
                     .then(data => {
+                        if (data.antrean_teller !== previousAntreanTeller) {
+                            previousAntreanTeller = data.antrean_teller;
+                            playAudioAndSpeak(data.antrean_teller, data.antrean_teller_counter);
+                        }
+                        if (data.antrean_cs !== previousAntreanCs) {
+                            previousAntreanCs = data.antrean_cs;
+                            playAudioAndSpeak(data.antrean_cs, data.antrean_cs_counter);
+                        }
+                        
                         document.getElementById('antrean_teller').textContent = data.antrean_teller;
                         document.getElementById('antrean_teller_counter').textContent = data.antrean_teller_counter;
                         if(document.getElementById('antrean_teller').textContent == 'Belum ada') {
@@ -228,15 +237,6 @@
                         document.getElementById('sisa_antrean_teller').textContent = data.sisa_antrean_teller;
                         document.getElementById('jumlah_antrean_cs').textContent = data.jumlah_antrean_cs;
                         document.getElementById('sisa_antrean_cs').textContent = data.sisa_antrean_cs;
-
-                        if (data.antrean_teller !== previousAntreanTeller) {
-                            previousAntreanTeller = data.antrean_teller;
-                            playAudioAndSpeak(data.antrean_teller, data.antrean_teller_counter);
-                        }
-                        if (data.antrean_cs !== previousAntreanCs) {
-                            previousAntreanCs = data.antrean_cs;
-                            playAudioAndSpeak(data.antrean_cs, data.antrean_cs_counter);
-                        }
                     })
                     .catch(error => console.error('Error fetching antrean data:', error));
             }
