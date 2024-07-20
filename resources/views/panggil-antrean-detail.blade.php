@@ -211,20 +211,10 @@
                                         {{ $kodeOperasional }}${String(antrean.no_antrean).padStart(3, '0')}
                                     </td>
                                     <td class="px-4 py-3 flex justify-center">
-                                        <form id="panggilAntrean"
-                                            action="${'{{ $kodeOperasional }}' == 'TL' ? `/panggil-antrean/teller/panggil/${antrean.id}` : `/panggil-antrean/cs/panggil/${antrean.id}`}"
-                                            method="POST">
-                                            @csrf
-                                            <input type="hidden" name="no_counter" value="{{ $counterId }}">
-                                            <button id="call-button"
-                                                data-antrean="{{ $kodeOperasional }}${String(antrean.no_antrean).padStart(3, '0')}"
-                                                data-counter="{{ $counterId }}"
-                                                class="bg-primary py-3 px-6 rounded-lg flex items-center justify-center gap-2">
-                                                <img src="{{asset('icons/microphone-light.svg')}}" alt="Microphone"
-                                                    class="w-3">
-                                                <img src="{{asset('icons/rythm.svg')}}" alt="Rythm" class="h-5">
-                                            </button>
-                                        </form>
+                                        <button disabled
+                                            class="text-white text-sm bg-primary py-3 px-6 rounded-lg flex items-center justify-center gap-2">
+                                            Counter ${String(antrean.no_counter)}
+                                        </button>
                                     </td>
                                 </tr>
                             `;

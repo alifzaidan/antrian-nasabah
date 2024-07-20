@@ -47,7 +47,7 @@
                     <div class="h-[3px] w-full bg-primary my-4"></div>
                     <div class="flex items-center justify-between w-full">
                         <h2 id="antrean_teller"
-                            class="{{ $antreanTellerFormat == 'Belum ada' ?  'text-5xl' : 'lg:text-7xl text-5xl'}} font-bold font-poppins text-tertiary">
+                            class="font-bold font-poppins text-tertiary">
                             {{ $antreanTellerFormat }}</h2>
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary" fill="none"
                             viewBox="0 0 24 24" stroke="currentColor">
@@ -70,7 +70,7 @@
                     <div class="h-[3px] w-full bg-primary my-4"></div>
                     <div class="flex items-center justify-between w-full">
                         <h2 id="antrean_cs"
-                            class="{{ $antreanCsFormat == 'Belum ada' ?  'text-5xl' : 'lg:text-7xl text-5xl'}} font-bold font-poppins text-tertiary">
+                            class="font-bold font-poppins text-tertiary">
                             {{ $antreanCsFormat }}</h2>
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary" fill="none"
                             viewBox="0 0 24 24" stroke="currentColor">
@@ -188,8 +188,22 @@
                     .then(response => response.json())
                     .then(data => {
                         document.getElementById('antrean_teller').textContent = data.antrean_teller;
+                        if(document.getElementById('antrean_teller').textContent == 'Belum ada') {
+                            document.getElementById('antrean_teller').classList.remove('lg:text-7xl', 'text-5xl');
+                            document.getElementById('antrean_teller').classList.add('text-5xl');
+                        } else {
+                            document.getElementById('antrean_teller').classList.remove('text-5xl');
+                            document.getElementById('antrean_teller').classList.add('lg:text-7xl', 'text-5xl');
+                        }
                         document.getElementById('antrean_teller_counter').textContent = data.antrean_teller_counter;
                         document.getElementById('antrean_cs').textContent = data.antrean_cs;
+                        if(document.getElementById('antrean_cs').textContent == 'Belum ada') {
+                            document.getElementById('antrean_cs').classList.remove('lg:text-7xl', 'text-5xl');
+                            document.getElementById('antrean_cs').classList.add('text-5xl');
+                        } else {
+                            document.getElementById('antrean_cs').classList.remove('text-5xl');
+                            document.getElementById('antrean_cs').classList.add('lg:text-7xl', 'text-5xl');
+                        }
                         document.getElementById('antrean_cs_counter').textContent = data.antrean_cs_counter;
                         document.getElementById('jumlah_antrean_teller').textContent = data.jumlah_antrean_teller;
                         document.getElementById('sisa_antrean_teller').textContent = data.sisa_antrean_teller;
