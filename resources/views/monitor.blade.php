@@ -181,13 +181,33 @@
         </div>
     </main>
 
+    <audio id="call-audio" src="{{ asset('audio/call-sound.mp3') }}" preload="auto"></audio>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            let previousAntreanTeller = '';
+            let previousAntreanCs = '';
+
+            function playAudioAndSpeak(antrean, counter) {
+                const callAudio = document.getElementById('call-audio');
+                callAudio.play();
+                callAudio.onended = function() {
+                    const msg = new SpeechSynthesisUtterance(`Nomor antrean, ${antrean}, menuju ke, loket, ${counter}`);
+                    msg.lang = 'id-ID';
+                    msg.rate = 0.8;
+                    msg.pitch = 0.9;
+
+                    const voices = window.speechSynthesis.getVoices();
+                    msg.voice = voices.find(voice => voice.lang === 'id-ID' && voice.name.includes('Microsoft')) || voices.find(voice => voice.lang === 'id-ID');
+                    window.speechSynthesis.speak(msg);
+                };
+            }
+
             function fetchAntreanData() {
                 fetch('/monitor/data')
                     .then(response => response.json())
                     .then(data => {
                         document.getElementById('antrean_teller').textContent = data.antrean_teller;
+                        document.getElementById('antrean_teller_counter').textContent = data.antrean_teller_counter;
                         if(document.getElementById('antrean_teller').textContent == 'Belum ada') {
                             document.getElementById('antrean_teller').classList.remove('lg:text-7xl', 'text-5xl');
                             document.getElementById('antrean_teller').classList.add('text-5xl');
@@ -195,8 +215,8 @@
                             document.getElementById('antrean_teller').classList.remove('text-5xl');
                             document.getElementById('antrean_teller').classList.add('lg:text-7xl', 'text-5xl');
                         }
-                        document.getElementById('antrean_teller_counter').textContent = data.antrean_teller_counter;
                         document.getElementById('antrean_cs').textContent = data.antrean_cs;
+                        document.getElementById('antrean_cs_counter').textContent = data.antrean_cs_counter;
                         if(document.getElementById('antrean_cs').textContent == 'Belum ada') {
                             document.getElementById('antrean_cs').classList.remove('lg:text-7xl', 'text-5xl');
                             document.getElementById('antrean_cs').classList.add('text-5xl');
@@ -204,11 +224,19 @@
                             document.getElementById('antrean_cs').classList.remove('text-5xl');
                             document.getElementById('antrean_cs').classList.add('lg:text-7xl', 'text-5xl');
                         }
-                        document.getElementById('antrean_cs_counter').textContent = data.antrean_cs_counter;
                         document.getElementById('jumlah_antrean_teller').textContent = data.jumlah_antrean_teller;
                         document.getElementById('sisa_antrean_teller').textContent = data.sisa_antrean_teller;
                         document.getElementById('jumlah_antrean_cs').textContent = data.jumlah_antrean_cs;
                         document.getElementById('sisa_antrean_cs').textContent = data.sisa_antrean_cs;
+
+                        if (data.antrean_teller !== previousAntreanTeller) {
+                            previousAntreanTeller = data.antrean_teller;
+                            playAudioAndSpeak(data.antrean_teller, data.antrean_teller_counter);
+                        }
+                        if (data.antrean_cs !== previousAntreanCs) {
+                            previousAntreanCs = data.antrean_cs;
+                            playAudioAndSpeak(data.antrean_cs, data.antrean_cs_counter);
+                        }
                     })
                     .catch(error => console.error('Error fetching antrean data:', error));
             }

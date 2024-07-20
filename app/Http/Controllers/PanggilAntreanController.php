@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AntreanCs;
 use Carbon\Carbon;
 use App\Models\Unit;
+use App\Models\AntreanCs;
 use Illuminate\Http\Request;
 use App\Models\AntreanTeller;
 
@@ -121,7 +121,7 @@ class PanggilAntreanController extends Controller
             'sudah_dipanggil_pagination' => (string) $antreanSudahDipanggil->appends(['belum_dipanggil' => $antreanBelumDipanggil->currentPage()])->links(),
         ]);
     }
-    
+
     public function getAntreanDataCs()
     {
         $tanggal = Carbon::now()->format('Y-m-d');

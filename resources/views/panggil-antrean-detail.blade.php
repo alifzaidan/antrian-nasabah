@@ -98,9 +98,9 @@
                                         action="{{ $kodeOperasional == 'TL' ? route('panggil-antrean.teller.panggil', $antrean->id) : route('panggil-antrean.cs.panggil', $antrean->id) }}"
                                         method="POST">
                                         @csrf
+                                        <input type="hidden" name="no_antrean" value="{{ $antrean->no_antrean }}">
                                         <input type="hidden" name="no_counter" value="{{ $counterId }}">
                                         <button type="submit" id="call-button"
-                                            data-antrean="{{ $kodeOperasional . str_pad($antrean->no_antrean, 3, '0', STR_PAD_LEFT) }}"
                                             data-counter="{{ $counterId }}"
                                             class="bg-primary py-3 px-6 rounded-lg flex items-center justify-center gap-2 hover:scale-105 transition duration-200 ease-in-out">
                                             <img src="{{asset('icons/microphone-light.svg')}}" alt="Microphone"
@@ -185,9 +185,9 @@
                                             action="${'{{ $kodeOperasional }}' == 'TL' ? `/panggil-antrean/teller/panggil/${antrean.id}` : `/panggil-antrean/cs/panggil/${antrean.id}`}"
                                             method="POST">
                                             @csrf
+                                            <input type="hidden" name="no_antrean" value="{{ $kodeOperasional }}${String(antrean.no_antrean).padStart(3, '0')}">
                                             <input type="hidden" name="no_counter" value="{{ $counterId }}">
                                             <button id="call-button"
-                                                data-antrean="{{ $kodeOperasional }}${String(antrean.no_antrean).padStart(3, '0')}"
                                                 data-counter="{{ $counterId }}"
                                                 class="bg-primary py-3 px-6 rounded-lg flex items-center justify-center gap-2">
                                                 <img src="{{asset('icons/microphone-light.svg')}}" alt="Microphone"
@@ -221,20 +221,7 @@
                         });
 
                         const callButtons = document.querySelectorAll('#call-button');
-                        const callAudio = document.getElementById('call-audio');
                         const panggilAntrean = document.getElementById('panggilAntrean');
-
-                        function playAudioAndSpeak(antrean, counter) {
-                            callAudio.play();
-                            callAudio.onended = function() {
-                                const msg = new SpeechSynthesisUtterance(`Nomor antrean, ${antrean}, menuju ke, loket, ${counter}`);
-                                msg.lang = 'id-ID';
-                                msg.rate = 0.8;
-                                const voices = window.speechSynthesis.getVoices();
-                                msg.voice = voices.find(voice => voice.lang === 'id-ID' && voice.name.includes('female')) || voices.find(voice => voice.lang === 'id-ID');
-                                window.speechSynthesis.speak(msg);
-                            };
-                        }
 
                         callButtons.forEach(form => {
                             panggilAntrean.addEventListener('submit', function (event) {
@@ -263,8 +250,6 @@
                                 .catch((error) => {
                                     console.error('Error:', error);
                                 });
-
-                                playAudioAndSpeak(antrean, counter);
                             });
                         });
 
