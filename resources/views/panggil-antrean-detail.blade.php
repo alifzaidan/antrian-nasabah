@@ -274,7 +274,7 @@
 
             setInterval(() => {
                 fetchAntreanData();
-            }, 10000); 
+            }, 5000); 
         });
     </script>
 </body>

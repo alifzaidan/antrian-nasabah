@@ -11,7 +11,7 @@
     @vite('resources/js/app.js')
 </head>
 
-<body class="h-full" x-data="{ showModal: false, timeout: null  }">
+<body class="h-full" x-data="{ showModal: false  }">
     <main class="min-h-screen">
         <div class="lg:grid flex flex-col grid-cols-2 grid-flow-row auto-rows-min gap-5 p-8 min-h-screen">
             {{-- Jam --}}
@@ -20,7 +20,6 @@
                     <img src="{{ asset('img/logo-bri-light.png') }}" alt="Logo BRI" class="h-16">
                     <p class="font-poppins font-medium text-white text-lg mt-1">Melayani Dengan Setulus Hati</p>
                 </div>
-                <button @click="showModal = true" class="bg-white rounded-sm px-4 py-2 font-poppins">Klik</button>
                 <div class="text-white font-poppins text-xl w-52 lg:text-left text-center" id="time">
                     <h1 id="date"></h1>
                     <h1 class="font-bold text-5xl" id="clock"></h1>
@@ -179,7 +178,7 @@
             </div>
         </div>
     </main>
-    <div x-show="showModal" x-transition:enter="transition ease-out duration-200"
+    <div x-show="false" x-transition:enter="transition ease-out duration-200"
         x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100"
         x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 scale-100"
         x-transition:leave-end="opacity-0 scale-90"
@@ -221,9 +220,6 @@
             let previousAntreanTeller = '';
             let previousAntreanCs = '';
 
-            modal = document.querySelector('[x-data]').getAttribute('x-data');
-            console.log(modal);
-
             function playAudioAndSpeak(antrean, counter) {
                 const callAudio = document.getElementById('call-audio');
                 callAudio.play();
@@ -237,10 +233,12 @@
                     msg.voice = voices.find(voice => voice.lang === 'id-ID' && voice.name.includes('Microsoft')) || voices.find(voice => voice.lang === 'id-ID');
                     window.speechSynthesis.speak(msg);
 
-                    document.querySelector('body').__x.$data.showModal = true;
-                    document.querySelector('body').__x.$data.timeout = setTimeout(() => {
-                        document.querySelector('body').__x.$data.showModal = false;
-                    }, 10000); 
+                    modal = document.querySelector('[x-show="false"]');
+                    modal.setAttribute('x-show', 'true');
+                    setTimeout(() => {
+                        modal.setAttribute('x-show', 'false');
+                        console.log(modal);
+                    }, 10000);
                 };
             }
 
@@ -250,7 +248,7 @@
                     .then(data => {
                         if (data.antrean_teller !== previousAntreanTeller) {
                             previousAntreanTeller = data.antrean_teller;
-                            playAudioAndSpeak(data.antrean_teller, data.antrean_teller_counter);
+                            playAudioAndSpeak(data.antrean_teller, data.antrean_teller_counter);                            
                         }
                         if (data.antrean_cs !== previousAntreanCs) {
                             previousAntreanCs = data.antrean_cs;
