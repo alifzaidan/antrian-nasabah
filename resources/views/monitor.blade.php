@@ -8,10 +8,10 @@
     <title>Antrean Nasabah Bank BRI</title>
     <link rel="shortcut icon" href="{{ asset('img/favicon.png') }}" type="image/x-icon">
     @vite('resources/css/app.css')
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    @vite('resources/js/app.js')
 </head>
 
-<body class="h-full">
+<body class="h-full" x-data="{ showModal: false, timeout: null  }">
     <main class="min-h-screen">
         <div class="lg:grid flex flex-col grid-cols-2 grid-flow-row auto-rows-min gap-5 p-8 min-h-screen">
             {{-- Jam --}}
@@ -20,6 +20,7 @@
                     <img src="{{ asset('img/logo-bri-light.png') }}" alt="Logo BRI" class="h-16">
                     <p class="font-poppins font-medium text-white text-lg mt-1">Melayani Dengan Setulus Hati</p>
                 </div>
+                <button @click="showModal = true" class="bg-white rounded-sm px-4 py-2 font-poppins">Klik</button>
                 <div class="text-white font-poppins text-xl w-52 lg:text-left text-center" id="time">
                     <h1 id="date"></h1>
                     <h1 class="font-bold text-5xl" id="clock"></h1>
@@ -46,8 +47,7 @@
                     </div>
                     <div class="h-[3px] w-full bg-primary my-4"></div>
                     <div class="flex items-center justify-between w-full">
-                        <h2 id="antrean_teller"
-                            class="font-bold font-poppins text-tertiary">
+                        <h2 id="antrean_teller" class="font-bold font-poppins text-tertiary">
                             {{ $antreanTellerFormat }}</h2>
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary" fill="none"
                             viewBox="0 0 24 24" stroke="currentColor">
@@ -69,8 +69,7 @@
                     </div>
                     <div class="h-[3px] w-full bg-primary my-4"></div>
                     <div class="flex items-center justify-between w-full">
-                        <h2 id="antrean_cs"
-                            class="font-bold font-poppins text-tertiary">
+                        <h2 id="antrean_cs" class="font-bold font-poppins text-tertiary">
                             {{ $antreanCsFormat }}</h2>
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary" fill="none"
                             viewBox="0 0 24 24" stroke="currentColor">
@@ -180,12 +179,50 @@
             </div>
         </div>
     </main>
+    <div x-show="showModal" x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100"
+        x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 scale-100"
+        x-transition:leave-end="opacity-0 scale-90"
+        class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 z-50">
+        <div class="bg-white bg-opacity-75 rounded-2xl shadow-lg p-4 text-center w-3/4 h-3/4">
+            <div class=" bg-white rounded-2xl px-16 xl:py-2 py-8 h-full gap-4 flex flex-col justify-evenly">
+                <div class="bg-primary rounded-xl">
+                    <h1 class="py-8 text-white lg:text-4xl text-xl font-semibold font-poppins">
+                        Antrean Teller</h1>
+                </div>
+                <div class="flex items-center justify-between w-full">
+                    <h1 class="lg:text-4xl text-xl font-semibold font-poppins text-primary">Nomor Antrean</h1>
+                    <h1 class="lg:text-4xl text-xl font-semibold font-poppins text-primary">Counter</h1>
+                </div>
+                <div class="h-[3px] w-full bg-primary"></div>
+                <div class="flex items-center justify-between w-full">
+                    <h2 class="text-8xl font-bold font-poppins text-tertiary">
+                        {{ $antreanTellerFormat }}</h2>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-primary" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                            d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                    <h2 class="lg:text-8xl text-5xl font-bold font-poppins text-tertiary">{{
+                        $antreanTellerCounter }}</h2>
+                </div>
+                <div class="w-full py-4 col-span-2">
+                    <p class="font-poppins text-primary font-semibold lg:text-2xl text-xl italic">Silahkan menuju ke
+                        counter yang
+                        sudah tertera</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <audio id="call-audio" src="{{ asset('audio/call-sound.mp3') }}" preload="auto"></audio>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             let previousAntreanTeller = '';
             let previousAntreanCs = '';
+
+            modal = document.querySelector('[x-data]').getAttribute('x-data');
+            console.log(modal);
 
             function playAudioAndSpeak(antrean, counter) {
                 const callAudio = document.getElementById('call-audio');
@@ -199,6 +236,11 @@
                     const voices = window.speechSynthesis.getVoices();
                     msg.voice = voices.find(voice => voice.lang === 'id-ID' && voice.name.includes('Microsoft')) || voices.find(voice => voice.lang === 'id-ID');
                     window.speechSynthesis.speak(msg);
+
+                    document.querySelector('body').__x.$data.showModal = true;
+                    document.querySelector('body').__x.$data.timeout = setTimeout(() => {
+                        document.querySelector('body').__x.$data.showModal = false;
+                    }, 10000); 
                 };
             }
 

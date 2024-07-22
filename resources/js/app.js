@@ -1,14 +1,19 @@
-import './bootstrap';
+import "./bootstrap";
+import Alpine from "alpinejs";
 
-document.addEventListener('DOMContentLoaded', function() {
-    const marqueeElements = document.querySelectorAll('.marquee');
+window.Alpine = Alpine;
 
-    marqueeElements.forEach(function(marqueeElement) {
-        const text = marqueeElement.querySelector('span');
+Alpine.start();
+
+document.addEventListener("DOMContentLoaded", function () {
+    const marqueeElements = document.querySelectorAll(".marquee");
+
+    marqueeElements.forEach(function (marqueeElement) {
+        const text = marqueeElement.querySelector("span");
         const marqueeWidth = marqueeElement.offsetWidth;
         const textWidth = text.offsetWidth;
 
-        const animateMarquee = function() {
+        const animateMarquee = function () {
             let left = textWidth + 100;
 
             if (left < marqueeWidth) {
