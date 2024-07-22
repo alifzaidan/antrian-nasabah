@@ -40,8 +40,9 @@ class SettingsController extends Controller
 
         $user = Auth::user();
         $unit = $user->unit;
+        $namaUnit = $unit->nama;
 
-        return view('settings.operasional', compact('title', 'slug', 'unit', 'jumlahAntreanTeller', 'tanggalAwalTeller', 'tanggalAkhirTeller', 'jumlahAntreanCs', 'tanggalAwalCs', 'tanggalAkhirCs'));
+        return view('settings.operasional', compact('title', 'slug', 'unit', 'namaUnit', 'jumlahAntreanTeller', 'tanggalAwalTeller', 'tanggalAkhirTeller', 'jumlahAntreanCs', 'tanggalAwalCs', 'tanggalAkhirCs'));
     }
 
     public function unit()
@@ -51,8 +52,9 @@ class SettingsController extends Controller
 
         $user = Auth::user();
         $unit = $user->unit;
+        $namaUnit = $unit->nama;
 
-        return view('settings.unit', compact('title', 'slug', 'unit'));
+        return view('settings.unit', compact('title', 'slug', 'unit', 'namaUnit'));
     }
 
     public function updateMonitor(Request $request, $unitId)

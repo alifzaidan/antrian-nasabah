@@ -37,7 +37,7 @@
                             x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
                             class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white p-2 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                             role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
-                            <form action="{{ route('settings.logout') }}" method="POST">
+                            <form id="logout-form" action="{{ route('settings.logout') }}" method="POST">
                                 @csrf
                                 <button type="submit"
                                     class="w-full flex items-center justify-between hover:bg-primary hover:bg-opacity-10 rounded-md px-4 py-2 transition duration-200"
@@ -107,14 +107,35 @@
                     </div>
                     <div class="ml-3 font-medium font-poppins leading-none text-white">{{ Auth::user()->name }}</div>
                 </div>
-                <form action="{{ route('settings.logout') }}" method="POST">
+                <form id="logout-form" action="{{ route('settings.logout') }}" method="POST" x-data="{ isOpen: false }">
                     @csrf
-                    <button type="submit"
-                        class="flex items-center gap-2 rounded-md px-3 py-2 bg-tertiary text-white hover:bg-opacity-80 hover:text-white transition duration-200">
+                    <button type="button" @click="isOpen = true"
+                        class="w-full flex items-center justify-between hover:bg-primary hover:bg-opacity-10 rounded-md px-4 py-2 transition duration-200"
+                        role="menuitem" tabindex="-1" id="user-menu-item-2">
                         <p class="font-poppins text-sm font-medium">Logout</p>
-                        <img class="w-3" src="{{ asset('icons/logout-light.svg') }}" alt="Logout">
+                        <img class="w-3" src="{{ asset('icons/logout.svg') }}" alt="Logout">
                     </button>
+
+                    <script>
+                        document.getElementById('logout-form').addEventListener('submit', function(e) {
+                            e.preventDefault();
+                            Swal.fire({
+                                title: 'Logout',
+                                text: 'Apakah anda yakin ingin logout?',
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: 'Ya, Logout',
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    this.submit();
+                                }
+                            });
+                        });
+                    </script>
                 </form>
+
             </div>
         </div>
     </div>
