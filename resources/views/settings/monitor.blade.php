@@ -97,10 +97,16 @@
                             </div>
                         </div>
                     </div>
+                    <div id="progress-container" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+                        <svg class="animate-spin h-20 w-20 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+                        </svg>
+                    </div>
                     <div class="mt-4 flex justify-end">
                         <button type="button" @click="open = false"
                             class="mr-2 inline-flex justify-center rounded-md border border-transparent bg-red-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 font-poppins">Batal</button>
-                        <button type="submit"
+                        <button type="button" @click="uploadVideo()"
                             class="inline-flex justify-center rounded-md border border-transparent bg-green-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 font-poppins">Simpan</button>
                     </div>
                 </form>
@@ -137,21 +143,17 @@
             let xhr = new XMLHttpRequest();
             xhr.open('POST', '{{ route('settings.video.store') }}', true);
 
+            document.getElementById('progress-container').classList.remove('hidden');
+
             xhr.upload.onprogress = function(event) {
                 if (event.lengthComputable) {
                     let percentComplete = (event.loaded / event.total) * 100;
-                    Swal.update({
-                        title: 'Uploading...'
-                        , html: 'Progress: ' + percentComplete.toFixed(2) + '%'
-                        , allowOutsideClick: false
-                        , onBeforeOpen: () => {
-                            Swal.showLoading();
-                        }
-                    });
+                    console.log('Progress: ' + percentComplete.toFixed(2) + '%');
                 }
             };
 
             xhr.addEventListener('load', function() {
+                document.getElementById('progress-container').classList.add('hidden');
                 if (xhr.status === 200) {
                     Swal.fire({
                         title: 'Upload sukses'
