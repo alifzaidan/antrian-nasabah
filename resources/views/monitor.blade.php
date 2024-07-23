@@ -178,37 +178,34 @@
             </div>
         </div>
     </main>
-    <div x-show="false" x-transition:enter="transition ease-out duration-200"
-        x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100"
-        x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 scale-100"
-        x-transition:leave-end="opacity-0 scale-90"
-        class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 z-50">
-        <div class="bg-white bg-opacity-75 rounded-2xl shadow-lg p-4 text-center w-3/4 h-3/4">
-            <div class=" bg-white rounded-2xl px-16 xl:py-2 py-8 h-full gap-4 flex flex-col justify-evenly">
-                <div class="bg-primary rounded-xl">
-                    <h1 class="py-8 text-white lg:text-4xl text-xl font-semibold font-poppins">
-                        Antrean Teller</h1>
-                </div>
-                <div class="flex items-center justify-between w-full">
-                    <h1 class="lg:text-4xl text-xl font-semibold font-poppins text-primary">Nomor Antrean</h1>
-                    <h1 class="lg:text-4xl text-xl font-semibold font-poppins text-primary">Counter</h1>
-                </div>
-                <div class="h-[3px] w-full bg-primary"></div>
-                <div class="flex items-center justify-between w-full">
-                    <h2 class="text-8xl font-bold font-poppins text-tertiary">
-                        {{ $antreanTellerFormat }}</h2>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-primary" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                            d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                    </svg>
-                    <h2 class="lg:text-8xl text-5xl font-bold font-poppins text-tertiary">{{
-                        $antreanTellerCounter }}</h2>
-                </div>
-                <div class="w-full py-4 col-span-2">
-                    <p class="font-poppins text-primary font-semibold lg:text-2xl text-xl italic">Silahkan menuju ke
-                        counter yang
-                        sudah tertera</p>
+    <div class="bg-modal fixed flex items-center justify-center inset-0 bg-black bg-opacity-75 z-50">
+        <div class="modal grid w-3/4 h-3/4 ">
+            <div class="bg-white bg-opacity-75 rounded-2xl shadow-lg p-4 text-center ">
+                <div class=" bg-white rounded-2xl px-16 xl:py-2 py-8 h-full gap-4 flex flex-col justify-evenly">
+                    <div class="bg-primary rounded-xl">
+                        <h1 id="jenis_antrean" class="py-8 text-white lg:text-4xl text-xl font-semibold font-poppins">
+                            Antrean Teller</h1>
+                    </div>
+                    <div class="flex items-center justify-between w-full">
+                        <h1 class="lg:text-4xl text-xl font-semibold font-poppins text-primary">Nomor Antrean</h1>
+                        <h1 class="lg:text-4xl text-xl font-semibold font-poppins text-primary">Counter</h1>
+                    </div>
+                    <div class="h-[3px] w-full bg-primary"></div>
+                    <div class="flex items-center justify-between w-full">
+                        <h2 id="no_antrean_panggil" class="text-8xl font-bold font-poppins text-tertiary"></h2>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-primary" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                                d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
+                        <h2 id="no_counter_panggil" class="lg:text-8xl text-5xl font-bold font-poppins text-tertiary">
+                        </h2>
+                    </div>
+                    <div class="w-full py-4 col-span-2">
+                        <p class="font-poppins text-primary font-semibold lg:text-2xl text-xl italic">
+                            Silahkan menuju ke counter yang sudah tertera
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -222,9 +219,18 @@
 
             function playAudioAndSpeak(antrean, counter) {
                 const callAudio = document.getElementById('call-audio');
+                const noAntreanPanggil = document.getElementById('no_antrean_panggil').textContent = antrean;
+                const noCounterPanggil = document.getElementById('no_counter_panggil').textContent = counter;
+                const jenisAntreanElement = document.getElementById('jenis_antrean');
+                if (antrean.startsWith('TL')) {
+                    jenisAntreanElement.textContent = 'Antrean Teller';
+                } else if (antrean.startsWith('CS')) {
+                    jenisAntreanElement.textContent = 'Antrean Customer Services';
+                }
+                
                 callAudio.play();
                 callAudio.onended = function() {
-                    const msg = new SpeechSynthesisUtterance(`Nomor antrean, ${antrean}, menuju ke, loket, ${counter}`);
+                    const msg = new SpeechSynthesisUtterance(`Nomor antrean, ${antrean}, menuju ke, counter, ${counter}`);
                     msg.lang = 'id-ID';
                     msg.rate = 0.8;
                     msg.pitch = 0.9;
@@ -233,10 +239,15 @@
                     msg.voice = voices.find(voice => voice.lang === 'id-ID' && voice.name.includes('Microsoft')) || voices.find(voice => voice.lang === 'id-ID');
                     window.speechSynthesis.speak(msg);
 
-                    modal = document.querySelector('[x-show="false"]');
-                    modal.setAttribute('x-show', 'true');
+                    modal = document.querySelector('.modal');
+                    bgModal = document.querySelector('.bg-modal');
+                    // modal.setAttribute('x-show', 'true');
+                    modal.classList.add('show');
+                    bgModal.classList.add('show');
                     setTimeout(() => {
-                        modal.setAttribute('x-show', 'false');
+                        // modal.setAttribute('x-show', 'false');
+                        modal.classList.remove('show');
+                        bgModal.classList.remove('show');
                         console.log(modal);
                     }, 10000);
                 };
