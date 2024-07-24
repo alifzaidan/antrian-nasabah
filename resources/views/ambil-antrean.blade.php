@@ -115,6 +115,8 @@
                 document.getElementById('antreanTeller').textContent = formattedNumber;
                 document.getElementById('antreanTerakhirTeller').textContent = parseInt(document.getElementById('antreanTerakhirTeller').textContent) + 1
                 document.getElementById('noAntreanTeller').value = document.getElementById('antreanTerakhirTeller').textContent;
+
+                window.location.href = `/print-queue/teller?queueNumber=${formattedNumber}`;
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -146,6 +148,8 @@
                 document.getElementById('antreanCs').textContent = formattedNumber;
                 document.getElementById('antreanTerakhirCs').textContent = parseInt(document.getElementById('antreanTerakhirCs').textContent) + 1
                 document.getElementById('noAntreanCs').value = document.getElementById('antreanTerakhirCs').textContent;
+
+                window.location.href = `/print-queue/cs?queueNumber=${formattedNumber}`;
             })
             .catch((error) => {
                 console.error('Error:', error);

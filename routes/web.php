@@ -9,6 +9,7 @@ use App\Http\Controllers\MonitorController;
 use App\Http\Controllers\PanggilAntreanController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\StoreVideoController;
+use App\Http\Controllers\QueueController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -51,3 +52,5 @@ Route::group(['as' => 'settings.', 'prefix' => '/settings'], function () {
         Route::put('/unit/{unitId}', [SettingsController::class, 'updateUnit'])->name('unit.update');
     });
 });
+
+Route::get('/print-queue/{type}', [QueueController::class, 'printQueue'])->name('print.queue');
