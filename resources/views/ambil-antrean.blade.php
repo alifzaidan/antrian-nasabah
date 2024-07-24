@@ -68,6 +68,9 @@
         </div>
     </main>
 
+    <!-- Di dalam file ambil-antrean.blade.php -->
+    <iframe id="printFrame" name="printFrame" style="display: none;"></iframe>
+
     <script>
         function updateDateTime() {
             const now = new Date();
@@ -116,7 +119,12 @@
                 document.getElementById('antreanTerakhirTeller').textContent = parseInt(document.getElementById('antreanTerakhirTeller').textContent) + 1
                 document.getElementById('noAntreanTeller').value = document.getElementById('antreanTerakhirTeller').textContent;
 
-                window.location.href = `/print-queue/teller?queueNumber=${formattedNumber}`;
+                const printFrame = document.getElementById('printFrame');
+                printFrame.src = `/print-queue/teller?queueNumber=${formattedNumber}`;
+
+                printFrame.onload = function() {
+                    printFrame.contentWindow.print();
+                };
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -149,7 +157,12 @@
                 document.getElementById('antreanTerakhirCs').textContent = parseInt(document.getElementById('antreanTerakhirCs').textContent) + 1
                 document.getElementById('noAntreanCs').value = document.getElementById('antreanTerakhirCs').textContent;
 
-                window.location.href = `/print-queue/cs?queueNumber=${formattedNumber}`;
+                const printFrame = document.getElementById('printFrame');
+                printFrame.src = `/print-queue/cs?queueNumber=${formattedNumber}`;
+
+                printFrame.onload = function() {
+                    printFrame.contentWindow.print();
+                };
             })
             .catch((error) => {
                 console.error('Error:', error);

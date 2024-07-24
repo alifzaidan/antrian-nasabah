@@ -33,9 +33,9 @@
         <p class="font-poppins text-xs mt-2">{{ $tanggalFormat }}</p>
         <p class="font-poppins text-xs mb-6">{{ $jamFormat }}</p>
         <p class="font-poppins text-sm font-semibold">BRI Unit {{ $unit[0]->nama }}</p>
-        <p class="font-poppins text-xs">Nomor Antrean Teller:</p>
+        <p class="font-poppins text-xs">Nomor Antrean {{ $type }}:</p>
         <p class="text-3xl mt-6 font-bold border border-black rounded-lg py-4">{{ $antreanSelanjutnyaFormat }}</p>
-        <p class="font-poppins mb-6 mt-2 text-xs">*Sisa Antrean Teller: <span class="font-bold">{{ $sisaAntrean
+        <p class="font-poppins mb-6 mt-2 text-xs">*Sisa Antrean {{ $type }}: <span class="font-bold">{{ $sisaAntrean
                 }}</span></p>
         <p class="font-poppins text-xs mb-2">Terimakasih Sudah Mempercayakan Transaksi Anda Pada Bank BRI</p>
         <p>===================</p>
