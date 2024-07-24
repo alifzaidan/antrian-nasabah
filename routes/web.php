@@ -7,6 +7,7 @@ use App\Http\Controllers\AntreanController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MonitorController;
 use App\Http\Controllers\PanggilAntreanController;
+use App\Http\Controllers\QueueController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\StoreVideoController;
 
@@ -30,6 +31,7 @@ Route::group(['as' => 'panggil-antrean.', 'prefix' => '/panggil-antrean'], funct
 
 Route::get('/monitor', [MonitorController::class, 'index'])->name('monitor');
 Route::get('/monitor/data', [MonitorController::class, 'getAntrean']);
+Route::get('/print-queue/{type}', [QueueController::class, 'printQueue'])->name('print.queue');
 
 Route::group(['as' => 'settings.', 'prefix' => '/settings'], function () {
     Route::get('/login', [AuthController::class, 'index'])->name('login');
