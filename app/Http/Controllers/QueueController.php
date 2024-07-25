@@ -26,7 +26,7 @@ class QueueController extends Controller
             $antreanSelanjutnyaFormat = 'TL' . str_pad($antreanSelanjutnya->no_antrean, 3, '0', STR_PAD_LEFT);
             $sisaAntrean = AntreanTeller::whereDate('tanggal', $tanggal)->where('status', 1)->count();
         } else {
-            $type = 'Customer Service';
+            $type = 'CS';
             $tanggal = Carbon::now()->format('Y-m-d');
             $tanggalFormat = Carbon::now()->format('l, d F Y');
             $jamFormat = Carbon::now()->format('H:i:s');

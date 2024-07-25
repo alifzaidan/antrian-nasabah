@@ -68,7 +68,6 @@
         </div>
     </main>
 
-    <!-- Di dalam file ambil-antrean.blade.php -->
     <iframe id="printFrame" name="printFrame" style="display: none;"></iframe>
 
     <script>
