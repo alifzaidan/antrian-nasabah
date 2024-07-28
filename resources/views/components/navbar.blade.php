@@ -5,15 +5,6 @@
                 <div class="flex-shrink-0 md:hidden">
                     <img class="h-8" src="{{ asset('img/logo-bri-light.png') }}" alt="Bank Rakyat Indonesia">
                 </div>
-                <div class="md:block hidden relative w-52">
-                    <input type="text" placeholder="Search..."
-                        class="pl-4 pr-10 py-2 w-full rounded-lg font-poppins text-sm leading-5 text-primary bg-white border border-gray-300 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary">
-                    <svg class="w-5 h-5 absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500" fill="none"
-                        stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                    </svg>
-                </div>
             </div>
             <!-- Profile dropdown -->
             <div class="hidden md:block">

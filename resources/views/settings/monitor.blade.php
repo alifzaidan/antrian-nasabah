@@ -98,7 +98,7 @@
                         </div>
                     </div>
                     <div id="progress-container"
-                        class="fixed inset-0 z-50 items-center justify-center bg-black bg-opacity-50 hidden">
+                        class="fixed inset-0 z-50 flex justify-center items-center bg-black bg-opacity-50 hidden">
                         <svg class="animate-spin h-20 w-20 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none"
                             viewBox="0 0 24 24">
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">

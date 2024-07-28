@@ -15,7 +15,7 @@ class StoreStoreVideoRequest extends FormRequest
     {
         return [
             'judul' => 'required|string|max:255',
-            'video' => 'required|mimes:mp4,mov,ogg,qt|max:20000',
+            'video' => 'required|mimes:mp4,mov,ogg,qt|max:5120000',
         ];
     }
 }

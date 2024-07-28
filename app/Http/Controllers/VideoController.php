@@ -12,7 +12,7 @@ class VideoController extends Controller
     {
         $request->validate([
             'judul' => 'required|string|max:255', // Validasi judul
-            'video' => 'required|mimes:mp4,mov,ogg,qt|max:20000', // Batasan ukuran dan tipe file
+            'video' => 'required|mimes:mp4,mov,ogg,qt|max:5120000', // Batasan ukuran dan tipe file
         ]);
 
         if ($request->file('video')) {
