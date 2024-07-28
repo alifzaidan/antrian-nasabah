@@ -3,7 +3,7 @@
     <x-slot:slug>{{ $slug }}</x-slot:slug>
     <x-slot:namaUnit>{{ $namaUnit }}</x-slot:namaUnit>
 
-    <div x-data="{ open: false, files: [], showConfirm: false, selectedVideo: localStorage.getItem('selectedVideo') || '{{ $unit->video_id }}' }"
+    <div x-data="{ open: false, files: [], showConfirm: false, selectedVideo: localStorage.getItem('selectedVideo') || '{{ $unit->video_id }}', temporarySelectedVideo: localStorage.getItem('selectedVideo') || '{{ $unit->video_id }}' }"
         class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
         <form id="settingsForm" action="{{ route('settings.monitor.update', $unit->id) }}" method="POST"
             class="space-y-6">
@@ -28,7 +28,7 @@
                 <div class="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                     @foreach ($videos as $video)
                     <div id="video-{{ $video->id }}"
-                        :class="selectedVideo == {{ $video->id }} ? 'bg-gray-400' : 'bg-primary bg-opacity-5'"
+                        :class="temporarySelectedVideo == {{ $video->id }} ? 'bg-gray-400' : 'bg-primary bg-opacity-5'"
                         class="rounded-lg p-4 ring-1 ring-primary justify-center transition duration-200">
                         <h2 class="text-center font-poppins mb-2">{{ $video->judul }}</h2>
                         <div class="aspect-video w-full bg-white rounded-xl">
@@ -39,15 +39,15 @@
                         </div>
                         <div class="flex justify-evenly mt-2 gap-2">
                             <button type="button" onclick="deleteVideo({{ $video->id }}, '{{ $video->judul }}')"
-                                :disabled="selectedVideo == {{ $video->id }}"
-                                :class="selectedVideo == {{ $video->id }} ? 'bg-red-800 cursor-not-allowed' : 'bg-red-600 hover:bg-red-700'"
+                                :disabled="temporarySelectedVideo == {{ $video->id }}"
+                                :class="temporarySelectedVideo == {{ $video->id }} ? 'bg-red-800 cursor-not-allowed' : 'bg-red-600 hover:bg-red-700'"
                                 class="font-poppins py-2 px-4 rounded-xl w-full text-white text-center transition duration-200">
                                 Hapus
                             </button>
                             <button type="button"
-                                @click="selectedVideo = {{ $video->id }}; localStorage.setItem('selectedVideo', {{ $video->id }});"
-                                :disabled="selectedVideo == {{ $video->id }}"
-                                :class="selectedVideo == {{ $video->id }} ? 'bg-green-900 cursor-not-allowed' : 'bg-green-600 hover:bg-green-700'"
+                                @click="temporarySelectedVideo = {{ $video->id }}"
+                                :disabled="temporarySelectedVideo == {{ $video->id }}"
+                                :class="temporarySelectedVideo == {{ $video->id }} ? 'bg-green-900 cursor-not-allowed' : 'bg-green-600 hover:bg-green-700'"
                                 class="font-poppins py-2 px-4 rounded-xl w-full text-white text-center transition duration-200">
                                 Tampilkan
                             </button>
@@ -56,10 +56,10 @@
                     @endforeach
                 </div>
             </div>
-            <input type="hidden" name="video_id" :value="selectedVideo">
+            <input type="hidden" name="video_id" :value="temporarySelectedVideo">
 
             <div class="flex justify-end gap-4">
-                <button type="reset" @click="selectedVideo = ''; localStorage.removeItem('selectedVideo');"
+                <button type="reset" @click="temporarySelectedVideo = selectedVideo; localStorage.removeItem('selectedVideo');"
                     class="w-40 text-lg rounded-2xl bg-gray-500 py-3 font-semibold leading-6 text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary hover:scale-105 transition duration-300 ease-in-out">Reset</button>
                 <button type="button" onclick="confirmAndSubmit()"
                     class="w-40 text-lg rounded-2xl bg-gradient-to-r from-primary to-secondary py-3 font-semibold leading-6 text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary hover:scale-105 transition duration-300 ease-in-out">Simpan</button>
@@ -98,7 +98,7 @@
                         </div>
                     </div>
                     <div id="progress-container"
-                        class="fixed inset-0 z-50 items-center justify-center bg-black bg-opacity-50 hidden">
+                        class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
                         <svg class="animate-spin h-20 w-20 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none"
                             viewBox="0 0 24 24">
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
@@ -262,6 +262,7 @@
                 , cancelButtonText: 'Batal'
             }).then((result) => {
                 if (result.isConfirmed) {
+                    document.querySelector('[x-data]').__x.$data.selectedVideo = document.querySelector('[x-data]').__x.$data.temporarySelectedVideo;
                     submitForm();
                 }
             });
