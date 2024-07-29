@@ -24,7 +24,7 @@
     <main class="h-3/4">
         <div class="grid sm:grid-cols-2 grid-cols-1 gap-8 my-8 h-full">
             <div class="bg-primary bg-opacity-10 rounded-2xl shadow-lg p-8 flex flex-col">
-                <h2 class="text-4xl  font-bold font-poppins text-center text-primary">Teller</h2>
+                <h2 class="text-4xl font-bold font-poppins text-center text-primary">Teller</h2>
                 <div class="bg-white rounded-2xl my-6 p-6 grow sm:relative flex flex-col items-center justify-center">
                     <h3 class="text-xl font-poppins sm:absolute top-4 italic">Antrean Sekarang :</h3>
                     <p id="antreanTeller" class="text-5xl lg:text-7xl text-center font-bold font-poppins">
@@ -39,13 +39,13 @@
                     <input hidden type="date" name="tanggal" id="tanggalTeller" value="{{ $tanggal }}">
                     <input hidden type="number" name="no_antrean" id="noAntreanTeller" value="{{ $nextAntreanTeller }}">
                     <input hidden type="number" name="status" id="statusTeller" value="0">
-                    <button
+                    <button id="tellerButton"
                         class="bg-gradient-to-r from-primary to-secondary py-4 lg:py-6 w-full rounded-2xl font-poppins font-semibold text-2xl lg:text-3xl text-white hover:scale-105 transition duration-300 ease-in-out">Ambil
                         Nomor</button>
                 </form>
             </div>
             <div class="bg-primary bg-opacity-10 rounded-2xl shadow-lg p-8 flex flex-col">
-                <h2 class="text-4xl  font-bold font-poppins text-center text-tertiary">Customer Services</h2>
+                <h2 class="text-4xl font-bold font-poppins text-center text-tertiary">Customer Services</h2>
                 <div class="bg-white rounded-2xl my-6 p-6 grow sm:relative flex flex-col items-center justify-center">
                     <h3 class="text-xl font-poppins sm:absolute top-4 italic">Antrean Sekarang :</h3>
                     <p id="antreanCs" class="text-5xl lg:text-7xl text-center font-bold font-poppins">
@@ -60,7 +60,7 @@
                     <input hidden type="date" name="tanggal" id="tanggalCs" value="{{ $tanggal }}">
                     <input hidden type="number" name="no_antrean" id="noAntreanCs" value="{{ $nextAntreanCs }}">
                     <input hidden type="number" name="status" id="statusCs" value="0">
-                    <button
+                    <button id="csButton"
                         class="bg-gradient-to-r from-tertiary to-quaternary py-4 lg:py-6 w-full rounded-2xl font-poppins font-semibold text-2xl lg:text-3xl text-white hover:scale-105 transition duration-300 ease-in-out">Ambil
                         Nomor</button>
                 </form>
@@ -92,6 +92,14 @@
     </script>
 
     <script>
+        function handleButtonDisable(buttonId) {
+            const button = document.getElementById(buttonId);
+            button.disabled = true;
+            setTimeout(() => {
+                button.disabled = false;
+            }, 3000);
+        }
+
         //Teller
         document.getElementById('addAntreanTeller').addEventListener('submit', function(event) {
             event.preventDefault();
@@ -128,6 +136,8 @@
             .catch((error) => {
                 console.error('Error:', error);
             });
+
+            handleButtonDisable('tellerButton');
         });
         
         //CS
@@ -167,6 +177,8 @@
                 console.error('Error:', error);
                 console.log(formDataCs.get('no_antrean'));
             });
+
+            handleButtonDisable('csButton');
         });
     </script>
 </body>
