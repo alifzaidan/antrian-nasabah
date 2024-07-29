@@ -99,12 +99,14 @@
                     </div>
                     <div id="progress-container"
                         class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
-                        <svg class="animate-spin h-20 w-20 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none"
-                            viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
-                            </circle>
-                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
-                        </svg>
+                        <div class="bg-white p-4 rounded-2xl flex flex-col items-center">
+                            <svg class="animate-spin h-20 w-20 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+                            </svg>
+                            <p id="upload-progress" class="mt-2 text-lg font-semibold text-blue-600">0%</p>
+                        </div>
                     </div>
                     <div class="mt-4 flex justify-end">
                         <button type="button" @click="open = false"
@@ -151,6 +153,7 @@
             xhr.upload.onprogress = function(event) {
                 if (event.lengthComputable) {
                     let percentComplete = (event.loaded / event.total) * 100;
+                    document.getElementById('upload-progress').textContent = percentComplete.toFixed(2) + '%';
                     console.log('Progress: ' + percentComplete.toFixed(2) + '%');
                 }
             };
