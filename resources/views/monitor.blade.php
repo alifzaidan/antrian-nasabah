@@ -7,6 +7,7 @@
     <meta name="description" content="Antrean Nasabah Bank BRI">
     <title>Antrean Nasabah Bank BRI</title>
     <link rel="shortcut icon" href="{{ asset('img/favicon.png') }}" type="image/x-icon">
+    <script src="https://code.responsivevoice.org/responsivevoice.js?key=Nowl5Alt"></script>
     @vite('resources/css/app.css')
     @vite('resources/js/app.js')
 </head>
@@ -227,25 +228,17 @@
                 } else if (antrean.startsWith('CS')) {
                     jenisAntreanElement.textContent = 'Antrean Customer Services';
                 }
-                
+
                 callAudio.play();
                 callAudio.onended = function() {
-                    const msg = new SpeechSynthesisUtterance(`Nomor antrean, ${antrean}, menuju ke, counter, ${counter}`);
-                    msg.lang = 'id-ID';
-                    msg.rate = 0.8;
-                    msg.pitch = 0.9;
-
-                    const voices = window.speechSynthesis.getVoices();
-                    msg.voice = voices.find(voice => voice.lang === 'id-ID' && voice.name.includes('Microsoft')) || voices.find(voice => voice.lang === 'id-ID');
-                    window.speechSynthesis.speak(msg);
+                    const text = `Nomor antrean, ${antrean}, menuju ke, counter, ${counter}`;
+                    responsiveVoice.speak(text, "Indonesian Female", {rate: 0.8, pitch: 0.9});
 
                     modal = document.querySelector('.modal');
                     bgModal = document.querySelector('.bg-modal');
-                    // modal.setAttribute('x-show', 'true');
                     modal.classList.add('show');
                     bgModal.classList.add('show');
                     setTimeout(() => {
-                        // modal.setAttribute('x-show', 'false');
                         modal.classList.remove('show');
                         bgModal.classList.remove('show');
                         console.log(modal);
